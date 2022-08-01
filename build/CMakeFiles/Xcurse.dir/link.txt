@@ -1,1 +1,0 @@
-/usr/bin/g++ -g -rdynamic CMakeFiles/Xcurse.dir/main.cpp.o CMakeFiles/Xcurse.dir/src/xcurse.cpp.o CMakeFiles/Xcurse.dir/src/windows.cpp.o -o Xcurse 
