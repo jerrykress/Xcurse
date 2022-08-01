@@ -20,21 +20,21 @@ namespace Xcurse
     void StaticWindow::draw(Display *d)
     {
         // draw edges
-        for (int i = 0; i < m_width; i++)
+        for (int i = 1; i < m_width - 1; i++)
         {
             d->set_pixel(i + m_x, m_y, m_border[0]);
-            d->set_pixel(i + m_x, m_y + m_height, m_border[1]);
+            d->set_pixel(i + m_x, m_y + m_height - 1, m_border[1]);
         }
-        for (int i = 0; i < m_height; i++)
+        for (int i = 1; i < m_height - 1; i++)
         {
             d->set_pixel(m_x, i + m_y, m_border[2]);
-            d->set_pixel(m_x + m_width, i + m_y, m_border[3]);
+            d->set_pixel(m_x + m_width - 1, i + m_y, m_border[3]);
         }
         // draw corners
         d->set_pixel(m_x, m_y, m_border[4]);
-        d->set_pixel(m_x + m_width, m_y, m_border[5]);
-        d->set_pixel(m_x, m_y + m_height, m_border[6]);
-        d->set_pixel(m_x + m_width, m_y + m_height, m_border[7]);
+        d->set_pixel(m_x + m_width - 1, m_y, m_border[5]);
+        d->set_pixel(m_x, m_y + m_height - 1, m_border[6]);
+        d->set_pixel(m_x + m_width - 1, m_y + m_height - 1, m_border[7]);
     }
 
     FlexibleWindow::FlexibleWindow(std::string name, int x, int y, int w_percent, int h_percent, std::string border)

@@ -11,7 +11,7 @@ int main(int, char **)
 
     auto size = display->get_size();
 
-    StaticWindow sw("win", 0, 0, 10, 5, "--||**##");
+    StaticWindow sw("win", 10, 10, 10, 5, "--||**##");
     display->add_win(sw);
     display->refresh();
 
