@@ -37,14 +37,27 @@ namespace Xcurse
         return m_width;
     }
 
-    void Display::set_pixel(int x, int y, char c)
+    GenericWindowObject *Display::get_window(std::string name)
     {
-        m_screen[y][x] = c;
+        if (auto it = m_window_iterators.find(name); it != m_window_iterators.end())
+        {
+            return *it->second;
+        }
+        return nullptr;
     }
 
-    bool Display::add_win(StaticWindow &w)
+    void Display::set_pixel(int x, int y, char c)
     {
-        if (m_window_iterators.find(w.get_name()) != m_window_iterators.end())
+        //! screen shift bug needs fixinng
+        if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
+        {
+            m_screen[y + 1][x] = c;
+        }
+    }
+
+    bool Display::add_win(StaticWindow *w)
+    {
+        if (m_window_iterators.find(w->get_name()) != m_window_iterators.end())
         {
             throw std::runtime_error("Window with the same name already exists.");
             return false;
@@ -52,12 +65,12 @@ namespace Xcurse
         else
         {
             m_windows.emplace_back(w);
-            m_window_iterators[w.get_name()] = --m_windows.end();
+            m_window_iterators[w->get_name()] = --m_windows.end();
             return true;
         }
     }
 
-    bool Display::add_win(FlexibleWindow &w)
+    bool Display::add_win(FlexibleWindow *w)
     {
         return true;
     }
@@ -72,7 +85,7 @@ namespace Xcurse
 
         for (auto &win : m_windows)
         {
-            win.draw(m_instance);
+            win->draw();
         }
 
         // output screen

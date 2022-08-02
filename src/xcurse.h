@@ -36,14 +36,20 @@ namespace Xcurse
         virtual void set_x(int x) { m_x = x; }
         virtual void set_y(int y) { m_y = y; }
 
+        // modifiers
+        virtual void add_char(int x, int y, char c);
+        virtual void add_str(int x, int y, std::string str);
+
     protected:
         // attributes
         std::string m_name;
         int m_width, m_height;
         int m_x, m_y;
         std::string m_border;
-        // draw window
-        virtual void draw(Display *d) = 0;
+        Display *m_display_ptr;
+        Screen m_buffer;
+        // draw window buffer
+        virtual void draw() = 0;
         friend class Display;
     };
 
@@ -53,8 +59,7 @@ namespace Xcurse
         explicit StaticWindow(std::string name, int x, int y, int width, int height, std::string border);
 
     private:
-        void draw(Display *d);
-        friend class Display;
+        void draw();
     };
 
     class FlexibleWindow : public GenericWindowObject
@@ -70,8 +75,7 @@ namespace Xcurse
 
     private:
         int m_w_percent, m_h_percent;
-        void draw(Display *d);
-        friend class Display;
+        void draw();
     };
 
     class Display
@@ -84,13 +88,14 @@ namespace Xcurse
         std::pair<int, int> get_size();
         int get_width() const;
         int get_height() const;
+        GenericWindowObject *get_window(std::string name);
 
         // painters
         void set_pixel(int x, int y, char c);
 
         // window management
-        bool add_win(StaticWindow &w);
-        bool add_win(FlexibleWindow &w);
+        bool add_win(StaticWindow *w);
+        bool add_win(FlexibleWindow *w);
         bool remove_win(std::string win_name);
 
         // display management
@@ -108,8 +113,8 @@ namespace Xcurse
         Screen m_screen;
         int m_width, m_height;
         // windows properties
-        std::vector<StaticWindow> m_windows;
-        std::unordered_map<std::string, std::vector<StaticWindow>::iterator> m_window_iterators;
+        std::vector<GenericWindowObject *> m_windows;
+        std::unordered_map<std::string, std::vector<GenericWindowObject *>::iterator> m_window_iterators;
     };
 
 }
