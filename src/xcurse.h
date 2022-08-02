@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <thread>
 
 // forward declare
 namespace Xcurse
@@ -99,9 +100,11 @@ namespace Xcurse
         bool remove_win(std::string win_name);
 
         // display management
+        void start();
+        void poweroff();
         void clear();
         void refresh();
-        void set_refresh_interval(float t);
+        void set_refresh_interval(int ms);
 
     private:
         static Display *m_instance;
@@ -110,8 +113,12 @@ namespace Xcurse
         Display(const Display &);
         Display &operator=(const Display &);
         // main display properties
+        bool m_power;
         Screen m_screen;
         int m_width, m_height;
+        // display refresh utilities
+        std::thread m_display_thread;
+        int m_refresh_interval_ms;
         // windows properties
         std::vector<GenericWindowObject *> m_windows;
         std::unordered_map<std::string, std::vector<GenericWindowObject *>::iterator> m_window_iterators;
