@@ -40,6 +40,7 @@ namespace Xcurse
         // modifiers
         virtual void add_char(int x, int y, char c);
         virtual void add_str(int x, int y, std::string str);
+        virtual void clear();
 
     protected:
         // attributes
@@ -81,12 +82,20 @@ namespace Xcurse
 
     class Display
     {
+        struct Size
+        {
+            bool operator==(Size &that)
+            {
+                return width == that.width && height == that.height;
+            }
+            int width, height;
+        };
 
     public:
         static Display *get_display();
 
         // getters
-        std::pair<int, int> get_size();
+        Display::Size get_size();
         int get_width() const;
         int get_height() const;
         GenericWindowObject *get_window(std::string name);
@@ -103,6 +112,7 @@ namespace Xcurse
         void start();
         void poweroff();
         void clear();
+        bool update_size();
         void refresh();
         void set_refresh_interval(int ms);
 

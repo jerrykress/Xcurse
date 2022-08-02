@@ -4,13 +4,27 @@ namespace Xcurse
 {
     void GenericWindowObject::add_char(int x, int y, char c)
     {
-        if (x > -1 && x < m_width - 1 && y > -1 && y < m_height - 1)
+        if (x > -1 && x < m_width - 2 && y > -1 && y < m_height - 2)
         {
             m_buffer[m_height - 2 - y][x + 1] = c;
         }
     }
 
-    void GenericWindowObject::add_str(int x, int y, std::string str) {}
+    void GenericWindowObject::add_str(int x, int y, std::string str)
+    {
+        for (char c : str)
+        {
+            add_char(x++, y, c);
+        }
+    }
+
+    void GenericWindowObject::clear()
+    {
+        for (auto &row : m_buffer)
+        {
+            std::fill(row.begin(), row.end(), ' ');
+        }
+    }
 
     StaticWindow::StaticWindow(std::string name, int x, int y, int width, int height, std::string border)
     {

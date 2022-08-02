@@ -21,13 +21,10 @@ Display *Display::get_display()
     return m_instance;
 }
 
-std::pair<int, int> Display::get_size()
+Display::Size Display::get_size()
 {
-    struct winsize win;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
-    m_width = win.ws_col;
-    m_height = win.ws_row;
-    return std::make_pair(win.ws_row, win.ws_col);
+    update_size();
+    return Display::Size{m_width, m_height};
 }
 
 int Display::get_height() const
@@ -80,29 +77,66 @@ bool Display::add_win(FlexibleWindow *w)
 
 bool Display::remove_win(std::string name)
 {
-    return true;
+    if (auto it = m_window_iterators.find(name); it != m_window_iterators.end())
+    {
+        // free window memory
+        delete *it->second;
+        m_windows.erase(it->second);
+        m_window_iterators.erase(it);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void Display::start()
 {
-    m_power = true;
-    m_display_thread = std::thread(&Display::refresh, this);
+    if (!m_power)
+    {
+        m_power = true;
+        m_display_thread = std::thread(&Display::refresh, this);
+        // enter alternate buffer
+        std::cout << "\e[?47h" << std::endl;
+    }
 }
 
 void Display::poweroff()
 {
-    m_power = false;
-    m_display_thread.join();
+    if (m_power)
+    {
+        m_power = false;
+        m_display_thread.join();
+        // leave alternate buffer
+        std::cout << "\e[?47l" << std::endl;
+    }
 }
 
 void Display::clear()
 {
+    for (auto &row : m_screen)
+    {
+        std::fill(row.begin(), row.end(), ' ');
+    }
+}
+
+bool Display::update_size()
+{
+    struct winsize win;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
+    bool updated = m_width != win.ws_col || m_height != win.ws_row;
+    m_width = win.ws_col;
+    m_height = win.ws_row;
+    return updated;
 }
 
 void Display::refresh()
 {
     while (m_power)
     {
+        clear();
+
         for (auto &win : m_windows)
         {
             win->draw();
