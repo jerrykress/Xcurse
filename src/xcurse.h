@@ -130,8 +130,7 @@ namespace Xcurse
         std::thread m_display_thread;
         int m_refresh_interval_ms;
         // windows properties
-        std::vector<GenericWindowObject *> m_windows;
-        std::unordered_map<std::string, std::vector<GenericWindowObject *>::iterator> m_window_iterators;
+        std::unordered_map<std::string, GenericWindowObject *> m_windows;
     };
 
 }

@@ -39,9 +39,9 @@ int Display::get_width() const
 
 GenericWindowObject *Display::get_window(std::string name)
 {
-    if (auto it = m_window_iterators.find(name); it != m_window_iterators.end())
+    if (auto it = m_windows.find(name); it != m_windows.end())
     {
-        return *it->second;
+        return it->second;
     }
     return nullptr;
 }
@@ -57,15 +57,14 @@ void Display::set_pixel(int x, int y, char c)
 
 bool Display::add_win(StaticWindow *w)
 {
-    if (m_window_iterators.find(w->get_name()) != m_window_iterators.end())
+    if (m_windows.find(w->get_name()) != m_windows.end())
     {
         throw std::runtime_error("Window with the same name already exists.");
         return false;
     }
     else
     {
-        m_windows.emplace_back(w);
-        m_window_iterators[w->get_name()] = --m_windows.end();
+        m_windows[w->get_name()] = w;
         return true;
     }
 }
@@ -77,12 +76,11 @@ bool Display::add_win(FlexibleWindow *w)
 
 bool Display::remove_win(std::string name)
 {
-    if (auto it = m_window_iterators.find(name); it != m_window_iterators.end())
+    if (auto it = m_windows.find(name); it != m_windows.end())
     {
         // free window memory
-        delete *it->second;
-        m_windows.erase(it->second);
-        m_window_iterators.erase(it);
+        delete it->second;
+        m_windows.erase(name);
         return true;
     }
     else
@@ -96,9 +94,9 @@ void Display::start()
     if (!m_power)
     {
         m_power = true;
-        m_display_thread = std::thread(&Display::refresh, this);
         // enter alternate buffer
         std::cout << "\e[?47h" << std::endl;
+        m_display_thread = std::thread(&Display::refresh, this);
     }
 }
 
@@ -137,9 +135,9 @@ void Display::refresh()
     {
         clear();
 
-        for (auto &win : m_windows)
+        for (auto &win_info : m_windows)
         {
-            win->draw();
+            win_info.second->draw();
         }
 
         // output screen
