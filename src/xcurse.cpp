@@ -48,7 +48,6 @@ GenericWindowObject *Display::get_window(std::string name)
 
 void Display::set_pixel(int x, int y, char c)
 {
-    //! screen shift bug needs fixinng
     if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
         m_screen[y + 1][x] = c;
@@ -96,6 +95,8 @@ void Display::start()
         m_power = true;
         // enter alternate buffer
         std::cout << "\e[?47h" << std::endl;
+        // hide cursor
+        std::cout << "\e[?25l" << std::endl;
         m_display_thread = std::thread(&Display::refresh, this);
     }
 }
@@ -106,6 +107,8 @@ void Display::poweroff()
     {
         m_power = false;
         m_display_thread.join();
+        // enable cursor
+        std::cout << "\e[?25h" << std::endl;
         // leave alternate buffer
         std::cout << "\e[?47l" << std::endl;
     }
@@ -134,14 +137,15 @@ void Display::refresh()
     while (m_power)
     {
         clear();
-
+        // get size update status
+        bool is_resize = update_size();
+        // redraw windows
         for (auto &win_info : m_windows)
         {
-            win_info.second->draw();
+            win_info.second->draw(is_resize);
         }
 
         // output screen
-
         for (int j = 0; j < m_height; j++)
         {
             for (int i = 0; i < m_width; i++)

@@ -51,7 +51,7 @@ namespace Xcurse
         Display *m_display_ptr;
         Screen m_buffer;
         // draw window buffer
-        virtual void draw() = 0;
+        virtual void draw(bool is_resize) = 0;
         friend class Display;
     };
 
@@ -61,7 +61,7 @@ namespace Xcurse
         explicit StaticWindow(std::string name, int x, int y, int width, int height, std::string border);
 
     private:
-        void draw();
+        void draw(bool is_resize);
     };
 
     class FlexibleWindow : public GenericWindowObject
@@ -77,7 +77,7 @@ namespace Xcurse
 
     private:
         int m_w_percent, m_h_percent;
-        void draw();
+        void draw(bool is_resize);
     };
 
     class Display

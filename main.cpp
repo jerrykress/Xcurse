@@ -15,8 +15,9 @@ int main(int, char **)
 
     display->add_win(new StaticWindow("win", 0, 0, 10, 5, "--||**##"));
     display->add_win(new StaticWindow("win2", 5, 5, 10, 5, "--||**##"));
+    display->add_win(new StaticWindow("win3", 2, 10, 90, 20, "--||++%%"));
 
-    auto win1 = display->get_window("win2");
+    auto win1 = display->get_window("win");
     // auto win2 = display->get_window("win2");
 
     display->start();

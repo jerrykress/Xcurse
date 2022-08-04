@@ -62,7 +62,7 @@ namespace Xcurse
         m_buffer[m_height - 1][m_width - 1] = m_border[7];
     }
 
-    void StaticWindow::draw()
+    void StaticWindow::draw(bool is_resize = false)
     {
         for (int i = 0; i < m_height; i++)
         {
@@ -86,6 +86,30 @@ namespace Xcurse
         m_w_percent = w_percent;
         m_h_percent = h_percent;
         m_border = border;
+
+        m_display_ptr = Display::get_display();
+
+        m_width = m_display_ptr->get_width() * m_w_percent / 100;
+        m_height = m_display_ptr->get_height() * m_h_percent / 100;
+
+        m_buffer = Screen(m_height, std::vector<char>(m_width, ' '));
+
+        for (int i = 1; i < m_width - 1; i++)
+        {
+            m_buffer[0][i] = m_border[0];
+            m_buffer[m_height - 1][i] = m_border[1];
+        }
+
+        for (int i = 1; i < m_height - 1; i++)
+        {
+            m_buffer[i][0] = m_border[2];
+            m_buffer[i][m_width - 1] = m_border[3];
+        }
+
+        m_buffer[0][0] = m_border[4];
+        m_buffer[0][m_width - 1] = m_border[5];
+        m_buffer[m_height - 1][0] = m_border[6];
+        m_buffer[m_height - 1][m_width - 1] = m_border[7];
     }
 
     int FlexibleWindow::get_w_percent() const
@@ -108,7 +132,7 @@ namespace Xcurse
         m_h_percent = hp;
     }
 
-    void FlexibleWindow::draw()
+    void FlexibleWindow::draw(bool is_resize)
     {
     }
 }
