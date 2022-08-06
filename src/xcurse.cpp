@@ -37,55 +37,35 @@ int Display::get_width() const
     return m_width;
 }
 
-GenericWindowObject *Display::get_window(std::string name)
+bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o)
 {
-    if (auto it = m_windows.find(name); it != m_windows.end())
+    if (auto target = m_obj_ptrs.find(layout_name); target != m_obj_ptrs.end() && typeid(target->second) == typeid(Layout *))
     {
-        return it->second;
-    }
-    return nullptr;
-}
-
-void Display::set_pixel(int x, int y, char c)
-{
-    if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
-    {
-        m_screen[y + 1][x] = c;
-    }
-}
-
-bool Display::add_win(StaticWindow *w)
-{
-    if (m_windows.find(w->get_name()) != m_windows.end())
-    {
-        throw std::runtime_error("Window with the same name already exists.");
-        return false;
+        if (m_obj_ptrs.insert({obj_name, ObjInfo{o, target->second.obj_ptr}}).second)
+        {
+            static_cast<Layout *>(target->second.obj_ptr)->get_objects().emplace_back(o);
+            return true;
+        }
+        else
+        {
+            throw std::runtime_error("Cannot insert new object into target, object with the same name already exists.");
+        }
     }
     else
     {
-        m_windows[w->get_name()] = w;
-        return true;
+        throw std::runtime_error("Cannot find the target layout for object insertion.");
     }
+    return false;
 }
 
-bool Display::add_win(FlexibleWindow *w)
+bool Display::remove_obj(std::string obj_name)
 {
-    return true;
-}
-
-bool Display::remove_win(std::string name)
-{
-    if (auto it = m_windows.find(name); it != m_windows.end())
+    // find target object to delete
+    if (auto target = m_obj_ptrs.find(obj_name); target != m_obj_ptrs.end())
     {
-        // free window memory
-        delete it->second;
-        m_windows.erase(name);
-        return true;
+        // target->second.parent_ptr
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 void Display::start()
@@ -132,6 +112,26 @@ bool Display::update_size()
     return updated;
 }
 
+inline void Display::refresh_buffer()
+{
+    for (auto &obj_info : m_obj_ptrs)
+    {
+        obj_info.second.obj_ptr->draw();
+    }
+}
+
+inline void Display::refresh_screen()
+{
+    for (int j = 0; j < m_height; j++)
+    {
+        for (int i = 0; i < m_width; i++)
+        {
+            std::cout << m_screen[j][i];
+        }
+        std::cout << "\n";
+    }
+}
+
 void Display::refresh()
 {
     while (m_power)
@@ -139,21 +139,14 @@ void Display::refresh()
         clear();
         // get size update status
         bool is_resize = update_size();
-        // redraw windows
-        for (auto &win_info : m_windows)
-        {
-            win_info.second->draw(is_resize);
-        }
-
+        // update layout
+        if (is_resize)
+            refreshLayout(m_layout, 0, 0, m_height, m_width);
+        // repaint windows to buffer
+        refresh_buffer();
         // output screen
-        for (int j = 0; j < m_height; j++)
-        {
-            for (int i = 0; i < m_width; i++)
-            {
-                std::cout << m_screen[j][i];
-            }
-            std::cout << "\n";
-        }
+        refresh_screen();
+        // wait for next refresh
         std::this_thread::sleep_for(std::chrono::milliseconds(m_refresh_interval_ms));
     }
 }
@@ -161,4 +154,46 @@ void Display::refresh()
 void Display::set_refresh_interval(int ms)
 {
     m_refresh_interval_ms = ms;
+}
+
+void Display::refreshLayout(Layout &layout, int x, int y, int max_height, int max_width)
+{
+    auto &objects = layout.get_objects();
+
+    int total_units = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, GenericDisplayObject *o)
+                                      { return a + o->size_units; });
+
+    if (layout.orientation == Horizontal)
+    {
+        for (auto &object : layout.get_objects())
+        {
+            object->m_height = max_height;
+            object->m_width = max_width * object->size_units / total_units;
+
+            if (typeid(object) == typeid(Layout))
+            {
+                refreshLayout(layout, x, y, max_height, object->m_width);
+            }
+
+            object->m_x = x += object->m_width;
+            object->m_y = y;
+        }
+    }
+
+    if (layout.orientation == Vertical)
+    {
+        for (auto &object : layout.get_objects())
+        {
+            object->m_width = max_width;
+            object->m_height = max_height * object->size_units / total_units;
+
+            if (typeid(object) == typeid(Layout))
+            {
+                refreshLayout(layout, x, y, object->m_height, max_width);
+            }
+
+            object->m_x = x;
+            object->m_y = y += object->m_height;
+        }
+    }
 }

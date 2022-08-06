@@ -4,80 +4,90 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <thread>
+#include <typeinfo>
+#include <functional>
+#include <algorithm>
+#include <numeric>
 
 // forward declare
 namespace Xcurse
 {
     class Display;
-    class GenericWindowObject;
+    class GenericDisplayObject;
+    struct ObjInfo;
 }
 
 namespace Xcurse
 {
     typedef std::vector<std::vector<char>> Screen;
+    typedef std::vector<GenericDisplayObject *> LayoutObjects;
+    typedef std::unordered_map<std::string, ObjInfo> ObjPtrMap;
+
+    struct ObjInfo
+    {
+        GenericDisplayObject *obj_ptr, *parent_ptr;
+    };
+
+    enum Direction
+    {
+        Horizontal,
+        Vertical
+    };
+
+    class GenericDisplayObject
+    {
+    public:
+    protected:
+        int m_x, m_y, m_width, m_height, size_units;
+        Display *m_display_ptr;
+        virtual void draw(){};
+        virtual void resize(int w, int h){};
+
+        friend class Display;
+    };
+
+    class Text : public GenericDisplayObject
+    {
+    public:
+        Text(std::string data) : m_data(data)
+        {
+            m_height = 1;
+            m_width = data.size();
+        }
+        void set_data(std::string data);
+        std::string get_data() const;
+
+    protected:
+        std::string m_data;
+        void resize(int w, int h){};
+        void draw(){};
+    };
+
+    class Window : public GenericDisplayObject
+    {
+    protected:
+        Screen m_buffer;
+    };
+
+    class Layout : public GenericDisplayObject
+    {
+    public:
+        Direction orientation;
+
+        LayoutObjects &get_objects()
+        {
+            return m_objects;
+        }
+
+    protected:
+        LayoutObjects m_objects;
+        void draw(){};
+        void resize(int w, int h){};
+    };
 
     struct Position
     {
         int x, y;
-    };
-
-    class GenericWindowObject
-    {
-    public:
-        // getters
-        virtual int get_width() const { return m_width; }
-        virtual int get_height() const { return m_height; }
-        virtual int get_x() const { return m_x; }
-        virtual int get_y() const { return m_y; }
-        virtual std::string get_name() const { return m_name; }
-
-        // setters
-        virtual void set_width(int w) { m_width = w; }
-        virtual void set_height(int h) { m_height = h; }
-        virtual void set_x(int x) { m_x = x; }
-        virtual void set_y(int y) { m_y = y; }
-
-        // modifiers
-        virtual void add_char(int x, int y, char c);
-        virtual void add_str(int x, int y, std::string str);
-        virtual void clear();
-
-    protected:
-        // attributes
-        std::string m_name;
-        int m_width, m_height;
-        int m_x, m_y;
-        std::string m_border;
-        Display *m_display_ptr;
-        Screen m_buffer;
-        // draw window buffer
-        virtual void draw(bool is_resize) = 0;
-        friend class Display;
-    };
-
-    class StaticWindow : public GenericWindowObject
-    {
-    public:
-        explicit StaticWindow(std::string name, int x, int y, int width, int height, std::string border);
-
-    private:
-        void draw(bool is_resize);
-    };
-
-    class FlexibleWindow : public GenericWindowObject
-    {
-    public:
-        explicit FlexibleWindow(std::string name, int x, int y, int w_percent, int h_percent, std::string border);
-        // special getters
-        int get_w_percent() const;
-        int get_h_percent() const;
-        // special setters
-        void set_w_percent(int wp);
-        void set_h_percent(int hp);
-
-    private:
-        int m_w_percent, m_h_percent;
-        void draw(bool is_resize);
     };
 
     class Display
@@ -98,16 +108,13 @@ namespace Xcurse
         Display::Size get_size();
         int get_width() const;
         int get_height() const;
-        GenericWindowObject *get_window(std::string name);
 
         // painters
         void set_pixel(int x, int y, char c);
 
-        // window management
-        bool add_win(StaticWindow *w);
-        bool add_win(FlexibleWindow *w);
-        bool remove_win(std::string win_name);
-
+        // object management
+        bool add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o);
+        bool remove_obj(std::string obj_name);
         // display management
         void start();
         void poweroff();
@@ -115,6 +122,9 @@ namespace Xcurse
         bool update_size();
         void refresh();
         void set_refresh_interval(int ms);
+        void refresh_screen();
+        void refresh_buffer();
+        void refreshLayout(Layout &layout, int x, int y, int max_height, int max_width);
 
     private:
         static Display *m_instance;
@@ -130,7 +140,8 @@ namespace Xcurse
         std::thread m_display_thread;
         int m_refresh_interval_ms;
         // windows properties
-        std::unordered_map<std::string, GenericWindowObject *> m_windows;
+        Layout m_layout;
+        ObjPtrMap m_obj_ptrs;
     };
 
 }
