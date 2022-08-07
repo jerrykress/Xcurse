@@ -8,10 +8,12 @@ Display *Display::m_instance = NULL;
 
 Display::Display()
 {
+    // setup basic attr
     get_size();
     m_screen = Screen(m_height, std::vector<char>(m_width, ' '));
     m_power = false;
     m_refresh_interval_ms = 1000;
+    m_layout = new Layout("root");
 }
 
 Display *Display::get_display()
@@ -37,6 +39,14 @@ int Display::get_width() const
     return m_width;
 }
 
+void Display::set_pixel(int x, int y, char c)
+{
+    if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
+    {
+        m_screen[y + 1][x] = c;
+    }
+}
+
 bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o)
 {
     if (auto target = m_obj_ptrs.find(layout_name); target != m_obj_ptrs.end() && typeid(target->second) == typeid(Layout *))
@@ -46,14 +56,6 @@ bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisp
             static_cast<Layout *>(target->second.obj_ptr)->get_objects().emplace_back(o);
             return true;
         }
-        else
-        {
-            throw std::runtime_error("Cannot insert new object into target, object with the same name already exists.");
-        }
-    }
-    else
-    {
-        throw std::runtime_error("Cannot find the target layout for object insertion.");
     }
     return false;
 }
@@ -61,9 +63,21 @@ bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisp
 bool Display::remove_obj(std::string obj_name)
 {
     // find target object to delete
-    if (auto target = m_obj_ptrs.find(obj_name); target != m_obj_ptrs.end())
+    if (auto target = m_obj_ptrs.find(obj_name); target != m_obj_ptrs.end() && obj_name != "root")
     {
-        // target->second.parent_ptr
+        if (auto parent_ptr = target->second.parent_ptr; parent_ptr != nullptr)
+        {
+            LayoutObjects &objects = static_cast<Layout *>(parent_ptr)->get_objects();
+
+            for (auto it = objects.begin(); it != objects.end(); it++)
+            {
+                if (*it == target->second.obj_ptr)
+                {
+                    objects.erase(it);
+                    return true;
+                }
+            }
+        }
     }
     return false;
 }
@@ -106,10 +120,19 @@ bool Display::update_size()
 {
     struct winsize win;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
-    bool updated = m_width != win.ws_col || m_height != win.ws_row;
-    m_width = win.ws_col;
-    m_height = win.ws_row;
-    return updated;
+    if (m_width != win.ws_col || m_height != win.ws_row)
+    {
+        m_width = win.ws_col;
+        m_height = win.ws_row;
+        // update screen buffer
+        m_screen.resize(m_height);
+        for (auto &row : m_screen)
+        {
+            row.resize(m_width);
+        }
+        return true;
+    }
+    return false;
 }
 
 inline void Display::refresh_buffer()
@@ -141,7 +164,7 @@ void Display::refresh()
         bool is_resize = update_size();
         // update layout
         if (is_resize)
-            refreshLayout(m_layout, 0, 0, m_height, m_width);
+            refreshLayout(*m_layout, 0, 0, m_height, m_width);
         // repaint windows to buffer
         refresh_buffer();
         // output screen

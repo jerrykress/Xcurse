@@ -40,9 +40,10 @@ namespace Xcurse
     protected:
         int m_x, m_y, m_width, m_height, size_units;
         Display *m_display_ptr;
-        virtual void draw(){};
-        virtual void resize(int w, int h){};
-
+        Screen m_buffer;
+        virtual void draw();
+        virtual void resize(int w, int h);
+        virtual void refresh_buffer();
         friend class Display;
     };
 
@@ -59,19 +60,24 @@ namespace Xcurse
 
     protected:
         std::string m_data;
-        void resize(int w, int h){};
-        void draw(){};
     };
 
     class Window : public GenericDisplayObject
     {
+    public:
+        Window(std::string name, int size, std::string border);
+
     protected:
+        void refresh_buffer() override;
+        std::string m_border;
         Screen m_buffer;
     };
 
     class Layout : public GenericDisplayObject
     {
     public:
+        Layout(std::string name);
+        const std::string _name;
         Direction orientation;
 
         LayoutObjects &get_objects()
@@ -81,8 +87,8 @@ namespace Xcurse
 
     protected:
         LayoutObjects m_objects;
-        void draw(){};
-        void resize(int w, int h){};
+
+        friend class Display;
     };
 
     struct Position
@@ -140,7 +146,7 @@ namespace Xcurse
         std::thread m_display_thread;
         int m_refresh_interval_ms;
         // windows properties
-        Layout m_layout;
+        Layout *m_layout;
         ObjPtrMap m_obj_ptrs;
     };
 
