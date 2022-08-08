@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -19,12 +21,14 @@ namespace Console
     };
 
     /*
-        A simple logger that records several types of information and stores the output in a file
+        A simple Logger that records several types of information and stores the output in a file
     */
-    class logger
+    class Logger
     {
     public:
-        logger(std::string fn);
+        static Logger *get_logger();
+
+        void set_name(std::string name);
 
         void info(std::string str);
 
@@ -33,23 +37,24 @@ namespace Console
         void warning(std::string str);
 
         void error(std::string str);
-        /* set the color of current cout (does not auto restore) */
+
         std::string set_color(Color color);
 
-        logger(logger &l) = delete;
-        logger(logger &&l) = delete;
-        logger &operator=(logger &l) = delete;
-        logger &operator=(logger &&l) = delete;
-
-        ~logger();
-
     protected:
-        std::string m_Filename;
+        std::string m_Filename = "log.txt";
+        Logger();
+        Logger(Logger &l) = delete;
+        Logger(Logger &&l) = delete;
+        Logger &operator=(Logger &l) = delete;
+        Logger &operator=(Logger &&l) = delete;
+        ~Logger();
+
         std::fstream m_File;
-
         void print(std::string &str, Color color);
-
         void write(std::string str);
+
+    private:
+        static Logger *m_instance;
     };
 
     /*

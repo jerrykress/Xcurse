@@ -2,9 +2,10 @@
 
 namespace Console
 {
-    logger::logger(std::string fn)
+    Logger *Logger::m_instance = NULL;
+
+    Logger::Logger()
     {
-        m_Filename = fn;
         m_File.open(m_Filename, std::ios::out);
 
         if (!m_File)
@@ -13,50 +14,62 @@ namespace Console
         }
     }
 
-    void logger::info(std::string str)
+    void Logger::set_name(std::string name)
+    {
+        m_Filename = name;
+    }
+
+    Logger *Logger::get_logger()
+    {
+        if (!m_instance)
+            m_instance = new Logger();
+        return m_instance;
+    }
+
+    void Logger::info(std::string str)
     {
         std::string line = "[Info]: " + str;
         print(line, WHITE);
         write(line);
     }
 
-    void logger::success(std::string str)
+    void Logger::success(std::string str)
     {
         std::string line = "[Success]: " + str;
         print(line, GREEN);
         write(line);
     }
 
-    void logger::warning(std::string str)
+    void Logger::warning(std::string str)
     {
         std::string line = "[Warning]: " + str;
         print(line, YELLOW);
         write(line);
     }
 
-    void logger::error(std::string str)
+    void Logger::error(std::string str)
     {
         std::string line = "[Error]: " + str;
         print(line, RED);
         write(line);
     }
 
-    logger::~logger()
+    Logger::~Logger()
     {
         m_File.close();
     }
 
-    void logger::print(std::string &str, Color color = WHITE)
+    void Logger::print(std::string &str, Color color = WHITE)
     {
         std::cout << "\033[1;" + std::to_string(color) + "m" + str + "\033[0m\n";
     }
 
-    void logger::write(std::string str)
+    void Logger::write(std::string str)
     {
         m_File << str << "\n";
     }
 
-    std::string logger::set_color(Color color)
+    std::string Logger::set_color(Color color)
     {
         return "\033[1;" + std::to_string(color) + "m";
     }

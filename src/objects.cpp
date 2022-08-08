@@ -1,9 +1,40 @@
 #include "xcurse.h"
+#include "logger.h"
 
 using namespace Xcurse;
 
+using namespace Console;
+
+Logger *lg2 = Logger::get_logger();
+
 void GenericDisplayObject::draw()
 {
+}
+
+void GenericDisplayObject::resize(int w, int h)
+{
+    m_buffer.resize(m_height);
+    for (auto &row : m_buffer)
+    {
+        row.resize(m_width, ' ');
+    }
+}
+
+void GenericDisplayObject::refresh_buffer()
+{
+}
+
+Window::Window(std::string name, int size, std::string border) : _name(name)
+{
+    m_border = border;
+    size_units = size;
+    m_buffer = Screen(1, std::vector<char>(1, ' '));
+    m_display_ptr = Display::get_display();
+}
+
+void Window::draw()
+{
+    lg2->info("win info: " + std::to_string(m_x) + " " + std::to_string(m_y));
     for (int y = 0; y < m_height; y++)
     {
         for (int x = 0; x < m_width; x++)
@@ -13,42 +44,34 @@ void GenericDisplayObject::draw()
     }
 }
 
-void GenericDisplayObject::resize(int w, int h)
-{
-    m_buffer.resize(m_height);
-    for (auto &row : m_buffer)
-    {
-        row.resize(m_width);
-    }
-}
-
-void GenericDisplayObject::refresh_buffer()
-{
-}
-
 void Window::refresh_buffer()
 {
+    lg2->info("window: refresh buffer");
     // draw border
     for (int i = 1; i < m_width - 1; i++)
     {
-        m_buffer[0][i] = m_border[0];
-        m_buffer[m_height - 1][i] = m_border[1];
+        m_buffer.front()[i] = m_border[0];
+        m_buffer.back()[i] = m_border[1];
     }
-
     for (int i = 1; i < m_height - 1; i++)
     {
-        m_buffer[i][0] = m_border[2];
-        m_buffer[i][m_width - 1] = m_border[3];
+        m_buffer[i].front() = m_border[2];
+        m_buffer[i].back() = m_border[3];
     }
 
-    m_buffer[0][0] = m_border[4];
-    m_buffer[0][m_width - 1] = m_border[5];
-    m_buffer[m_height - 1][0] = m_border[6];
-    m_buffer[m_height - 1][m_width - 1] = m_border[7];
+    m_buffer.front().front() = m_border[4];
+    m_buffer.front().back() = m_border[5];
+    m_buffer.back().front() = m_border[6];
+    m_buffer.back().back() = m_border[7];
 }
 
-Layout::Layout(std::string name) : _name(name) {}
+Layout::Layout(std::string name, Direction direction, int size) : _name(name), orientation(direction)
+{
+    size_units = size;
+    m_buffer = Screen(1, std::vector<char>(1, ' '));
+    // m_display_ptr = Display::get_display();
+}
 
-Window::Window(std::string name, int size, std::string border)
+void Layout::refresh_buffer()
 {
 }

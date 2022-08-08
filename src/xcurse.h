@@ -1,5 +1,6 @@
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <iostream>
 #include <sys/ioctl.h>
 #include <unistd.h>
@@ -21,7 +22,7 @@ namespace Xcurse
 {
     typedef std::vector<std::vector<char>> Screen;
     typedef std::vector<GenericDisplayObject *> LayoutObjects;
-    typedef std::unordered_map<std::string, ObjInfo> ObjPtrMap;
+    typedef std::map<std::string, ObjInfo> ObjPtrMap;
 
     struct ObjInfo
     {
@@ -66,17 +67,21 @@ namespace Xcurse
     {
     public:
         Window(std::string name, int size, std::string border);
+        const std::string _name;
 
     protected:
         void refresh_buffer() override;
+        void draw() override;
         std::string m_border;
-        Screen m_buffer;
     };
 
+    /*
+    Layout Class
+    */
     class Layout : public GenericDisplayObject
     {
     public:
-        Layout(std::string name);
+        Layout(std::string name, Direction direction, int size);
         const std::string _name;
         Direction orientation;
 
@@ -87,7 +92,8 @@ namespace Xcurse
 
     protected:
         LayoutObjects m_objects;
-
+        void draw() override{};
+        void refresh_buffer() override;
         friend class Display;
     };
 
@@ -130,7 +136,9 @@ namespace Xcurse
         void set_refresh_interval(int ms);
         void refresh_screen();
         void refresh_buffer();
-        void refreshLayout(Layout &layout, int x, int y, int max_height, int max_width);
+        void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width);
+
+        void status() const;
 
     private:
         static Display *m_instance;
