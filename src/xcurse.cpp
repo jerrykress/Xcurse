@@ -219,7 +219,7 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
             object->m_width = max_width * object->size_units / total_units;
             object->resize(object->m_width, object->m_height);
 
-            if (typeid(object) == typeid(Layout))
+            if (typeid(*object) == typeid(Layout))
             {
                 refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_width);
             }
@@ -241,7 +241,7 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
             object->resize(object->m_width, object->m_height);
             lg->info("actual obj size" + std::to_string(object->m_buffer.size()) + "x" + std::to_string(object->m_buffer.front().size()));
 
-            if (typeid(object) == typeid(Layout))
+            if (typeid(*object) == typeid(Layout))
             {
                 refreshLayout(static_cast<Layout *>(object), x, y, object->m_height, max_width);
             }
