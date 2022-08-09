@@ -9,6 +9,13 @@
 #include <functional>
 #include <algorithm>
 #include <numeric>
+#include <mutex>
+#include <math.h>
+
+#include "logger.h"
+
+#define MAX_BUF_W 1000
+#define MAX_BUF_H 1000
 
 // forward declare
 namespace Xcurse
@@ -39,12 +46,14 @@ namespace Xcurse
     {
     public:
     protected:
+        const std::string _name;
         int m_x, m_y, m_width, m_height, size_units;
         Display *m_display_ptr;
         Screen m_buffer;
         virtual void draw();
         virtual void resize(int w, int h);
         virtual void refresh_buffer();
+        virtual void clear_buffer();
         friend class Display;
     };
 
@@ -115,6 +124,7 @@ namespace Xcurse
 
     public:
         static Display *get_display();
+        static std::mutex screen_mutex;
 
         // getters
         Display::Size get_size();

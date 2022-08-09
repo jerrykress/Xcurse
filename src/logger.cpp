@@ -66,7 +66,7 @@ namespace Console
 
     void Logger::write(std::string str)
     {
-        m_File << str << "\n";
+        m_File << str << std::endl;
     }
 
     std::string Logger::set_color(Color color)

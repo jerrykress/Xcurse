@@ -1,17 +1,16 @@
 #include "xcurse.h"
-#include "logger.h"
+
 using namespace Xcurse;
 using namespace std::literals::chrono_literals;
 
-Console::Logger *lg = Console::Logger::get_logger();
 // Initialise instance pointer
 Display *Display::m_instance = NULL;
 
 Display::Display()
 {
     // setup basic attr
-    get_size();
-    m_screen = Screen(m_height, std::vector<char>(m_width, ' '));
+    update_size();
+    m_screen = Screen(MAX_BUF_H, std::vector<char>(MAX_BUF_W, ' '));
     m_power = false;
     m_refresh_interval_ms = 1000;
     m_layout = new Layout("root", Vertical, 1);
@@ -23,6 +22,27 @@ Display *Display::get_display()
     if (!m_instance)
         m_instance = new Display();
     return m_instance;
+}
+
+bool Display::update_size()
+{
+    struct winsize win;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
+
+    if (m_width != win.ws_col || m_height != win.ws_row)
+    {
+        m_width = win.ws_col;
+        m_height = win.ws_row;
+
+        // m_screen.resize(m_height);
+        // for (auto &row : m_screen)
+        // {
+        //     row.resize(m_width);
+        // }
+
+        return true;
+    }
+    return false;
 }
 
 Display::Size Display::get_size()
@@ -43,11 +63,8 @@ int Display::get_width() const
 
 void Display::set_pixel(int x, int y, char c)
 {
-    // lg->info("enter set pixel " + std::to_string(x) + " " + std::to_string(y) + " " + c);
-    // lg->info("w/h: " + std::to_string(m_width) + " " + std::to_string(m_height));
     if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
-        // lg->info("setting pixel");
         m_screen[y + 1][x] = c;
     }
 }
@@ -117,43 +134,19 @@ void Display::poweroff()
 
 void Display::clear()
 {
+    std::cout << "\x1B[2J\x1B[H";
     for (auto &row : m_screen)
     {
         std::fill(row.begin(), row.end(), ' ');
     }
 }
 
-bool Display::update_size()
-{
-    struct winsize win;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
-    // lg->info("old win size is: " + std::to_string(m_height) + ", " + std::to_string(m_width));
-    // lg->info("new win size is: " + std::to_string(win.ws_row) + ", " + std::to_string(win.ws_col));
-    if (m_width != win.ws_col || m_height != win.ws_row)
-    {
-        m_width = win.ws_col;
-        m_height = win.ws_row;
-        // lg->info("now win size is: " + std::to_string(m_height) + ", " + std::to_string(m_width));
-        // update screen buffer
-        // m_screen.resize(m_height);
-        // for (auto &row : m_screen)
-        // {
-        //     row.resize(m_width);
-        // }
-        return true;
-    }
-    return false;
-}
-
 // draw from object buffers to main screen buffer
-inline void Display::refresh_buffer()
+void Display::refresh_buffer()
 {
     for (auto &obj_info : m_obj_ptrs)
     {
-        lg->info("refreshing buffer" + (obj_info.first));
-        std::cout << "terminal size: " << m_width << "x" << m_height << std::endl;
         obj_info.second.obj_ptr->refresh_buffer();
-        lg->info("drawing");
         obj_info.second.obj_ptr->draw();
     }
 }
@@ -173,7 +166,6 @@ inline void Display::refresh_screen()
 
 void Display::refresh()
 {
-    lg->info("refreshing");
     while (m_power)
     {
         clear();
@@ -181,14 +173,12 @@ void Display::refresh()
         bool is_resize = update_size();
         // update layout
         if (is_resize)
+        {
             refreshLayout(m_layout, 0, 0, m_height, m_width);
-        // m_instance->status();
-        // std::cin.get();
+        }
         // repaint windows to buffer
-        lg->info("refresh buffer...");
         refresh_buffer();
         // output screen
-        lg->info("refresh screen...");
         refresh_screen();
         // wait for next refresh
         std::this_thread::sleep_for(std::chrono::milliseconds(m_refresh_interval_ms));
@@ -202,21 +192,18 @@ void Display::set_refresh_interval(int ms)
 
 void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int max_width)
 {
-    lg->info("refreshing layout: " + std::to_string(max_height) + std::to_string(max_width));
+
     auto &objects = layout->get_objects();
 
-    lg->info("got objects");
     int total_units = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, GenericDisplayObject *o)
                                       { return a + o->size_units; });
-    lg->info("size total: " + std::to_string(total_units));
 
     if (layout->orientation == Horizontal)
     {
-        lg->info("hor layout");
         for (auto &object : layout->get_objects())
         {
             object->m_height = max_height;
-            object->m_width = max_width * object->size_units / total_units;
+            object->m_width = std::floor(1.0f * max_width * object->size_units / total_units);
             object->resize(object->m_width, object->m_height);
 
             if (typeid(*object) == typeid(Layout))
@@ -232,14 +219,11 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
 
     if (layout->orientation == Vertical)
     {
-        lg->info("ver layout");
         for (auto &object : layout->get_objects())
         {
-            lg->info("processing object" + std::to_string(object->size_units));
             object->m_width = max_width;
-            object->m_height = max_height * object->size_units / total_units;
+            object->m_height = std::floor(1.0f * max_height * object->size_units / total_units);
             object->resize(object->m_width, object->m_height);
-            lg->info("actual obj size" + std::to_string(object->m_buffer.size()) + "x" + std::to_string(object->m_buffer.front().size()));
 
             if (typeid(*object) == typeid(Layout))
             {

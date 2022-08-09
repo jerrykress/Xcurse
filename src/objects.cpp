@@ -3,25 +3,30 @@
 
 using namespace Xcurse;
 
-using namespace Console;
-
-Logger *lg2 = Logger::get_logger();
-
 void GenericDisplayObject::draw()
 {
+    return;
 }
 
 void GenericDisplayObject::resize(int w, int h)
 {
     m_buffer.resize(m_height);
-    for (auto &row : m_buffer)
+    for (int i = 0; i < m_height; i++)
     {
-        row.resize(m_width, ' ');
+        m_buffer[i].resize(m_width, ' ');
     }
 }
 
 void GenericDisplayObject::refresh_buffer()
 {
+}
+
+void GenericDisplayObject::clear_buffer()
+{
+    for (auto &row : m_buffer)
+    {
+        std::fill(row.begin(), row.end(), ' ');
+    }
 }
 
 Window::Window(std::string name, int size, std::string border) : _name(name)
@@ -34,7 +39,6 @@ Window::Window(std::string name, int size, std::string border) : _name(name)
 
 void Window::draw()
 {
-    lg2->info("win info: " + std::to_string(m_x) + " " + std::to_string(m_y));
     for (int y = 0; y < m_height; y++)
     {
         for (int x = 0; x < m_width; x++)
@@ -46,7 +50,7 @@ void Window::draw()
 
 void Window::refresh_buffer()
 {
-    lg2->info("window: refresh buffer");
+    clear_buffer();
     // draw border
     for (int i = 1; i < m_width - 1; i++)
     {
@@ -74,4 +78,5 @@ Layout::Layout(std::string name, Direction direction, int size) : _name(name), o
 
 void Layout::refresh_buffer()
 {
+    return;
 }
