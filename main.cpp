@@ -18,8 +18,15 @@ int main(int, char **)
 
     d->power_on();
 
-    std::cin.get();
+    Window *win = static_cast<Window *>(d->get_obj("w2"));
 
+    for (int i = 0; i < 5; i++)
+    {
+        win->add_char(i, i, i + '0');
+        // win->clear_buffer();
+        std::this_thread::sleep_for(1s);
+    }
+    // std::cin.get();
     d->power_off();
 
     return 0;

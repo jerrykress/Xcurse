@@ -75,7 +75,7 @@ bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisp
             // assign parent to incoming object
             o->parent_ptr = layout_pair_it->second;
             // add object pointer to parent's record
-            static_cast<Layout *>(layout_pair_it->second)->get_objects().emplace_back(o);
+            static_cast<Layout *>(layout_pair_it->second)->get_objects()->emplace_back(o);
             return true;
         }
     }
@@ -87,7 +87,7 @@ bool Display::remove_obj(std::string obj_name)
     // find if the object exists and the object must not be root layout
     if (auto obj_pair_it = m_obj_ptrs.find(obj_name); obj_pair_it != m_obj_ptrs.end() && obj_name != "root")
     {
-        LayoutObjects &objects = static_cast<Layout *>(obj_pair_it->second->parent_ptr)->get_objects();
+        LayoutObjects &objects = *static_cast<Layout *>(obj_pair_it->second->parent_ptr)->get_objects();
 
         for (auto it = objects.begin(); it != objects.end(); it++)
         {
@@ -99,6 +99,15 @@ bool Display::remove_obj(std::string obj_name)
         }
     }
     return false;
+}
+
+GenericDisplayObject *Display::get_obj(std::string name)
+{
+    if (m_obj_ptrs.count(name))
+    {
+        return m_obj_ptrs[name];
+    }
+    return nullptr;
 }
 
 void Display::power_on()
@@ -179,14 +188,14 @@ void Display::set_refresh_interval(int ms)
 void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int max_width)
 {
 
-    auto &objects = layout->get_objects();
+    LayoutObjects &objects = *(layout->get_objects());
 
     int total_units = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, GenericDisplayObject *o)
                                       { return a + o->size_units; });
 
     if (layout->orientation == Horizontal)
     {
-        for (auto &object : layout->get_objects())
+        for (auto object : objects)
         {
             object->m_height = max_height;
             object->m_width = std::floor(1.0f * max_width * object->size_units / total_units);
@@ -208,7 +217,7 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
 
     if (layout->orientation == Vertical)
     {
-        for (auto &object : layout->get_objects())
+        for (auto object : objects)
         {
             object->m_width = max_width;
             object->m_height = std::floor(1.0f * max_height * object->size_units / total_units);

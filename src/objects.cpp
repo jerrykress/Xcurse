@@ -17,6 +17,26 @@ void GenericDisplayObject::resize(int w, int h)
     }
 }
 
+int GenericDisplayObject::get_height() const
+{
+    return m_height;
+}
+
+int GenericDisplayObject::get_width() const
+{
+    return m_width;
+}
+
+int GenericDisplayObject::get_size() const
+{
+    return size_units;
+}
+
+Position GenericDisplayObject::get_pos() const
+{
+    return Position{m_x, m_y};
+}
+
 void GenericDisplayObject::refresh_buffer()
 {
     return;
@@ -38,6 +58,14 @@ Window::Window(std::string name, int size, std::string border) : _name(name)
     m_display_ptr = Display::get_display();
 }
 
+void Window::add_char(int x, int y, char c)
+{
+    if (x > 0 && x < m_width - 1 && y > 0 && y < m_height - 1)
+    {
+        m_buffer[y][x] = c;
+    }
+}
+
 void Window::draw()
 {
     for (int y = 0; y < m_height; y++)
@@ -51,6 +79,8 @@ void Window::draw()
 
 void Window::refresh_buffer()
 {
+    //! change this later
+    clear_buffer();
     // draw top and bottom
     for (int i = 1; i < m_width - 1; i++)
     {
@@ -74,10 +104,15 @@ Layout::Layout(std::string name, Direction direction, int size) : _name(name), o
 {
     size_units = size;
     m_buffer = Screen(1, std::vector<char>(1, ' '));
-    // m_display_ptr = Display::get_display();
 }
 
-void Layout::refresh_buffer()
+LayoutObjects *Layout::get_objects()
 {
-    return;
+    return &m_objects;
+}
+
+Text::Text(std::string data) : m_data(data)
+{
+    m_height = 1;
+    m_width = data.size();
 }

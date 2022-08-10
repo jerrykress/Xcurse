@@ -37,10 +37,21 @@ namespace Xcurse
         Vertical
     };
 
+    struct Position
+    {
+        int x, y;
+    };
+
     class GenericDisplayObject
     {
     public:
         GenericDisplayObject *parent_ptr;
+        virtual void clear_buffer();
+        virtual void resize(int w, int h);
+        int get_height() const;
+        int get_width() const;
+        int get_size() const;
+        Position get_pos() const;
 
     protected:
         const std::string _name;
@@ -48,20 +59,14 @@ namespace Xcurse
         Display *m_display_ptr;
         Screen m_buffer;
         virtual void draw();
-        virtual void resize(int w, int h);
         virtual void refresh_buffer();
-        virtual void clear_buffer();
         friend class Display;
     };
 
     class Text : public GenericDisplayObject
     {
     public:
-        Text(std::string data) : m_data(data)
-        {
-            m_height = 1;
-            m_width = data.size();
-        }
+        Text(std::string data);
         void set_data(std::string data);
         std::string get_data() const;
 
@@ -69,11 +74,15 @@ namespace Xcurse
         std::string m_data;
     };
 
+    /*
+    Window Class
+    */
     class Window : public GenericDisplayObject
     {
     public:
         Window(std::string name, int size, std::string border);
         const std::string _name;
+        void add_char(int x, int y, char c);
 
     protected:
         void refresh_buffer() override;
@@ -91,21 +100,12 @@ namespace Xcurse
         const std::string _name;
         Direction orientation;
 
-        LayoutObjects &get_objects()
-        {
-            return m_objects;
-        }
+        LayoutObjects *get_objects();
 
     protected:
         LayoutObjects m_objects;
         void draw() override{};
-        void refresh_buffer() override;
         friend class Display;
-    };
-
-    struct Position
-    {
-        int x, y;
     };
 
     class Display
@@ -134,6 +134,7 @@ namespace Xcurse
         // object management
         bool add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o);
         bool remove_obj(std::string obj_name);
+        GenericDisplayObject *get_obj(std::string obj_name);
         // display management
         void power_on();
         void power_off();
