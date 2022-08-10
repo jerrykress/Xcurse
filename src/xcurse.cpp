@@ -12,9 +12,10 @@ Display::Display()
     update_size();
     m_screen = Screen(MAX_BUF_H, std::vector<char>(MAX_BUF_W, ' '));
     m_power = false;
-    m_refresh_interval_ms = 1000;
+    m_refresh_interval_ms = 100;
     m_layout = new Layout("root", Vertical, 1);
-    m_obj_ptrs.emplace("root", ObjInfo{m_layout, nullptr});
+    m_layout->parent_ptr = nullptr;
+    m_obj_ptrs.emplace("root", m_layout);
 }
 
 Display *Display::get_display()
@@ -33,12 +34,6 @@ bool Display::update_size()
     {
         m_width = win.ws_col;
         m_height = win.ws_row;
-
-        // m_screen.resize(m_height);
-        // for (auto &row : m_screen)
-        // {
-        //     row.resize(m_width);
-        // }
 
         return true;
     }
@@ -71,11 +66,16 @@ void Display::set_pixel(int x, int y, char c)
 
 bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o)
 {
-    if (auto target = m_obj_ptrs.find(layout_name); target != m_obj_ptrs.end() && typeid(*(target->second.obj_ptr)) == typeid(Layout))
+    // find if the target layout exists
+    if (auto layout_pair_it = m_obj_ptrs.find(layout_name); layout_pair_it != m_obj_ptrs.end() && typeid(*(layout_pair_it->second)) == typeid(Layout))
     {
-        if (m_obj_ptrs.insert({obj_name, ObjInfo{o, target->second.obj_ptr}}).second)
+        // insert the object into the global object record table if no object with the same exists
+        if (m_obj_ptrs.insert({obj_name, o}).second)
         {
-            static_cast<Layout *>(target->second.obj_ptr)->get_objects().emplace_back(o);
+            // assign parent to incoming object
+            o->parent_ptr = layout_pair_it->second;
+            // add object pointer to parent's record
+            static_cast<Layout *>(layout_pair_it->second)->get_objects().emplace_back(o);
             return true;
         }
     }
@@ -84,20 +84,17 @@ bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisp
 
 bool Display::remove_obj(std::string obj_name)
 {
-    // find target object to delete
-    if (auto target = m_obj_ptrs.find(obj_name); target != m_obj_ptrs.end() && obj_name != "root")
+    // find if the object exists and the object must not be root layout
+    if (auto obj_pair_it = m_obj_ptrs.find(obj_name); obj_pair_it != m_obj_ptrs.end() && obj_name != "root")
     {
-        if (auto parent_ptr = target->second.parent_ptr; parent_ptr != nullptr)
-        {
-            LayoutObjects &objects = static_cast<Layout *>(parent_ptr)->get_objects();
+        LayoutObjects &objects = static_cast<Layout *>(obj_pair_it->second->parent_ptr)->get_objects();
 
-            for (auto it = objects.begin(); it != objects.end(); it++)
+        for (auto it = objects.begin(); it != objects.end(); it++)
+        {
+            if (*it == obj_pair_it->second)
             {
-                if (*it == target->second.obj_ptr)
-                {
-                    objects.erase(it);
-                    return true;
-                }
+                objects.erase(it);
+                return true;
             }
         }
     }
@@ -141,16 +138,6 @@ void Display::clear()
     }
 }
 
-// draw from object buffers to main screen buffer
-void Display::refresh_buffer()
-{
-    for (auto &obj_info : m_obj_ptrs)
-    {
-        obj_info.second.obj_ptr->refresh_buffer();
-        obj_info.second.obj_ptr->draw();
-    }
-}
-
 // print out the content of the screen to the terminal
 inline void Display::refresh_screen()
 {
@@ -172,12 +159,9 @@ void Display::refresh()
         // get size update status
         bool is_resize = update_size();
         // update layout
-        if (is_resize)
-        {
-            refreshLayout(m_layout, 0, 0, m_height, m_width);
-        }
+        refreshLayout(m_layout, 0, 0, m_height, m_width);
         // repaint windows to buffer
-        refresh_buffer();
+        // refresh_buffer();
         // output screen
         refresh_screen();
         // wait for next refresh
@@ -211,6 +195,9 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
                 refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_width);
             }
 
+            object->refresh_buffer();
+            object->draw();
+
             object->m_x = x;
             object->m_y = y;
             x += object->m_width;
@@ -230,6 +217,9 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
                 refreshLayout(static_cast<Layout *>(object), x, y, object->m_height, max_width);
             }
 
+            object->refresh_buffer();
+            object->draw();
+
             object->m_x = x;
             object->m_y = y;
             y += object->m_height;
@@ -246,11 +236,11 @@ void Display::status() const
     for (auto &obj : m_obj_ptrs)
     {
         std::cout << obj.first << ": ";
-        std::cout << obj.second.obj_ptr->m_x << ", "
-                  << obj.second.obj_ptr->m_y << ", "
-                  << obj.second.obj_ptr->m_width << ", "
-                  << obj.second.obj_ptr->m_height << ", "
-                  << obj.second.obj_ptr->size_units << "\n"
+        std::cout << obj.second->m_x << ", "
+                  << obj.second->m_y << ", "
+                  << obj.second->m_width << ", "
+                  << obj.second->m_height << ", "
+                  << obj.second->size_units << "\n"
                   << std::endl;
     }
 }

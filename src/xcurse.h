@@ -29,12 +29,7 @@ namespace Xcurse
 {
     typedef std::vector<std::vector<char>> Screen;
     typedef std::vector<GenericDisplayObject *> LayoutObjects;
-    typedef std::map<std::string, ObjInfo> ObjPtrMap;
-
-    struct ObjInfo
-    {
-        GenericDisplayObject *obj_ptr, *parent_ptr;
-    };
+    typedef std::map<std::string, GenericDisplayObject *> ObjPtrMap;
 
     enum Direction
     {
@@ -45,6 +40,8 @@ namespace Xcurse
     class GenericDisplayObject
     {
     public:
+        GenericDisplayObject *parent_ptr;
+
     protected:
         const std::string _name;
         int m_x, m_y, m_width, m_height, size_units;
