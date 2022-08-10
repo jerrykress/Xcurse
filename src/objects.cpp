@@ -19,6 +19,7 @@ void GenericDisplayObject::resize(int w, int h)
 
 void GenericDisplayObject::refresh_buffer()
 {
+    return;
 }
 
 void GenericDisplayObject::clear_buffer()
@@ -50,19 +51,19 @@ void Window::draw()
 
 void Window::refresh_buffer()
 {
-    clear_buffer();
-    // draw border
+    // draw top and bottom
     for (int i = 1; i < m_width - 1; i++)
     {
         m_buffer.front()[i] = m_border[0];
         m_buffer.back()[i] = m_border[1];
     }
+    // draw left and right
     for (int i = 1; i < m_height - 1; i++)
     {
         m_buffer[i].front() = m_border[2];
         m_buffer[i].back() = m_border[3];
     }
-
+    // draw four corners
     m_buffer.front().front() = m_border[4];
     m_buffer.front().back() = m_border[5];
     m_buffer.back().front() = m_border[6];

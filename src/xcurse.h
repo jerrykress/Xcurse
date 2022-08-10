@@ -29,7 +29,7 @@ namespace Xcurse
 {
     typedef std::vector<std::vector<char>> Screen;
     typedef std::vector<GenericDisplayObject *> LayoutObjects;
-    typedef std::map<std::string, GenericDisplayObject *> ObjPtrMap;
+    typedef std::map<std::string, GenericDisplayObject *> ObjTable;
 
     enum Direction
     {
@@ -135,14 +135,13 @@ namespace Xcurse
         bool add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o);
         bool remove_obj(std::string obj_name);
         // display management
-        void start();
-        void poweroff();
-        void clear();
+        void power_on();
+        void power_off();
+        void clear_buffer();
+        void clear_terminal();
         bool update_size();
-        void refresh();
         void set_refresh_interval(int ms);
-        void refresh_screen();
-        void refresh_buffer();
+        void output_screen();
         void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width);
 
         void status() const;
@@ -154,15 +153,16 @@ namespace Xcurse
         Display(const Display &);
         Display &operator=(const Display &);
         // main display properties
-        bool m_power;
         Screen m_screen;
+        bool m_power;
         int m_width, m_height;
         // display refresh utilities
-        std::thread m_display_thread;
-        int m_refresh_interval_ms;
+        void refresh();
+        std::thread m_refresh_thread;
+        int m_refresh_interval;
         // windows properties
         Layout *m_layout;
-        ObjPtrMap m_obj_ptrs;
+        ObjTable m_obj_ptrs;
     };
 
 }

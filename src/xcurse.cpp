@@ -12,7 +12,7 @@ Display::Display()
     update_size();
     m_screen = Screen(MAX_BUF_H, std::vector<char>(MAX_BUF_W, ' '));
     m_power = false;
-    m_refresh_interval_ms = 100;
+    m_refresh_interval = 100;
     m_layout = new Layout("root", Vertical, 1);
     m_layout->parent_ptr = nullptr;
     m_obj_ptrs.emplace("root", m_layout);
@@ -101,7 +101,7 @@ bool Display::remove_obj(std::string obj_name)
     return false;
 }
 
-void Display::start()
+void Display::power_on()
 {
     if (!m_power)
     {
@@ -112,16 +112,16 @@ void Display::start()
         std::cout << "\e[?25l" << std::endl;
         // init refresh
         refreshLayout(m_layout, 0, 0, m_height, m_width);
-        m_display_thread = std::thread(&Display::refresh, this);
+        m_refresh_thread = std::thread(&Display::refresh, this);
     }
 }
 
-void Display::poweroff()
+void Display::power_off()
 {
     if (m_power)
     {
         m_power = false;
-        m_display_thread.join();
+        m_refresh_thread.join();
         // enable cursor
         std::cout << "\e[?25h" << std::endl;
         // leave alternate buffer
@@ -129,9 +129,13 @@ void Display::poweroff()
     }
 }
 
-void Display::clear()
+inline void Display::clear_terminal()
 {
     std::cout << "\x1B[2J\x1B[H";
+}
+
+void Display::clear_buffer()
+{
     for (auto &row : m_screen)
     {
         std::fill(row.begin(), row.end(), ' ');
@@ -139,7 +143,7 @@ void Display::clear()
 }
 
 // print out the content of the screen to the terminal
-inline void Display::refresh_screen()
+inline void Display::output_screen()
 {
     for (int j = 0; j < m_height; j++)
     {
@@ -155,23 +159,21 @@ void Display::refresh()
 {
     while (m_power)
     {
-        clear();
+        clear_buffer();
         // get size update status
         bool is_resize = update_size();
         // update layout
         refreshLayout(m_layout, 0, 0, m_height, m_width);
-        // repaint windows to buffer
-        // refresh_buffer();
         // output screen
-        refresh_screen();
+        output_screen();
         // wait for next refresh
-        std::this_thread::sleep_for(std::chrono::milliseconds(m_refresh_interval_ms));
+        std::this_thread::sleep_for(std::chrono::milliseconds(m_refresh_interval));
     }
 }
 
 void Display::set_refresh_interval(int ms)
 {
-    m_refresh_interval_ms = ms;
+    m_refresh_interval = ms;
 }
 
 void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int max_width)

@@ -16,11 +16,11 @@ int main(int, char **)
     bool add_win1 = d->add_obj("v1", "w2", new Window("w2", 1, "--||**##"));
     bool add_win2 = d->add_obj("v1", "w3", new Window("w3", 1, "--||**##"));
 
-    d->start();
+    d->power_on();
 
     std::cin.get();
 
-    d->poweroff();
+    d->power_off();
 
     return 0;
 }
