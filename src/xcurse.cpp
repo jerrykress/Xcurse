@@ -119,12 +119,16 @@ void Display::power_on()
         std::cout << "\e[?47h" << std::endl;
         // hide cursor
         std::cout << "\e[?25l" << std::endl;
+        // disable echo
         system("stty -icanon");
         system("stty -echo");
+        // xterm mouse tracking
         system("echo \"\e[?1003h\"");
         // init refresh
         refreshLayout(m_layout, 0, 0, m_height, m_width);
+        // create thread for display refresh
         m_refresh_thread = std::thread(&Display::refresh, this);
+        // create thread for mouse input handle
         m_mouse_in_thread = std::thread(&Display::mouse_handler, this);
     }
 }
@@ -134,9 +138,12 @@ void Display::power_off()
     if (m_power)
     {
         m_power = false;
-        m_refresh_thread.join();
+        // xterm disable mouse tracking
         system("echo \"\e[?1000l\"");
+        // join helper threads
+        m_refresh_thread.join();
         m_mouse_in_thread.join();
+        // enable echo
         system("stty echo");
         // enable cursor
         std::cout << "\e[?25h" << std::endl;
