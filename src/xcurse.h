@@ -161,6 +161,9 @@ namespace Xcurse
         void refresh();
         std::thread m_refresh_thread;
         int m_refresh_interval;
+        // user input handler
+        void mouse_handler();
+        std::thread m_mouse_in_thread;
         // windows properties
         Layout *m_layout;
         ObjTable m_obj_ptrs;

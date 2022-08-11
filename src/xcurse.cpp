@@ -119,9 +119,13 @@ void Display::power_on()
         std::cout << "\e[?47h" << std::endl;
         // hide cursor
         std::cout << "\e[?25l" << std::endl;
+        system("stty -icanon");
+        system("stty -echo");
+        system("echo \"\e[?1003h\"");
         // init refresh
         refreshLayout(m_layout, 0, 0, m_height, m_width);
         m_refresh_thread = std::thread(&Display::refresh, this);
+        m_mouse_in_thread = std::thread(&Display::mouse_handler, this);
     }
 }
 
@@ -131,6 +135,9 @@ void Display::power_off()
     {
         m_power = false;
         m_refresh_thread.join();
+        system("echo \"\e[?1000l\"");
+        m_mouse_in_thread.join();
+        system("stty echo");
         // enable cursor
         std::cout << "\e[?25h" << std::endl;
         // leave alternate buffer
@@ -235,6 +242,16 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
             object->m_y = y;
             y += object->m_height;
         }
+    }
+}
+
+void Display::mouse_handler()
+{
+    //! do something with the token
+    char *token[17];
+    while (m_power)
+    {
+        fread(token, 1, 16, stdin);
     }
 }
 
