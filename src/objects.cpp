@@ -79,8 +79,6 @@ void Window::draw()
 
 void Window::refresh_buffer()
 {
-    //! change this later
-    clear_buffer();
     // draw top and bottom
     for (int i = 1; i < m_width - 1; i++)
     {

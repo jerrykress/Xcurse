@@ -11,6 +11,7 @@
 #include <numeric>
 #include <mutex>
 #include <math.h>
+#include <atomic>
 
 #include "logger.h"
 
@@ -80,7 +81,7 @@ namespace Xcurse
     class Window : public GenericDisplayObject
     {
     public:
-        Window(std::string name, int size, std::string border);
+        Window(std::string name, int size, std::string border = "--||++++");
         const std::string _name;
         void add_char(int x, int y, char c);
 
@@ -155,7 +156,7 @@ namespace Xcurse
         Display &operator=(const Display &);
         // main display properties
         Screen m_screen;
-        bool m_power;
+        std::atomic_bool m_power;
         int m_width, m_height;
         // display refresh utilities
         void refresh();

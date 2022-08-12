@@ -123,7 +123,7 @@ void Display::power_on()
         system("stty -icanon");
         system("stty -echo");
         // xterm mouse tracking
-        system("echo \"\e[?1003h\"");
+        system("echo \"\e[?1000h\"");
         // init refresh
         refreshLayout(m_layout, 0, 0, m_height, m_width);
         // create thread for display refresh
@@ -142,13 +142,13 @@ void Display::power_off()
         system("echo \"\e[?1000l\"");
         // join helper threads
         m_refresh_thread.join();
-        m_mouse_in_thread.join();
         // enable echo
         system("stty echo");
         // enable cursor
         std::cout << "\e[?25h" << std::endl;
         // leave alternate buffer
-        std::cout << "\e[?47l" << std::endl;
+        std::cout << "\e[?1047l" << std::endl;
+        m_mouse_in_thread.join();
     }
 }
 
@@ -222,6 +222,8 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
 
             object->refresh_buffer();
             object->draw();
+            //! change this later
+            object->clear_buffer();
 
             object->m_x = x;
             object->m_y = y;
@@ -244,6 +246,8 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
 
             object->refresh_buffer();
             object->draw();
+            //! change this later
+            object->clear_buffer();
 
             object->m_x = x;
             object->m_y = y;
@@ -256,10 +260,14 @@ void Display::mouse_handler()
 {
     //! do something with the token
     char *token[17];
-    while (m_power)
+    while (this->m_power)
     {
         fread(token, 1, 16, stdin);
+        // std::string data;
+        // std::cin >> data;
+        // std::this_thread::sleep_for(1s);
     }
+    return;
 }
 
 void Display::status() const
