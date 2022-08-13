@@ -25,6 +25,15 @@ Display *Display::get_display()
     return m_instance;
 }
 
+void Display::init()
+{
+    // on linux, setup the locale to output unicode characters
+    std::locale::global(std::locale("en_US.utf8"));
+    std::wcout.imbue(std::locale());
+    // on windows, setup the wide char mode
+    // _setmode(_fileno(stdout), _O_WTEXT);
+}
+
 bool Display::update_size()
 {
     struct winsize win;

@@ -12,6 +12,7 @@
 #include <mutex>
 #include <math.h>
 #include <atomic>
+#include <locale>
 
 #include "logger.h"
 
@@ -122,6 +123,7 @@ namespace Xcurse
 
     public:
         static Display *get_display();
+        static void init();
         static std::mutex screen_mutex;
 
         // getters

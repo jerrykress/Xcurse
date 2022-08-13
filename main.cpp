@@ -10,6 +10,8 @@ using namespace std::literals::chrono_literals;
 int main(int, char **)
 {
     Display *d = Display::get_display();
+    Display::init();
+
     bool add_win0 = d->add_obj("root", "v1", new Layout("v1", Horizontal, 1));
     bool add_win3 = d->add_obj("root", "w1", new Window("w1", 1));
     // bool add_win4 = d->add_obj("root", "w4", new Window("w4", 1, "--||**##"));
