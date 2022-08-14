@@ -128,9 +128,6 @@ void Display::power_on()
         std::cout << "\e[?47h" << std::endl;
         // hide cursor
         std::cout << "\e[?25l" << std::endl;
-        // disable echo
-        system("stty -icanon");
-        system("stty -echo");
         // init refresh
         refreshLayout(m_layout, 0, 0, m_height, m_width);
         // create thread for display refresh
@@ -145,13 +142,10 @@ void Display::power_off()
     if (m_power)
     {
         m_power = false;
-        // xterm disable mouse tracking
-        system("echo \"\e[?1000l\"");
-        // join helper threads
+        // join display thread
         m_refresh_thread.join();
+        // join mouse thread
         m_mouse_in_thread.join();
-        // enable echo
-        system("stty echo");
         // enable cursor
         std::cout << "\e[?25h" << std::endl;
         // leave alternate buffer
@@ -265,15 +259,23 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
 
 void Display::mouse_handler()
 {
+    // enable special keywords
+    system("stty -icanon");
+    // disable echo
+    system("stty -echo");
+
     while (m_power)
     {
-        // TODO: Process mouse data
         snprintf(mouse_data, 17, "\e[?1003h");
+        // TODO: Process mouse data
         // for (int i = 0; i < 17; i++)
-        // {
         //     std::cout << std::hex << mouse_data[i];
-        // }
     }
+
+    // xterm disable mouse tracking
+    system("echo \"\e[?1000l\"");
+    // enable echo
+    system("stty echo");
 }
 
 void Display::status() const
