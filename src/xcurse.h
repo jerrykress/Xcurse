@@ -29,7 +29,7 @@ namespace Xcurse
 
 namespace Xcurse
 {
-    typedef std::vector<std::vector<char>> Screen;
+    typedef std::vector<std::vector<wchar_t>> Screen;
     typedef std::vector<GenericDisplayObject *> LayoutObjects;
     typedef std::map<std::string, GenericDisplayObject *> ObjTable;
 
@@ -82,14 +82,14 @@ namespace Xcurse
     class Window : public GenericDisplayObject
     {
     public:
-        Window(std::string name, int size, std::string border = "--||++++");
+        Window(std::string name, int size, std::wstring border = L"--||++++");
         const std::string _name;
-        void add_char(int x, int y, char c);
+        void add_char(int x, int y, wchar_t c);
 
     protected:
         void refresh_buffer() override;
         void draw() override;
-        std::string m_border;
+        std::wstring m_border;
     };
 
     /*
@@ -132,7 +132,7 @@ namespace Xcurse
         int get_height() const;
 
         // painters
-        void set_pixel(int x, int y, char c);
+        void set_pixel(int x, int y, wchar_t c);
 
         // object management
         bool add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o);

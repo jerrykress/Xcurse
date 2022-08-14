@@ -13,7 +13,7 @@ void GenericDisplayObject::resize(int w, int h)
     m_buffer.resize(m_height);
     for (int i = 0; i < m_height; i++)
     {
-        m_buffer[i].resize(m_width, ' ');
+        m_buffer[i].resize(m_width, L' ');
     }
 }
 
@@ -46,19 +46,19 @@ void GenericDisplayObject::clear_buffer()
 {
     for (auto &row : m_buffer)
     {
-        std::fill(row.begin(), row.end(), ' ');
+        std::fill(row.begin(), row.end(), L' ');
     }
 }
 
-Window::Window(std::string name, int size, std::string border) : _name(name)
+Window::Window(std::string name, int size, std::wstring border) : _name(name)
 {
     m_border = border;
     size_units = size;
-    m_buffer = Screen(1, std::vector<char>(1, ' '));
+    m_buffer = Screen(1, std::vector<wchar_t>(1, L' '));
     m_display_ptr = Display::get_display();
 }
 
-void Window::add_char(int x, int y, char c)
+void Window::add_char(int x, int y, wchar_t c)
 {
     if (x > 0 && x < m_width - 1 && y > 0 && y < m_height - 1)
     {
@@ -101,7 +101,7 @@ void Window::refresh_buffer()
 Layout::Layout(std::string name, Direction direction, int size) : _name(name), orientation(direction)
 {
     size_units = size;
-    m_buffer = Screen(1, std::vector<char>(1, ' '));
+    m_buffer = Screen(1, std::vector<wchar_t>(1, L' '));
 }
 
 LayoutObjects *Layout::get_objects()

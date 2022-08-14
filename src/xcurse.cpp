@@ -10,7 +10,7 @@ Display::Display()
 {
     // setup basic attr
     update_size();
-    m_screen = Screen(MAX_BUF_H, std::vector<char>(MAX_BUF_W, ' '));
+    m_screen = Screen(MAX_BUF_H, std::vector<wchar_t>(MAX_BUF_W, L' '));
     m_power = false;
     m_refresh_interval = 100;
     m_layout = new Layout("root", Vertical, 1);
@@ -65,7 +65,7 @@ int Display::get_width() const
     return m_width;
 }
 
-void Display::set_pixel(int x, int y, char c)
+void Display::set_pixel(int x, int y, wchar_t c)
 {
     if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
@@ -161,14 +161,14 @@ void Display::power_off()
 
 inline void Display::clear_terminal()
 {
-    std::cout << "\x1B[2J\x1B[H";
+    std::wcout << "\x1B[2J\x1B[H";
 }
 
 void Display::clear_buffer()
 {
     for (auto &row : m_screen)
     {
-        std::fill(row.begin(), row.end(), ' ');
+        std::fill(row.begin(), row.end(), L' ');
     }
 }
 
@@ -179,9 +179,9 @@ inline void Display::output_screen()
     {
         for (int i = 0; i < m_width; i++)
         {
-            std::cout << m_screen[j][i];
+            std::wcout << m_screen[j][i];
         }
-        std::cout << "\n";
+        std::wcout << "\n";
     }
 }
 
