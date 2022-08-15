@@ -66,6 +66,14 @@ void Window::add_char(int x, int y, wchar_t c)
     }
 }
 
+void Window::add_chars(const std::initializer_list<std::tuple<int, int, wchar_t>> &chars)
+{
+    for (auto &c : chars)
+    {
+        add_char(std::get<0>(c), std::get<1>(c), std::get<2>(c));
+    }
+}
+
 void Window::draw()
 {
     for (int y = 0; y < m_height; y++)

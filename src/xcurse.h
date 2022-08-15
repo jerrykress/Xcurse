@@ -13,7 +13,7 @@
 #include <math.h>
 #include <atomic>
 #include <locale>
-
+#include <initializer_list>
 #include "logger.h"
 
 #define MAX_BUF_W 1000
@@ -85,6 +85,7 @@ namespace Xcurse
         Window(std::string name, int size, std::wstring border = L"--||++++");
         const std::string _name;
         void add_char(int x, int y, wchar_t c);
+        void add_chars(const std::initializer_list<std::tuple<int, int, wchar_t>> &chars);
 
     protected:
         void refresh_buffer() override;
@@ -168,6 +169,8 @@ namespace Xcurse
         char mouse_data[18];
         void mouse_handler();
         std::thread m_mouse_in_thread;
+        // keyboard handler
+        int key_data;
         // windows properties
         Layout *m_layout;
         ObjTable m_obj_ptrs;

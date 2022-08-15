@@ -24,15 +24,13 @@ int main(int, char **)
 
     for (int i = 0; i < 5; i++)
     {
-        win->add_char(i, i, L'0');
+        win->add_chars({std::make_tuple(i, i, L'a')});
         //
         // win->clear_buffer();
         std::this_thread::sleep_for(1s);
     }
     // std::cin.get();
     d->power_off();
-
-    std::cout << "powered off\n";
 
     return 0;
 }

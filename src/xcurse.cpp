@@ -25,11 +25,43 @@ Display *Display::get_display()
     return m_instance;
 }
 
+/*
+    Setup the environment needed to run the display on different platforms
+*/
 void Display::init()
 {
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+// define something for Windows (32-bit and 64-bit, this part is common)
+#ifdef _WIN64
+    // define something for Windows (64-bit only)
+#else
+    // define something for Windows (32-bit only)
+#endif
+#elif __APPLE__
+#include <TargetConditionals.h>
+#if TARGET_IPHONE_SIMULATOR
+    // iOS, tvOS, or watchOS Simulator
+#elif TARGET_OS_MACCATALYST
+    // Mac's Catalyst (ports iOS API into Mac, like UIKit).
+#elif TARGET_OS_IPHONE
+    // iOS, tvOS, or watchOS device
+#elif TARGET_OS_MAC
+    // Other kinds of Apple platforms
+#else
+#error "Unknown Apple platform"
+#endif
+#elif __linux__
     // on linux, setup the locale to output unicode characters
     std::locale::global(std::locale("en_US.utf8"));
     std::wcout.imbue(std::locale());
+#elif __unix__ // all unices not caught above
+    // Unix
+#elif defined(_POSIX_VERSION)
+    // POSIX
+#else
+#error "Unknown compiler"
+#endif
+
     // on windows, setup the wide char mode
     // _setmode(_fileno(stdout), _O_WTEXT);
 }
@@ -150,6 +182,8 @@ void Display::power_off()
         std::cout << "\e[?25h" << std::endl;
         // leave alternate buffer
         std::cout << "\e[?1047l" << std::endl;
+        // TODO: fix getchar issue to remove this line
+        std::cout << "Press any key to exit..." << std::endl;
     }
 }
 
@@ -270,6 +304,8 @@ void Display::mouse_handler()
         // TODO: Process mouse data
         // for (int i = 0; i < 17; i++)
         //     std::cout << std::hex << mouse_data[i];
+
+        key_data = getchar();
     }
 
     // xterm disable mouse tracking
