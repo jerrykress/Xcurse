@@ -74,6 +74,14 @@ void Window::add_chars(const std::initializer_list<std::tuple<int, int, wchar_t>
     }
 }
 
+void Window::add_str(int x, int y, std::wstring w_str)
+{
+    for (wchar_t c : w_str)
+    {
+        add_char(x++, y, c);
+    }
+}
+
 void Window::draw()
 {
     for (int y = 0; y < m_height; y++)

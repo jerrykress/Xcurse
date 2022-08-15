@@ -21,11 +21,12 @@ int main(int, char **)
     d->power_on();
 
     Window *win = static_cast<Window *>(d->get_obj("w2"));
+    Window *winb = static_cast<Window *>(d->get_obj("w1"));
 
     for (int i = 0; i < 5; i++)
     {
         win->add_chars({std::make_tuple(i, i, L'a')});
-        //
+        winb->add_str(1, 1, L"test");
         // win->clear_buffer();
         std::this_thread::sleep_for(1s);
     }

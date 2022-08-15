@@ -86,6 +86,7 @@ namespace Xcurse
         const std::string _name;
         void add_char(int x, int y, wchar_t c);
         void add_chars(const std::initializer_list<std::tuple<int, int, wchar_t>> &chars);
+        void add_str(int x, int y, std::wstring w_str);
 
     protected:
         void refresh_buffer() override;
