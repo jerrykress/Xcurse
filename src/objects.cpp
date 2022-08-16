@@ -13,7 +13,7 @@ void GenericDisplayObject::resize(int w, int h)
     m_buffer.resize(m_height);
     for (int i = 0; i < m_height; i++)
     {
-        m_buffer[i].resize(m_width, Pixel{L' ', TEXT_COLOR_RESET});
+        m_buffer[i].resize(m_width, Pixel{});
     }
 }
 
@@ -46,7 +46,7 @@ void GenericDisplayObject::clear_buffer()
 {
     for (int i = 0; i < m_height; i++)
     {
-        std::fill(m_buffer[i].begin(), m_buffer[i].end(), Pixel{L' ', TEXT_COLOR_RESET});
+        std::fill(m_buffer[i].begin(), m_buffer[i].end(), Pixel{});
     }
 }
 
@@ -54,7 +54,7 @@ Window::Window(std::string name, int size, std::wstring border) : _name(name)
 {
     m_border = border;
     size_units = size;
-    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{L' ', TEXT_COLOR_RESET}));
+    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{}));
     m_display_ptr = Display::get_display();
 }
 
@@ -119,7 +119,7 @@ void Window::refresh_buffer()
 Layout::Layout(std::string name, Direction direction, int size) : _name(name), orientation(direction)
 {
     size_units = size;
-    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{L' ', TEXT_COLOR_RESET}));
+    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{}));
 }
 
 LayoutObjects *Layout::get_objects()

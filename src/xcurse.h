@@ -36,6 +36,10 @@
 #define TEXT_COLOR_BRIGHT_CYAN L"\x1b[36;1m"
 #define TEXT_COLOR_BRIGHT_WHITE L"\x1b[37;1m"
 
+#define TEXT_STYLE_BOLD L"\x1b[1m"
+#define TEXT_STYLE_UNDERLINE L"\x1b[4m"
+#define TEXT_STYLE_REVERSED L"\x1b[7m"
+
 #define BACKGROUND_COLOR_BLACK L"\x1b[40m"
 #define BACKGROUND_COLOR_RED L"\x1b[41m"
 #define BACKGROUND_COLOR_GREEN L"\x1b[42m"
@@ -80,9 +84,9 @@ namespace Xcurse
 
     struct Pixel
     {
-        wchar_t data;
-        TextColor tx_color;
-        BgColor bg_color;
+        wchar_t data = L' ';
+        TextColor tx_color = TEXT_COLOR_RESET;
+        BgColor bg_color = BACKGROUND_COLOR_RESET;
     };
 
     struct Position

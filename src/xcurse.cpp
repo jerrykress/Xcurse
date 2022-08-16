@@ -16,7 +16,7 @@ Display::Display()
 {
     // setup basic attr
     update_size();
-    m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel{L' ', TEXT_COLOR_RESET}));
+    m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel{}));
     m_power = false;
     m_refresh_interval = 100;
     m_layout = new Layout("root", Vertical, 1);
@@ -213,7 +213,7 @@ void Display::clear_buffer()
 {
     for (auto &row : m_screen)
     {
-        std::fill(row.begin(), row.end(), Pixel{L' ', TEXT_COLOR_RESET});
+        std::fill(row.begin(), row.end(), Pixel{});
     }
 }
 
