@@ -13,7 +13,7 @@ void GenericDisplayObject::resize(int w, int h)
     m_buffer.resize(m_height);
     for (int i = 0; i < m_height; i++)
     {
-        m_buffer[i].resize(m_width, Pixel{L' ', ANSI_COLOR_RESET});
+        m_buffer[i].resize(m_width, Pixel{L' ', TEXT_COLOR_RESET});
     }
 }
 
@@ -46,7 +46,7 @@ void GenericDisplayObject::clear_buffer()
 {
     for (int i = 0; i < m_height; i++)
     {
-        std::fill(m_buffer[i].begin(), m_buffer[i].end(), Pixel{L' ', ANSI_COLOR_RESET});
+        std::fill(m_buffer[i].begin(), m_buffer[i].end(), Pixel{L' ', TEXT_COLOR_RESET});
     }
 }
 
@@ -54,28 +54,29 @@ Window::Window(std::string name, int size, std::wstring border) : _name(name)
 {
     m_border = border;
     size_units = size;
-    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{L' ', ANSI_COLOR_RESET}));
+    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{L' ', TEXT_COLOR_RESET}));
     m_display_ptr = Display::get_display();
 }
 
-void Window::add_char(int x, int y, wchar_t c, PixelColor color)
+void Window::add_char(int x, int y, wchar_t c, TextColor tx_color, BgColor bg_color)
 {
     if (x > 0 && x < m_width - 1 && y > 0 && y < m_height - 1)
     {
         m_buffer[y][x].data = c;
-        m_buffer[y][x].color = color;
+        m_buffer[y][x].tx_color = tx_color;
+        m_buffer[y][x].bg_color = bg_color;
     }
 }
 
-void Window::add_chars(const std::initializer_list<std::tuple<int, int, wchar_t, PixelColor>> &chars)
+void Window::add_chars(const std::initializer_list<std::tuple<int, int, wchar_t, TextColor, BgColor>> &chars)
 {
     for (auto &c : chars)
     {
-        add_char(std::get<0>(c), std::get<1>(c), std::get<2>(c), std::get<3>(c));
+        add_char(std::get<0>(c), std::get<1>(c), std::get<2>(c), std::get<3>(c), std::get<4>(c));
     }
 }
 
-void Window::add_str(int x, int y, const std::wstring &w_str, PixelColor color)
+void Window::add_str(int x, int y, const std::wstring &w_str, TextColor color)
 {
     for (wchar_t c : w_str)
     {
@@ -118,7 +119,7 @@ void Window::refresh_buffer()
 Layout::Layout(std::string name, Direction direction, int size) : _name(name), orientation(direction)
 {
     size_units = size;
-    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{L' ', ANSI_COLOR_RESET}));
+    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{L' ', TEXT_COLOR_RESET}));
 }
 
 LayoutObjects *Layout::get_objects()

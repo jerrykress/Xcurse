@@ -6,7 +6,7 @@ using namespace std::literals::chrono_literals;
 // overloading << for pixel output
 std::wostream &operator<<(std::wostream &out, const Pixel &px)
 {
-    return out << px.color << px.data;
+    return out << px.bg_color << px.tx_color << px.data;
 }
 
 // Initialise instance pointer
@@ -16,7 +16,7 @@ Display::Display()
 {
     // setup basic attr
     update_size();
-    m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel{L' ', ANSI_COLOR_RESET}));
+    m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel{L' ', TEXT_COLOR_RESET}));
     m_power = false;
     m_refresh_interval = 100;
     m_layout = new Layout("root", Vertical, 1);
@@ -49,8 +49,6 @@ void Display::init()
     // iOS, tvOS, or watchOS Simulator
 #elif TARGET_OS_MACCATALYST
     // Mac's Catalyst (ports iOS API into Mac, like UIKit).
-#elif TARGET_OS_IPHONE
-    // iOS, tvOS, or watchOS device
 #elif TARGET_OS_MAC
     // Other kinds of Apple platforms
 #else
@@ -106,12 +104,13 @@ int Display::get_width() const
     return m_width;
 }
 
-void Display::set_pixel(int x, int y, wchar_t c, PixelColor color)
+void Display::set_pixel(int x, int y, wchar_t c, TextColor tx_color, BgColor bg_color)
 {
     if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
         m_screen[y + 1][x].data = c;
-        m_screen[y + 1][x].color = color;
+        m_screen[y + 1][x].tx_color = tx_color;
+        m_screen[y + 1][x].bg_color = bg_color;
     }
 }
 
@@ -214,7 +213,7 @@ void Display::clear_buffer()
 {
     for (auto &row : m_screen)
     {
-        std::fill(row.begin(), row.end(), Pixel{L' ', ANSI_COLOR_RESET});
+        std::fill(row.begin(), row.end(), Pixel{L' ', TEXT_COLOR_RESET});
     }
 }
 

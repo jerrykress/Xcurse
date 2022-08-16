@@ -26,7 +26,7 @@ int main(int, char **)
 
     for (int i = 0; i < 5; i++)
     {
-        win->add_chars({std::make_tuple(i, i, L'a', ANSI_COLOR_BLUE)});
+        win->add_chars({std::make_tuple(i, i, L'a', TEXT_COLOR_BRIGHT_BLUE, BACKGROUND_COLOR_RED)});
         winb->add_str(1, 1, L"test");
         // win->clear_buffer();
         std::this_thread::sleep_for(1s);
