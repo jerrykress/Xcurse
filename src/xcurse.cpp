@@ -3,6 +3,12 @@
 using namespace Xcurse;
 using namespace std::literals::chrono_literals;
 
+// overloading << for pixel output
+std::wostream &operator<<(std::wostream &out, const Pixel &px)
+{
+    return out << px.color << px.data;
+}
+
 // Initialise instance pointer
 Display *Display::m_instance = NULL;
 
@@ -10,7 +16,7 @@ Display::Display()
 {
     // setup basic attr
     update_size();
-    m_screen = Screen(MAX_BUF_H, std::vector<wchar_t>(MAX_BUF_W, L' '));
+    m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel{L' ', ANSI_COLOR_RESET}));
     m_power = false;
     m_refresh_interval = 100;
     m_layout = new Layout("root", Vertical, 1);
@@ -100,11 +106,20 @@ int Display::get_width() const
     return m_width;
 }
 
-void Display::set_pixel(int x, int y, wchar_t c)
+void Display::set_pixel(int x, int y, wchar_t c, PixelColor color)
 {
     if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
-        m_screen[y + 1][x] = c;
+        m_screen[y + 1][x].data = c;
+        m_screen[y + 1][x].color = color;
+    }
+}
+
+void Display::set_pixel(int x, int y, Pixel px)
+{
+    if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
+    {
+        m_screen[y + 1][x] = px;
     }
 }
 
@@ -164,7 +179,7 @@ void Display::power_on()
         // hide cursor
         std::cout << "\e[?25l" << std::endl;
         // init refresh
-        refreshLayout(m_layout, 0, 0, m_height, m_width);
+        refreshLayout(m_layout, 0, 0, m_height, m_width, true);
         // create thread for display refresh
         m_refresh_thread = std::thread(&Display::refresh, this);
         // create thread for mouse input handle
@@ -199,7 +214,7 @@ void Display::clear_buffer()
 {
     for (auto &row : m_screen)
     {
-        std::fill(row.begin(), row.end(), L' ');
+        std::fill(row.begin(), row.end(), Pixel{L' ', ANSI_COLOR_RESET});
     }
 }
 
@@ -220,11 +235,12 @@ void Display::refresh()
 {
     while (m_power)
     {
+        clear_terminal();
         clear_buffer();
         // get size update status
         bool is_resize = update_size();
         // update layout
-        refreshLayout(m_layout, 0, 0, m_height, m_width);
+        refreshLayout(m_layout, 0, 0, m_height, m_width, is_resize);
         // output screen
         output_screen();
         // wait for next refresh
@@ -237,7 +253,7 @@ void Display::set_refresh_interval(int ms)
     m_refresh_interval = ms;
 }
 
-void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int max_width)
+void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_resize)
 {
 
     LayoutObjects &objects = *(layout->get_objects());
@@ -249,13 +265,16 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
     {
         for (auto object : objects)
         {
-            object->m_height = max_height;
-            object->m_width = std::floor(1.0f * max_width * object->size_units / total_units);
-            object->resize(object->m_width, object->m_height);
+            if (is_resize)
+            {
+                object->m_height = max_height;
+                object->m_width = std::floor(1.0f * max_width * object->size_units / total_units);
+                object->resize(object->m_width, object->m_height);
+            }
 
             if (typeid(*object) == typeid(Layout))
             {
-                refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_width);
+                refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_width, is_resize);
             }
 
             object->refresh_buffer();
@@ -273,13 +292,16 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
     {
         for (auto object : objects)
         {
-            object->m_width = max_width;
-            object->m_height = std::floor(1.0f * max_height * object->size_units / total_units);
-            object->resize(object->m_width, object->m_height);
+            if (is_resize)
+            {
+                object->m_width = max_width;
+                object->m_height = std::floor(1.0f * max_height * object->size_units / total_units);
+                object->resize(object->m_width, object->m_height);
+            }
 
             if (typeid(*object) == typeid(Layout))
             {
-                refreshLayout(static_cast<Layout *>(object), x, y, object->m_height, max_width);
+                refreshLayout(static_cast<Layout *>(object), x, y, object->m_height, max_width, is_resize);
             }
 
             object->refresh_buffer();

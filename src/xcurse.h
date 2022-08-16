@@ -19,24 +19,42 @@
 #define MAX_BUF_W 1000
 #define MAX_BUF_H 1000
 
+#define DEFAULT_WIN_BORDER L"--||++++"
+
+#define ANSI_COLOR_RED L"\x1b[31m"
+#define ANSI_COLOR_GREEN L"\x1b[32m"
+#define ANSI_COLOR_YELLOW L"\x1b[33m"
+#define ANSI_COLOR_BLUE L"\x1b[34m"
+#define ANSI_COLOR_MAGENTA L"\x1b[35m"
+#define ANSI_COLOR_CYAN L"\x1b[36m"
+#define ANSI_COLOR_RESET L"\x1b[0m"
+
 // forward declare
 namespace Xcurse
 {
     class Display;
     class GenericDisplayObject;
     struct ObjInfo;
+    struct Pixel;
 }
 
 namespace Xcurse
 {
-    typedef std::vector<std::vector<wchar_t>> Screen;
+    typedef std::vector<std::vector<Pixel>> Screen;
     typedef std::vector<GenericDisplayObject *> LayoutObjects;
     typedef std::map<std::string, GenericDisplayObject *> ObjTable;
+    typedef std::wstring PixelColor;
 
     enum Direction
     {
         Horizontal,
         Vertical
+    };
+
+    struct Pixel
+    {
+        wchar_t data;
+        PixelColor color;
     };
 
     struct Position
@@ -82,11 +100,11 @@ namespace Xcurse
     class Window : public GenericDisplayObject
     {
     public:
-        Window(std::string name, int size, std::wstring border = L"--\u2611\u2611++++");
+        Window(std::string name, int size, std::wstring border = DEFAULT_WIN_BORDER);
         const std::string _name;
-        void add_char(int x, int y, wchar_t c);
-        void add_chars(const std::initializer_list<std::tuple<int, int, wchar_t>> &chars);
-        void add_str(int x, int y, const std::wstring &w_str);
+        void add_char(int x, int y, wchar_t c, PixelColor color = ANSI_COLOR_RESET);
+        void add_chars(const std::initializer_list<std::tuple<int, int, wchar_t, PixelColor>> &chars);
+        void add_str(int x, int y, const std::wstring &w_str, PixelColor color = ANSI_COLOR_RESET);
 
     protected:
         void refresh_buffer() override;
@@ -134,7 +152,8 @@ namespace Xcurse
         int get_height() const;
 
         // painters
-        void set_pixel(int x, int y, wchar_t c);
+        void set_pixel(int x, int y, wchar_t c, PixelColor color);
+        void set_pixel(int x, int y, Pixel px);
 
         // object management
         bool add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o);
@@ -148,7 +167,7 @@ namespace Xcurse
         bool update_size();
         void set_refresh_interval(int ms);
         void output_screen();
-        void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width);
+        void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_refresh);
 
         void status() const;
 

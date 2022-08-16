@@ -11,6 +11,7 @@ int main(int, char **)
 {
     Display *d = Display::get_display();
     Display::init();
+    d->set_refresh_interval(200);
 
     bool add_win0 = d->add_obj("root", "v1", new Layout("v1", Horizontal, 1));
     bool add_win3 = d->add_obj("root", "w1", new Window("w1", 1));
@@ -25,7 +26,7 @@ int main(int, char **)
 
     for (int i = 0; i < 5; i++)
     {
-        win->add_chars({std::make_tuple(i, i, L'\u2611')});
+        win->add_chars({std::make_tuple(i, i, L'a', ANSI_COLOR_BLUE)});
         winb->add_str(1, 1, L"test");
         // win->clear_buffer();
         std::this_thread::sleep_for(1s);
