@@ -74,7 +74,7 @@ void Window::add_chars(const std::initializer_list<std::tuple<int, int, wchar_t>
     }
 }
 
-void Window::add_str(int x, int y, std::wstring w_str)
+void Window::add_str(int x, int y, const std::wstring &w_str)
 {
     for (wchar_t c : w_str)
     {

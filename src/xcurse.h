@@ -82,11 +82,11 @@ namespace Xcurse
     class Window : public GenericDisplayObject
     {
     public:
-        Window(std::string name, int size, std::wstring border = L"--||++++");
+        Window(std::string name, int size, std::wstring border = L"--\u2611\u2611++++");
         const std::string _name;
         void add_char(int x, int y, wchar_t c);
         void add_chars(const std::initializer_list<std::tuple<int, int, wchar_t>> &chars);
-        void add_str(int x, int y, std::wstring w_str);
+        void add_str(int x, int y, const std::wstring &w_str);
 
     protected:
         void refresh_buffer() override;

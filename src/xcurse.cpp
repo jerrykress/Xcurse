@@ -56,6 +56,9 @@ void Display::init()
     std::wcout.imbue(std::locale());
 #elif __unix__ // all unices not caught above
     // Unix
+    // on linux, setup the locale to output unicode characters
+    std::locale::global(std::locale("en_US.utf8"));
+    std::wcout.imbue(std::locale());
 #elif defined(_POSIX_VERSION)
     // POSIX
 #else
