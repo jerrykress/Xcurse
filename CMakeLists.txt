@@ -4,7 +4,7 @@ project(Xcurse VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(Xcurse main.cpp src/xcurse.cpp src/objects.cpp src/logger.cpp)
+add_executable(Xcurse main.cpp src/xcurse.cpp src/objects.cpp src/stylable.cpp src/pixel.cpp src/logger.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

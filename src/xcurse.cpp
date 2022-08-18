@@ -3,12 +3,6 @@
 using namespace Xcurse;
 using namespace std::literals::chrono_literals;
 
-// overloading << for pixel output
-std::wostream &operator<<(std::wostream &out, const Pixel &px)
-{
-    return out << px.bg_color << px.tx_color << px.data;
-}
-
 // Initialise instance pointer
 Display *Display::m_instance = NULL;
 
@@ -88,10 +82,10 @@ bool Display::update_size()
     return false;
 }
 
-Display::Size Display::get_size()
+Size Display::get_size()
 {
     update_size();
-    return Display::Size{m_width, m_height};
+    return Size{m_width, m_height};
 }
 
 int Display::get_height() const
@@ -104,21 +98,34 @@ int Display::get_width() const
     return m_width;
 }
 
-void Display::set_pixel(int x, int y, wchar_t c, TextColor tx_color, BgColor bg_color)
+void Display::set_pixel(GenericDisplayObject *caller, int x, int y, const Pixel &px)
 {
-    if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
+    if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
-        m_screen[y + 1][x].data = c;
-        m_screen[y + 1][x].tx_color = tx_color;
-        m_screen[y + 1][x].bg_color = bg_color;
+        m_screen[y][x] = px;
     }
 }
 
-void Display::set_pixel(int x, int y, Pixel px)
+void Display::set_pixel(GenericDisplayObject *caller, const Position &loc, const Pixel &px)
 {
-    if (x > -1 && x < m_width && y > -1 && y < m_height - 1)
+    set_pixel(caller, loc.x, loc.y, px);
+}
+
+void Display::set_pixel(GenericDisplayObject *caller, const Position &loc, const Position &offset, const Pixel &px)
+{
+    set_pixel(caller, loc + offset, px);
+}
+
+void Display::set_pixel(GenericDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
+{
+    if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
-        m_screen[y + 1][x] = px;
+        m_screen[y][x].data = c;
+        m_screen[y][x].foreground = foreground;
+        m_screen[y][x].background = background;
+        m_screen[y][x].bold = bold;
+        m_screen[y][x].underline = underline;
+        m_screen[y][x].reversed = reversed;
     }
 }
 
@@ -257,8 +264,8 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
 
     LayoutObjects &objects = *(layout->get_objects());
 
-    int total_units = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, GenericDisplayObject *o)
-                                      { return a + o->size_units; });
+    int sum_weight = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, GenericDisplayObject *o)
+                                     { return a + o->m_weight; });
 
     if (layout->orientation == Horizontal)
     {
@@ -266,24 +273,20 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
         {
             if (is_resize)
             {
-                object->m_height = max_height;
-                object->m_width = std::floor(1.0f * max_width * object->size_units / total_units);
-                object->resize(object->m_width, object->m_height);
+                object->m_size.height = max_height;
+                object->m_size.width = std::floor(1.0f * max_width * object->m_weight / sum_weight);
             }
 
             if (typeid(*object) == typeid(Layout))
             {
-                refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_width, is_resize);
+                refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_size.width, is_resize);
             }
 
-            object->refresh_buffer();
             object->draw();
-            //! change this later
-            object->clear_buffer();
 
-            object->m_x = x;
-            object->m_y = y;
-            x += object->m_width;
+            object->m_loc.x = x;
+            object->m_loc.y = y;
+            x += object->m_size.width;
         }
     }
 
@@ -293,24 +296,20 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
         {
             if (is_resize)
             {
-                object->m_width = max_width;
-                object->m_height = std::floor(1.0f * max_height * object->size_units / total_units);
-                object->resize(object->m_width, object->m_height);
+                object->m_size.width = max_width;
+                object->m_size.height = std::floor(1.0f * max_height * object->m_weight / sum_weight);
             }
 
             if (typeid(*object) == typeid(Layout))
             {
-                refreshLayout(static_cast<Layout *>(object), x, y, object->m_height, max_width, is_resize);
+                refreshLayout(static_cast<Layout *>(object), x, y, object->m_size.height, max_width, is_resize);
             }
 
-            object->refresh_buffer();
             object->draw();
-            //! change this later
-            object->clear_buffer();
 
-            object->m_x = x;
-            object->m_y = y;
-            y += object->m_height;
+            object->m_loc.x = x;
+            object->m_loc.y = y;
+            y += object->m_size.height;
         }
     }
 }
@@ -336,22 +335,4 @@ void Display::mouse_handler()
     system("echo \"\e[?1000l\"");
     // enable echo
     system("stty echo");
-}
-
-void Display::status() const
-{
-    std::cout << "terminal size: " << m_width << "x" << m_height << std::endl;
-    std::cout << "m_obj_ptr size: " << m_obj_ptrs.size() << std::endl;
-    std::cout << "m_layout size: " << m_layout->m_objects.size() << std::endl;
-
-    for (auto &obj : m_obj_ptrs)
-    {
-        std::cout << obj.first << ": ";
-        std::cout << obj.second->m_x << ", "
-                  << obj.second->m_y << ", "
-                  << obj.second->m_width << ", "
-                  << obj.second->m_height << ", "
-                  << obj.second->size_units << "\n"
-                  << std::endl;
-    }
 }

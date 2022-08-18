@@ -12,6 +12,7 @@
 #include <locale>
 #include <initializer_list>
 
+#include "color.h"
 #include "logger.h"
 
 #define MAX_BUF_W 1000
@@ -19,53 +20,13 @@
 
 #define DEFAULT_WIN_BORDER L"--||++++"
 
-#define TEXT_COLOR_RED L"\x1b[31m"
-#define TEXT_COLOR_GREEN L"\x1b[32m"
-#define TEXT_COLOR_YELLOW L"\x1b[33m"
-#define TEXT_COLOR_BLUE L"\x1b[34m"
-#define TEXT_COLOR_MAGENTA L"\x1b[35m"
-#define TEXT_COLOR_CYAN L"\x1b[36m"
-#define TEXT_COLOR_RESET L"\x1b[0m"
-
-#define TEXT_COLOR_BRIGHT_BLACK L"\x1b[30;1m"
-#define TEXT_COLOR_BRIGHT_RED L"\x1b[31;1m"
-#define TEXT_COLOR_BRIGHT_GREEN L"\x1b[32;1m"
-#define TEXT_COLOR_BRIGHT_YELLOW L"\x1b[33;1m"
-#define TEXT_COLOR_BRIGHT_BLUE L"\x1b[34;1m"
-#define TEXT_COLOR_BRIGHT_MAGENTA L"\x1b[35;1m"
-#define TEXT_COLOR_BRIGHT_CYAN L"\x1b[36;1m"
-#define TEXT_COLOR_BRIGHT_WHITE L"\x1b[37;1m"
-
-#define TEXT_STYLE_BOLD L"\x1b[1m"
-#define TEXT_STYLE_UNDERLINE L"\x1b[4m"
-#define TEXT_STYLE_REVERSED L"\x1b[7m"
-
-#define BACKGROUND_COLOR_BLACK L"\x1b[40m"
-#define BACKGROUND_COLOR_RED L"\x1b[41m"
-#define BACKGROUND_COLOR_GREEN L"\x1b[42m"
-#define BACKGROUND_COLOR_YELLOW L"\x1b[43m"
-#define BACKGROUND_COLOR_BLUE L"\x1b[44m"
-#define BACKGROUND_COLOR_MAGENTA L"\x1b[45m"
-#define BACKGROUND_COLOR_CYAN L"\x1b[46m"
-#define BACKGROUND_COLOR_WHITE L"\x1b[47m"
-#define BACKGROUND_COLOR_RESET L"\x1b[0m"
-
-#define BACKGROUND_COLOR_BRIGHT_BLACK L"\x1b[40;1m"
-#define BACKGROUND_COLOR_BRIGHT_RED L"\x1b[41;1m"
-#define BACKGROUND_COLOR_BRIGHT_GREEB L"\x1b[42;1m"
-#define BACKGROUND_COLOR_BRIGHT_YELLOW L"\x1b[43;1m"
-#define BACKGROUND_COLOR_BRIGHT_BLUE L"\x1b[44;1m"
-#define BACKGROUND_COLOR_BRIGHT_MAGENTA L"\x1b[45;1m"
-#define BACKGROUND_COLOR_BRIGHT_CYAN L"\x1b[46;1m"
-#define BACKGROUND_COLOR_BRIGHT_WHITE L"\x1b[47;1m"
-
 // forward declare
 namespace Xcurse
 {
     class Display;
     class GenericDisplayObject;
-    struct ObjInfo;
-    struct Pixel;
+    class Stylable;
+    class Pixel;
 }
 
 namespace Xcurse
@@ -73,8 +34,7 @@ namespace Xcurse
     typedef std::vector<std::vector<Pixel>> Screen;
     typedef std::vector<GenericDisplayObject *> LayoutObjects;
     typedef std::map<std::string, GenericDisplayObject *> ObjTable;
-    typedef std::wstring TextColor;
-    typedef std::wstring BgColor;
+    typedef std::wstring Style;
 
     enum Direction
     {
@@ -82,66 +42,122 @@ namespace Xcurse
         Vertical
     };
 
-    struct Pixel
+    class Stylable
     {
+    public:
+        Stylable();
+        Stylable(Style foreground, Style background, bool bold, bool underline, bool reversed);
+        Stylable(const Stylable &that);
+        Stylable(Stylable &&that);
+        Stylable &operator=(const Stylable &that) noexcept;
+        Stylable &operator=(Stylable &&that) noexcept;
+        ~Stylable();
+
+        std::wstring style() const;
+
+        Style foreground = TEXT_COLOR_RESET, background = BACKGROUND_COLOR_RESET;
+        bool bold = false, underline = false, reversed = false;
+    };
+
+    class Pixel : public Stylable
+    {
+    public:
+        Pixel();
+        Pixel(wchar_t c);
+        Pixel(wchar_t c, Stylable &s);
+        Pixel(wchar_t c, Stylable &&s);
+        Pixel(const Pixel &that);
+        Pixel(Pixel &&that);
+        Pixel &operator=(const Pixel &that) noexcept;
+        Pixel &operator=(Pixel &&that) noexcept;
+        ~Pixel();
+
+        friend std::wostream &operator<<(std::wostream &out, const Pixel &px);
+
         wchar_t data = L' ';
-        TextColor tx_color = TEXT_COLOR_RESET;
-        BgColor bg_color = BACKGROUND_COLOR_RESET;
     };
 
     struct Position
     {
-        int x, y;
+        bool operator<(const Position &that) const;
+        bool operator==(const Position &that) const;
+        Position &operator+=(const Position &that);
+        friend Position operator+(Position p1, const Position &p2)
+        {
+            p1 += p2;
+            return p1;
+        }
+
+        int x = 0, y = 0;
+    };
+
+    struct Size
+    {
+        bool operator==(Size &that);
+
+        int width = 0, height = 0;
     };
 
     class GenericDisplayObject
     {
     public:
-        GenericDisplayObject *parent_ptr;
-        virtual void clear_buffer();
-        virtual void resize(int w, int h);
+        GenericDisplayObject();
+
         int get_height() const;
         int get_width() const;
-        int get_size() const;
-        Position get_pos() const;
+        int get_weight() const;
+        Size get_size() const;
+        Position get_loc() const;
+
+        GenericDisplayObject *parent_ptr;
+        std::string _name;
 
     protected:
-        const std::string _name;
-        int m_x, m_y, m_width, m_height, size_units;
+        Position m_loc;
+        Size m_size;
+        int m_weight;
         Display *m_display_ptr;
-        Screen m_buffer;
+
         virtual void draw();
-        virtual void refresh_buffer();
         friend class Display;
     };
 
-    class Text : public GenericDisplayObject
+    class GenericTextObject : public GenericDisplayObject, public Stylable
     {
     public:
-        Text(std::string data);
-        void set_data(std::string data);
-        std::string get_data() const;
+        void set_data(std::wstring data);
+        std::wstring get_data() const;
 
     protected:
-        std::string m_data;
+        std::wstring m_data;
     };
 
     /*
     Window Class
     */
-    class Window : public GenericDisplayObject
+    class GenericWindowObject : public GenericDisplayObject, public Stylable
     {
     public:
-        Window(std::string name, int size, std::wstring border = DEFAULT_WIN_BORDER);
-        const std::string _name;
-        void add_char(int x, int y, wchar_t c, TextColor tx_color = TEXT_COLOR_RESET, BgColor bg_color = BACKGROUND_COLOR_RESET);
-        void add_chars(const std::initializer_list<std::tuple<int, int, wchar_t, TextColor, BgColor>> &chars);
-        void add_str(int x, int y, const std::wstring &w_str, TextColor color = TEXT_COLOR_RESET);
+        GenericWindowObject();
+        void set_override_win_style(bool b);
 
     protected:
-        void refresh_buffer() override;
-        void draw() override;
         std::wstring m_border;
+        bool override_win_style;
+    };
+
+    class GridWindow : public GenericWindowObject
+    {
+        typedef std::map<Position, Pixel> WindowData;
+
+    public:
+        GridWindow(std::string name, int size, std::wstring border = DEFAULT_WIN_BORDER);
+        void add_char(int x, int y, wchar_t c, Style foreground = TEXT_COLOR_RESET, Style background = BACKGROUND_COLOR_RESET, bool bold = false, bool underline = false, bool reversed = false);
+        bool clear_char(int x, int y);
+
+    protected:
+        WindowData m_windata;
+        void draw() override;
     };
 
     /*
@@ -164,14 +180,6 @@ namespace Xcurse
 
     class Display
     {
-        struct Size
-        {
-            bool operator==(Size &that)
-            {
-                return width == that.width && height == that.height;
-            }
-            int width, height;
-        };
 
     public:
         static Display *get_display();
@@ -179,13 +187,15 @@ namespace Xcurse
         static std::mutex screen_mutex;
 
         // getters
-        Display::Size get_size();
+        Size get_size();
         int get_width() const;
         int get_height() const;
 
         // painters
-        void set_pixel(int x, int y, wchar_t c, TextColor tx_color, BgColor bg_color);
-        void set_pixel(int x, int y, Pixel px);
+        void set_pixel(GenericDisplayObject *caller, int x, int y, const Pixel &px);
+        void set_pixel(GenericDisplayObject *caller, const Position &loc, const Pixel &px);
+        void set_pixel(GenericDisplayObject *caller, const Position &loc, const Position &offset, const Pixel &px);
+        void set_pixel(GenericDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold = false, bool underline = false, bool reversed = false);
 
         // object management
         bool add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o);
@@ -200,8 +210,6 @@ namespace Xcurse
         void set_refresh_interval(int ms);
         void output_screen();
         void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_refresh);
-
-        void status() const;
 
     private:
         static Display *m_instance;

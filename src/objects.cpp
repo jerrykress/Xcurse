@@ -3,123 +3,89 @@
 
 using namespace Xcurse;
 
+GenericDisplayObject::GenericDisplayObject() {}
+
 void GenericDisplayObject::draw()
 {
-    return;
-}
-
-void GenericDisplayObject::resize(int w, int h)
-{
-    m_buffer.resize(m_height);
-    for (int i = 0; i < m_height; i++)
-    {
-        m_buffer[i].resize(m_width, Pixel{});
-    }
+    throw std::runtime_error("Object could not update content to display. Draw() method not implemented");
 }
 
 int GenericDisplayObject::get_height() const
 {
-    return m_height;
+    return m_size.height;
 }
 
 int GenericDisplayObject::get_width() const
 {
-    return m_width;
+    return m_size.width;
 }
 
-int GenericDisplayObject::get_size() const
+int GenericDisplayObject::get_weight() const
 {
-    return size_units;
+    return m_weight;
 }
 
-Position GenericDisplayObject::get_pos() const
+Position GenericDisplayObject::get_loc() const
 {
-    return Position{m_x, m_y};
+    return m_loc;
 }
 
-void GenericDisplayObject::refresh_buffer()
+Size GenericDisplayObject::get_size() const
 {
-    return;
+    return m_size;
 }
 
-void GenericDisplayObject::clear_buffer()
+GenericWindowObject::GenericWindowObject() {}
+
+void GenericWindowObject::set_override_win_style(bool b)
 {
-    for (int i = 0; i < m_height; i++)
-    {
-        std::fill(m_buffer[i].begin(), m_buffer[i].end(), Pixel{});
-    }
+    override_win_style = b;
 }
 
-Window::Window(std::string name, int size, std::wstring border) : _name(name)
+GridWindow::GridWindow(std::string name, int weight, std::wstring border)
 {
+    _name = name;
     m_border = border;
-    size_units = size;
-    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{}));
+    m_weight = weight;
     m_display_ptr = Display::get_display();
 }
 
-void Window::add_char(int x, int y, wchar_t c, TextColor tx_color, BgColor bg_color)
+void GridWindow::add_char(int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
 {
-    if (x > 0 && x < m_width - 1 && y > 0 && y < m_height - 1)
+    if (x > 0 && x < m_size.width - 1 && y > 0 && y < m_size.height - 1)
     {
-        m_buffer[y][x].data = c;
-        m_buffer[y][x].tx_color = tx_color;
-        m_buffer[y][x].bg_color = bg_color;
+        m_windata[Position{x, y}] = Pixel(c);
     }
 }
 
-void Window::add_chars(const std::initializer_list<std::tuple<int, int, wchar_t, TextColor, BgColor>> &chars)
+void GridWindow::draw()
 {
-    for (auto &c : chars)
+    for (int i = 1; i < m_size.width - 1; i++)
     {
-        add_char(std::get<0>(c), std::get<1>(c), std::get<2>(c), std::get<3>(c), std::get<4>(c));
+        m_display_ptr->set_pixel(this, i, 0, Pixel(m_border[0], *this));
+        m_display_ptr->set_pixel(this, i, m_size.height - 1, Pixel(m_border[1], *this));
+    }
+
+    for (int i = 1; i < m_size.height - 1; i++)
+    {
+        m_display_ptr->set_pixel(this, 0, i, Pixel(m_border[2], *this));
+        m_display_ptr->set_pixel(this, m_size.width - 1, i, Pixel(m_border[3], *this));
+    }
+
+    m_display_ptr->set_pixel(this, 0, 0, Pixel(m_border[4], *this));
+    m_display_ptr->set_pixel(this, m_size.width - 1, 0, Pixel(m_border[5], *this));
+    m_display_ptr->set_pixel(this, 0, m_size.height - 1, Pixel(m_border[6], *this));
+    m_display_ptr->set_pixel(this, m_size.width - 1, m_size.height - 1, Pixel(m_border[7], *this));
+
+    for (auto &data : m_windata)
+    {
+        m_display_ptr->set_pixel(this, data.first, data.second);
     }
 }
 
-void Window::add_str(int x, int y, const std::wstring &w_str, TextColor color)
+Layout::Layout(std::string name, Direction direction, int weight) : _name(name), orientation(direction)
 {
-    for (wchar_t c : w_str)
-    {
-        add_char(x++, y, c, color);
-    }
-}
-
-void Window::draw()
-{
-    for (int y = 0; y < m_height; y++)
-    {
-        for (int x = 0; x < m_width; x++)
-        {
-            m_display_ptr->set_pixel(x + m_x, y + m_y, m_buffer[y][x]);
-        }
-    }
-}
-
-void Window::refresh_buffer()
-{
-    // draw top and bottom
-    for (int i = 1; i < m_width - 1; i++)
-    {
-        m_buffer.front()[i].data = m_border[0];
-        m_buffer.back()[i].data = m_border[1];
-    }
-    // draw left and right
-    for (int i = 1; i < m_height - 1; i++)
-    {
-        m_buffer[i].front().data = m_border[2];
-        m_buffer[i].back().data = m_border[3];
-    }
-    // draw four corners
-    m_buffer.front().front().data = m_border[4];
-    m_buffer.front().back().data = m_border[5];
-    m_buffer.back().front().data = m_border[6];
-    m_buffer.back().back().data = m_border[7];
-}
-
-Layout::Layout(std::string name, Direction direction, int size) : _name(name), orientation(direction)
-{
-    size_units = size;
-    m_buffer = Screen(1, std::vector<Pixel>(1, Pixel{}));
+    m_weight = weight;
 }
 
 LayoutObjects *Layout::get_objects()
@@ -127,8 +93,30 @@ LayoutObjects *Layout::get_objects()
     return &m_objects;
 }
 
-Text::Text(std::string data) : m_data(data)
+bool Position::operator<(const Position &that) const
 {
-    m_height = 1;
-    m_width = data.size();
+    return (y == that.y) ? (x < that.x) : (y < that.y);
+}
+
+bool Position::operator==(const Position &that) const
+{
+    return (x == that.x) && (y == that.y);
+}
+
+Position &Position::operator+=(const Position &that)
+{
+    x += that.x;
+    y += that.y;
+    return *this;
+}
+
+// Position operator+(Position p1, const Position &p2)
+// {
+//     p1 += p2;
+//     return p1;
+// }
+
+bool Size::operator==(Size &that)
+{
+    return width == that.width && height == that.height;
 }
