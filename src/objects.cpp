@@ -119,6 +119,11 @@ bool GridWindow::clear_char(int x, int y)
     return false;
 }
 
+void GridWindow::clean()
+{
+    m_windata.clear();
+}
+
 void GridWindow::draw()
 {
     if (show_border)

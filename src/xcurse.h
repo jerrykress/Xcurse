@@ -161,6 +161,7 @@ namespace Xcurse
         GridWindow(std::string name, int size, std::wstring border = DEFAULT_WIN_BORDER);
         void add_char(int x, int y, wchar_t c, Style foreground = TEXT_COLOR_RESET, Style background = BACKGROUND_COLOR_RESET, bool bold = false, bool underline = false, bool reversed = false);
         bool clear_char(int x, int y);
+        void clean();
 
     protected:
         WindowData m_windata;
@@ -217,6 +218,8 @@ namespace Xcurse
         void set_refresh_interval(int ms);
         void output_screen();
         void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_refresh);
+
+        GenericDisplayObject *&operator[](std::string name);
 
     private:
         static Display *m_instance;

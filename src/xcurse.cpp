@@ -6,6 +6,12 @@ using namespace std::literals::chrono_literals;
 // Initialise instance pointer
 Display *Display::m_instance = NULL;
 
+// overload array subscript operator
+GenericDisplayObject *&Display::operator[](std::string name)
+{
+    return m_obj_ptrs[name];
+}
+
 Display::Display()
 {
     // setup basic attr
