@@ -227,13 +227,19 @@ void Display::clear_buffer()
 // print out the content of the screen to the terminal
 inline void Display::output_screen()
 {
-    for (int j = 0; j < m_height; j++)
+    // print every line except for last line
+    for (int j = 0; j < m_height - 1; j++)
     {
         for (int i = 0; i < m_width; i++)
         {
             std::wcout << m_screen[j][i];
         }
         std::wcout << "\n";
+    }
+    // print last lines
+    for (int i = 0; i < m_width; i++)
+    {
+        std::wcout << m_screen[m_height - 1][i];
     }
 }
 

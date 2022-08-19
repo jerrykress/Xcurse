@@ -18,7 +18,7 @@
 #define MAX_BUF_W 1000
 #define MAX_BUF_H 1000
 
-#define DEFAULT_WIN_BORDER L"--||++++"
+#define DEFAULT_WIN_BORDER L"=-||++++"
 
 // forward declare
 namespace Xcurse
@@ -139,11 +139,18 @@ namespace Xcurse
     {
     public:
         GenericWindowObject();
+        void set_title(std::wstring title);
+        void set_show_border(bool b);
+        void set_show_titlebar(bool b);
         void set_override_win_style(bool b);
 
     protected:
-        std::wstring m_border;
-        bool override_win_style;
+        void draw_border();
+        void draw_titlebar();
+
+        std::wstring m_title = L" Title ";
+        std::wstring m_border = DEFAULT_WIN_BORDER;
+        bool override_win_style = false, show_border = true, show_titlebar = true;
     };
 
     class GridWindow : public GenericWindowObject
