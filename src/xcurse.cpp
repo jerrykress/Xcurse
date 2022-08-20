@@ -16,7 +16,7 @@ Display::Display()
 {
     // setup basic attr
     update_size();
-    m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel{}));
+    m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel()));
     m_power = false;
     m_refresh_interval = 100;
     m_layout = new Layout("root", Vertical, 1);
@@ -55,14 +55,19 @@ void Display::init()
 #error "Unknown Apple platform"
 #endif
 #elif __linux__
-    // on linux, setup the locale to output unicode characters
-    std::locale::global(std::locale("en_US.utf8"));
-    std::wcout.imbue(std::locale());
+    std::locale loc; // initialized to locale::classic()
+    std::ios_base::sync_with_stdio(false);
+    std::string default_locale = "en_US.UTF-8";
+    loc = std::locale{default_locale.c_str()};
+    // std::locale::global(loc);
+    std::cin.tie(NULL);
+    std::wcout.imbue(loc); // Use it for output
 #elif __unix__ // all unices not caught above
-    // Unix
-    // on linux, setup the locale to output unicode characters
-    std::locale::global(std::locale("en_US.utf8"));
-    std::wcout.imbue(std::locale());
+    std::locale loc; // initialized to locale::classic()
+    std::ios::sync_with_stdio(false);
+    std::string default_locale = "en_US.UTF-8";
+    loc = std::locale{default_locale.c_str()};
+    std::wcout.imbue(loc); // Use it for output
 #elif defined(_POSIX_VERSION)
     // POSIX
 #else
@@ -226,7 +231,7 @@ void Display::clear_buffer()
 {
     for (auto &row : m_screen)
     {
-        std::fill(row.begin(), row.end(), Pixel{});
+        std::fill(row.begin(), row.end(), Pixel());
     }
 }
 
@@ -253,13 +258,13 @@ void Display::refresh()
 {
     while (m_power)
     {
-        clear_terminal();
-        clear_buffer();
         // get size update status
         bool is_resize = update_size();
         // update layout
+        clear_buffer();
         refreshLayout(m_layout, 0, 0, m_height, m_width, is_resize);
         // output screen
+        clear_terminal();
         output_screen();
         // wait for next refresh
         std::this_thread::sleep_for(std::chrono::milliseconds(m_refresh_interval));

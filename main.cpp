@@ -9,9 +9,9 @@ using namespace std::literals::chrono_literals;
 
 int main(int, char **)
 {
-    Display &d = *Display::get_display();
     Display::init();
-    d.set_refresh_interval(200);
+    Display &d = *Display::get_display();
+    d.set_refresh_interval(100);
 
     bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
     bool add_win3 = d.add_obj("root", "w1", new GridWindow("w1", 1));
@@ -25,7 +25,7 @@ int main(int, char **)
 
     for (int i = 0; i < 5; i++)
     {
-        win->add_char(i + 2, i + 2, 'a', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
+        win->add_char(i + 2, i + 2, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         std::this_thread::sleep_for(1s);
     }
     // std::cin.get();

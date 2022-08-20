@@ -15,8 +15,8 @@
 #include "color.h"
 #include "logger.h"
 
-#define MAX_BUF_W 1000
-#define MAX_BUF_H 1000
+#define MAX_BUF_W 500
+#define MAX_BUF_H 500
 
 #define DEFAULT_WIN_BORDER L"=-||++++"
 
