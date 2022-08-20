@@ -55,13 +55,13 @@ void Display::init()
 #error "Unknown Apple platform"
 #endif
 #elif __linux__
-    std::locale loc; // initialized to locale::classic()
-    std::ios_base::sync_with_stdio(false);
-    std::string default_locale = "en_US.UTF-8";
-    loc = std::locale{default_locale.c_str()};
-    // std::locale::global(loc);
+    // std::locale loc; // initialized to locale::classic()
+    // std::ios_base::sync_with_stdio(false);
+    // std::string default_locale = "en_US.UTF-8";
+    // loc = std::locale{default_locale.c_str()};
     std::cin.tie(NULL);
-    std::wcout.imbue(loc); // Use it for output
+    // std::wcout.imbue(loc); // Use it for output
+    std::setlocale(LC_ALL, "en_US.UTF-8");
 #elif __unix__ // all unices not caught above
     std::locale loc; // initialized to locale::classic()
     std::ios::sync_with_stdio(false);
@@ -192,9 +192,9 @@ void Display::power_on()
     {
         m_power = true;
         // enter alternate buffer
-        std::cout << "\e[?47h" << std::endl;
+        std::wcout << "\e[?47h" << std::endl;
         // hide cursor
-        std::cout << "\e[?25l" << std::endl;
+        std::wcout << "\e[?25l" << std::endl;
         // init refresh
         refreshLayout(m_layout, 0, 0, m_height, m_width, true);
         // create thread for display refresh
@@ -214,11 +214,11 @@ void Display::power_off()
         // join mouse thread
         m_mouse_in_thread.join();
         // enable cursor
-        std::cout << "\e[?25h" << std::endl;
+        std::wcout << "\e[?25h" << std::endl;
         // leave alternate buffer
-        std::cout << "\e[?1047l" << std::endl;
+        std::wcout << "\e[?1047l" << std::endl;
         // TODO: fix getchar issue to remove this line
-        std::cout << "Press any key to exit..." << std::endl;
+        std::wcout << "Press any key to exit..." << std::endl;
     }
 }
 
@@ -343,7 +343,7 @@ void Display::mouse_handler()
         snprintf(mouse_data, 17, "\e[?1003h");
         // TODO: Process mouse data
         // for (int i = 0; i < 17; i++)
-        //     std::cout << std::hex << mouse_data[i];
+        //     std::wcout << std::hex << mouse_data[i];
 
         key_data = getchar();
     }
