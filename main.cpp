@@ -11,7 +11,7 @@ int main(int, char **)
 {
     Display::init();
     Display &d = *Display::get_display();
-    d.set_refresh_interval(100);
+    d.set_refresh_interval(200);
 
     bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
     bool add_win3 = d.add_obj("root", "w1", new GridWindow("w1", 1));

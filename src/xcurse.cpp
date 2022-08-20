@@ -43,39 +43,22 @@ void Display::init()
 #else
     // define something for Windows (32-bit only)
 #endif
+
 #elif __APPLE__
 #include <TargetConditionals.h>
-#if TARGET_IPHONE_SIMULATOR
-    // iOS, tvOS, or watchOS Simulator
-#elif TARGET_OS_MACCATALYST
-    // Mac's Catalyst (ports iOS API into Mac, like UIKit).
-#elif TARGET_OS_MAC
-    // Other kinds of Apple platforms
-#else
-#error "Unknown Apple platform"
-#endif
 #elif __linux__
-    // std::locale loc; // initialized to locale::classic()
-    // std::ios_base::sync_with_stdio(false);
-    // std::string default_locale = "en_US.UTF-8";
-    // loc = std::locale{default_locale.c_str()};
-    std::cin.tie(NULL);
-    // std::wcout.imbue(loc); // Use it for output
-    std::setlocale(LC_ALL, "en_US.UTF-8");
+
 #elif __unix__ // all unices not caught above
-    std::locale loc; // initialized to locale::classic()
-    std::ios::sync_with_stdio(false);
-    std::string default_locale = "en_US.UTF-8";
-    loc = std::locale{default_locale.c_str()};
-    std::wcout.imbue(loc); // Use it for output
+
 #elif defined(_POSIX_VERSION)
     // POSIX
 #else
 #error "Unknown compiler"
 #endif
 
-    // on windows, setup the wide char mode
-    // _setmode(_fileno(stdout), _O_WTEXT);
+    // universal setup
+    std::setlocale(LC_ALL, "en_US.UTF-8");
+    std::cin.tie(NULL);
 }
 
 bool Display::update_size()
@@ -192,7 +175,11 @@ void Display::power_on()
     {
         m_power = true;
         // enter alternate buffer
+#if __APPLE__
+        std::wcout << "\e[?1049h" << std::endl;
+#elif __linux__
         std::wcout << "\e[?47h" << std::endl;
+#endif
         // hide cursor
         std::wcout << "\e[?25l" << std::endl;
         // init refresh
@@ -216,7 +203,11 @@ void Display::power_off()
         // enable cursor
         std::wcout << "\e[?25h" << std::endl;
         // leave alternate buffer
+#if __APPLE__
+        std::wcout << "\e[?1049l" << std::endl;
+#elif __linux__
         std::wcout << "\e[?1047l" << std::endl;
+#endif
         // TODO: fix getchar issue to remove this line
         std::wcout << "Press any key to exit..." << std::endl;
     }
