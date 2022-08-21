@@ -6,7 +6,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CTest)
 enable_testing()
 
-add_executable(Xcurse main.cpp src/xcurse.cpp src/objects.cpp src/stylable.cpp src/pixel.cpp src/logger.cpp)
+file(GLOB src_files
+     "src/*.cpp"
+)
+
+add_executable(Xcurse main.cpp ${src_files})
+# add_executable(Xcurse main.cpp src/xcurse.cpp src/objects.cpp src/stylable.cpp src/pixel.cpp src/logger.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
