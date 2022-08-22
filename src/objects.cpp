@@ -1,5 +1,4 @@
 #include "xcurse.h"
-#include "logger.h"
 
 using namespace Xcurse;
 

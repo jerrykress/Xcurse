@@ -1,4 +1,3 @@
-#include <vector>
 #include <map>
 #include <iostream>
 #include <sys/ioctl.h>
@@ -12,91 +11,10 @@
 #include <locale>
 #include <initializer_list>
 
-#include "color.h"
-#include "logger.h"
-
-#define MAX_BUF_W 500
-#define MAX_BUF_H 500
-
-#define DEFAULT_WIN_BORDER L"=-||++++"
-
-// forward declare
-namespace Xcurse
-{
-    class Display;
-    class GenericDisplayObject;
-    class Stylable;
-    class Pixel;
-}
+#include "Common/common.h"
 
 namespace Xcurse
 {
-    typedef std::vector<std::vector<Pixel>> Screen;
-    typedef std::vector<GenericDisplayObject *> LayoutObjects;
-    typedef std::map<std::string, GenericDisplayObject *> ObjTable;
-    typedef std::wstring Style;
-
-    enum Direction
-    {
-        Horizontal,
-        Vertical
-    };
-
-    class Stylable
-    {
-    public:
-        Stylable();
-        Stylable(Style foreground, Style background, bool bold, bool underline, bool reversed);
-        Stylable(const Stylable &that);
-        Stylable(Stylable &&that);
-        Stylable &operator=(const Stylable &that) noexcept;
-        Stylable &operator=(Stylable &&that) noexcept;
-        ~Stylable();
-
-        std::wstring style() const;
-
-        Style foreground = TEXT_COLOR_RESET, background = BACKGROUND_COLOR_RESET;
-        bool bold = false, underline = false, reversed = false;
-    };
-
-    class Pixel : public Stylable
-    {
-    public:
-        Pixel();
-        Pixel(wchar_t c);
-        Pixel(wchar_t c, Stylable &s);
-        Pixel(wchar_t c, Stylable &&s);
-        Pixel(const Pixel &that);
-        Pixel(Pixel &&that);
-        Pixel &operator=(const Pixel &that) noexcept;
-        Pixel &operator=(Pixel &&that) noexcept;
-        ~Pixel();
-
-        friend std::wostream &operator<<(std::wostream &out, const Pixel &px);
-
-        wchar_t data = L' ';
-    };
-
-    struct Position
-    {
-        bool operator<(const Position &that) const;
-        bool operator==(const Position &that) const;
-        Position &operator+=(const Position &that);
-        friend Position operator+(Position p1, const Position &p2)
-        {
-            p1 += p2;
-            return p1;
-        }
-
-        int x = 0, y = 0;
-    };
-
-    struct Size
-    {
-        bool operator==(Size &that);
-
-        int width = 0, height = 0;
-    };
 
     class GenericDisplayObject
     {

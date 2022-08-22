@@ -13,5 +13,6 @@ public:
     void set_up_char(wchar_t c);
     void set_down_char(wchar_t c);
 
-private:
-}
+protected:
+    void draw() override;
+};

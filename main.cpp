@@ -1,10 +1,8 @@
 #include <iostream>
 #include "src/xcurse.h"
-#include "src/logger.h"
 #include <thread>
 
 using namespace Xcurse;
-using namespace Console;
 using namespace std::literals::chrono_literals;
 
 int main(int, char **)
@@ -15,7 +13,6 @@ int main(int, char **)
 
     bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
     bool add_win3 = d.add_obj("root", "w1", new GridWindow("w1", 1));
-    // bool add_win4 = d->add_obj("root", "w4", new Window("w4", 1, "--||**##"));
     bool add_win1 = d.add_obj("v1", "w2", new GridWindow("w2", 1));
     bool add_win2 = d.add_obj("v1", "w3", new GridWindow("w3", 1));
 

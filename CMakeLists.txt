@@ -6,8 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(CTest)
 enable_testing()
 
-file(GLOB src_files
+file(GLOB src_files CONFIGURE_DEPENDS
      "src/*.cpp"
+     "src/Common/*.cpp"
+     "src/Utils/*.cpp"
 )
 
 add_executable(Xcurse main.cpp ${src_files})
