@@ -46,8 +46,11 @@ namespace Xcurse
 
         std::wstring style() const;
 
-        Style foreground = TEXT_COLOR_RESET, background = BACKGROUND_COLOR_RESET;
-        bool bold = false, underline = false, reversed = false;
+        Style foreground = TEXT_COLOR_RESET;       //* Foreground color */
+        Style background = BACKGROUND_COLOR_RESET; //* Background color */
+        bool bold = false;                         //* enable bold style */
+        bool underline = false;                    //* enable underline style */
+        bool reversed = false;                     //* enable reversed color */
     };
 
     /**
@@ -69,7 +72,7 @@ namespace Xcurse
 
         friend std::wostream &operator<<(std::wostream &out, const Pixel &px);
 
-        wchar_t data = L' ';
+        wchar_t data = L' '; //* The char stored in this pixel */
     };
 
     /**
@@ -87,7 +90,8 @@ namespace Xcurse
             return p1;
         }
 
-        int x = 0, y = 0;
+        int x = 0; //* x axis position, left is 0 */
+        int y = 0; //* y axis position, top is 0 */
     };
 
     /**
@@ -98,6 +102,7 @@ namespace Xcurse
     {
         bool operator==(Size &that);
 
-        int width = 0, height = 0;
+        int width = 0;  //* width value */
+        int height = 0; //* height value */
     };
 }
