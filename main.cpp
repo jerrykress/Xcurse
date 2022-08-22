@@ -1,5 +1,5 @@
 #include <iostream>
-#include "src/xcurse.h"
+#include "src/Window/GridWindow.h"
 #include <thread>
 
 using namespace Xcurse;

@@ -9,11 +9,13 @@ enable_testing()
 file(GLOB src_files CONFIGURE_DEPENDS
      "src/*.cpp"
      "src/Common/*.cpp"
+     "src/Display/*.cpp"
      "src/Utils/*.cpp"
+     "src/Widgets/*.cpp"
+     "src/Window/*.cpp"
 )
 
 add_executable(Xcurse main.cpp ${src_files})
-# add_executable(Xcurse main.cpp src/xcurse.cpp src/objects.cpp src/stylable.cpp src/pixel.cpp src/logger.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

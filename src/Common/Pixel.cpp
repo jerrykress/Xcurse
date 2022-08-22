@@ -1,4 +1,4 @@
-#include "common.h"
+#include "../Display/Display.h"
 
 namespace Xcurse
 {

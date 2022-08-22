@@ -1,12 +1,14 @@
+#pragma once
+
 #include <vector>
 #include <map>
 #include <string>
-#include "constants.h"
+#include "Constants.h"
 
 namespace Xcurse
 {
     class Display;
-    class GenericDisplayObject;
+    class BaseDisplayObject;
     class Stylable;
     class Pixel;
 
@@ -15,8 +17,8 @@ namespace Xcurse
      *
      */
     typedef std::vector<std::vector<Pixel>> Screen;
-    typedef std::vector<GenericDisplayObject *> LayoutObjects;
-    typedef std::map<std::string, GenericDisplayObject *> ObjTable;
+    typedef std::vector<BaseDisplayObject *> LayoutObjects;
+    typedef std::map<std::string, BaseDisplayObject *> ObjTable;
     typedef std::wstring Style;
 
     /**

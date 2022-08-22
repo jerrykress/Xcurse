@@ -1,4 +1,4 @@
-#include "xcurse.h"
+#include "Display.h"
 
 using namespace Xcurse;
 using namespace std::literals::chrono_literals;
@@ -7,7 +7,7 @@ using namespace std::literals::chrono_literals;
 Display *Display::m_instance = NULL;
 
 // overload array subscript operator
-GenericDisplayObject *&Display::operator[](std::string name)
+BaseDisplayObject *&Display::operator[](std::string name)
 {
     return m_obj_ptrs[name];
 }
@@ -92,7 +92,7 @@ int Display::get_width() const
     return m_width;
 }
 
-void Display::set_pixel(GenericDisplayObject *caller, int x, int y, const Pixel &px)
+void Display::set_pixel(BaseDisplayObject *caller, int x, int y, const Pixel &px)
 {
     if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
@@ -100,17 +100,17 @@ void Display::set_pixel(GenericDisplayObject *caller, int x, int y, const Pixel 
     }
 }
 
-void Display::set_pixel(GenericDisplayObject *caller, const Position &loc, const Pixel &px)
+void Display::set_pixel(BaseDisplayObject *caller, const Position &loc, const Pixel &px)
 {
     set_pixel(caller, loc.x, loc.y, px);
 }
 
-void Display::set_pixel(GenericDisplayObject *caller, const Position &loc, const Position &offset, const Pixel &px)
+void Display::set_pixel(BaseDisplayObject *caller, const Position &loc, const Position &offset, const Pixel &px)
 {
     set_pixel(caller, loc + offset, px);
 }
 
-void Display::set_pixel(GenericDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
+void Display::set_pixel(BaseDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
 {
     if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height - 1)
     {
@@ -123,7 +123,7 @@ void Display::set_pixel(GenericDisplayObject *caller, int x, int y, wchar_t c, S
     }
 }
 
-bool Display::add_obj(std::string layout_name, std::string obj_name, GenericDisplayObject *o)
+bool Display::add_obj(std::string layout_name, std::string obj_name, BaseDisplayObject *o)
 {
     // find if the target layout exists
     if (auto layout_pair_it = m_obj_ptrs.find(layout_name); layout_pair_it != m_obj_ptrs.end() && typeid(*(layout_pair_it->second)) == typeid(Layout))
@@ -160,7 +160,7 @@ bool Display::remove_obj(std::string obj_name)
     return false;
 }
 
-GenericDisplayObject *Display::get_obj(std::string name)
+BaseDisplayObject *Display::get_obj(std::string name)
 {
     if (m_obj_ptrs.count(name))
     {
@@ -272,7 +272,7 @@ void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int ma
 
     LayoutObjects &objects = *(layout->get_objects());
 
-    int sum_weight = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, GenericDisplayObject *o)
+    int sum_weight = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, BaseDisplayObject *o)
                                      { return a + o->m_weight; });
 
     if (layout->orientation == Horizontal)
