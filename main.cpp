@@ -19,6 +19,7 @@ int main(int, char **)
     d.power_on();
 
     GridWindow *win = static_cast<GridWindow *>(d["w2"]);
+    win->background = BACKGROUND_COLOR_BRIGHT_YELLOW;
 
     for (int i = 0; i < 5; i++)
     {
