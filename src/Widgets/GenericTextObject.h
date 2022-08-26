@@ -13,11 +13,14 @@ namespace Xcurse
     {
     public:
         GenericTextObject();
-        GenericTextObject(const std::wstring &ws);
+
+        void set_data(const std::wstring &ws);
 
         Alignment alignment = ALIGN_CENTER;
 
     protected:
         void draw() override;
+
+        std::wstring m_data = L"";
     };
 }
