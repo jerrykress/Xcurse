@@ -25,15 +25,19 @@ int main(int, char **)
     GridWindow *win = static_cast<GridWindow *>(d["w2"]);
     win->background = BACKGROUND_COLOR_BRIGHT_YELLOW;
 
-    for (int i = 0; i < 20; i++)
+    while (d.has_power())
     {
-        win->add_char(i + 2, i + 2, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
+        win->add_char(2, 2, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
+        win->add_char(3, 3, d.get_key_press(), TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         std::this_thread::sleep_for(1s);
     }
 
     d.power_off();
 
+    std::cout << "Finished with exit code 0\n";
+
     return 0;
 }
 
 // TODO: flexible and fixed size when render
+// TODO: find if possible to terminate main thread from display

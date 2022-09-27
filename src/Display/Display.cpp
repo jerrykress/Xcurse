@@ -238,6 +238,11 @@ namespace Xcurse
         }
     }
 
+    bool Display::has_power() const
+    {
+        return m_power;
+    }
+
     void Display::power_off()
     {
         if (m_power)
@@ -263,7 +268,7 @@ namespace Xcurse
         // if power off all is set to true. terminate all threads
         if (!m_power_off_all)
         {
-            std::abort();
+            std::exit(0);
         }
     }
 
@@ -389,8 +394,6 @@ namespace Xcurse
             // TODO: Process mouse data
             // for (int i = 0; i < 17; i++)
             //     std::wcout << std::hex << mouse_data[i];
-
-            key_data = getchar();
         }
 
         // xterm disable mouse tracking
@@ -404,8 +407,8 @@ namespace Xcurse
         // read and store key press in display
         while (m_power)
         {
-            key_data = std::getchar();
-            invoke_key_action(key_data);
+            m_key_press = std::getchar();
+            invoke_key_action(m_key_press);
         }
     }
 
@@ -443,7 +446,15 @@ namespace Xcurse
 
     void Display::invoke_key_action(const char &c)
     {
-        m_action_map.at(c)();
+        if (has_key_action(c))
+        {
+            m_action_map.at(c)();
+        }
+    }
+
+    char Display::get_key_press() const
+    {
+        return m_key_press;
     }
 
     void Display::set_power_off_all(bool b)

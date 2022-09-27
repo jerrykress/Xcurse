@@ -80,6 +80,7 @@ namespace Xcurse
         BaseDisplayObject *get_obj(std::string obj_name);
         // display management
         void power_on();
+        bool has_power() const;
         void power_off();
         void clear_buffer();
         void clear_terminal();
@@ -93,6 +94,7 @@ namespace Xcurse
         bool has_key_action(const char &c) const;
         bool rm_key_action(const char &c);
         void invoke_key_action(const char &c);
+        char get_key_press() const;
 
         // power properties
         void set_power_off_all(bool b);
@@ -118,7 +120,7 @@ namespace Xcurse
         void mouse_handler();
         std::thread m_mouse_in_thread;
         // keyboard handler
-        char key_data;
+        char m_key_press;
         void key_handler();
         std::thread m_key_in_thread;
         // input action map
