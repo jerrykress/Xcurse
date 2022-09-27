@@ -141,16 +141,44 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Set a pixel on the screen
+     *
+     * @param caller Ptr to the object calling this funciton (usually this)
+     * @param loc A Position object of the pixel to be set
+     * @param px Pixel object to be placed at this position
+     */
     void Display::set_pixel(BaseDisplayObject *caller, const Position &loc, const Pixel &px)
     {
         set_pixel(caller, loc.x, loc.y, px);
     }
 
+    /**
+     * @brief Set a pixel on the screen
+     *
+     * @param caller Ptr to the object calling this funciton (usually this)
+     * @param loc A Position object of the pixel to be set
+     * @param offset An offset position applied on top of loc
+     * @param px Pixel object to be placed at this position
+     */
     void Display::set_pixel(BaseDisplayObject *caller, const Position &loc, const Position &offset, const Pixel &px)
     {
         set_pixel(caller, loc + offset, px);
     }
 
+    /**
+     * @brief Set a pixel on the screen
+     *
+     * @param caller A Position object of the pixel to be set
+     * @param x X coord
+     * @param y y coord
+     * @param c Pixel character
+     * @param foreground foreground color
+     * @param background background color
+     * @param bold enable bold
+     * @param underline enable underline
+     * @param reversed enable reversed
+     */
     void Display::set_pixel(BaseDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
     {
         if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height - 1)
@@ -164,6 +192,15 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Add a Display Object to a layout
+     *
+     * @param layout_name Target layout
+     * @param obj_name Object name
+     * @param o Object to be added
+     *
+     * @return If insertion was successful
+     */
     bool Display::add_obj(std::string layout_name, std::string obj_name, BaseDisplayObject *o)
     {
         // find if the target layout exists
@@ -186,6 +223,13 @@ namespace Xcurse
         return false;
     }
 
+    /**
+     * @brief Remove an object from a layout
+     *
+     * @param obj_name Object to be removed
+     *
+     * @return If object was successful removed
+     */
     bool Display::remove_obj(std::string obj_name)
     {
         // find if the object exists and the object must not be root layout
@@ -205,6 +249,12 @@ namespace Xcurse
         return false;
     }
 
+    /**
+     * @brief Get the pointer to an existing display object
+     *
+     * @param name Name of object
+     * @return Pointer to the retrieved object
+     */
     BaseDisplayObject *Display::get_obj(std::string name)
     {
         if (m_obj_ptrs.count(name))
@@ -214,6 +264,10 @@ namespace Xcurse
         return nullptr;
     }
 
+    /**
+     * @brief Power on the display. Also start all threads handling display output, keyboard and mouse input
+     *
+     */
     void Display::power_on()
     {
         if (!m_power)
@@ -238,11 +292,21 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief If the display is powered on
+     *
+     * @return true
+     * @return false
+     */
     bool Display::has_power() const
     {
         return m_power;
     }
 
+    /**
+     * @brief Power off the display. Also terminates all threads handling display output, keyboard and mouse input
+     *
+     */
     void Display::power_off()
     {
         if (m_power)
@@ -272,11 +336,19 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Clear the terminal screen
+     *
+     */
     inline void Display::clear_terminal()
     {
         std::wcout << "\x1B[2J\x1B[H";
     }
 
+    /**
+     * @brief Clear the display buffer
+     *
+     */
     void Display::clear_buffer()
     {
         for (auto &row : m_screen)
@@ -285,7 +357,10 @@ namespace Xcurse
         }
     }
 
-    // print out the content of the screen to the terminal
+    /**
+     * @brief Output the content of the display buffer onto terminal screen
+     *
+     */
     inline void Display::output_screen()
     {
         // print every line except for last line
@@ -304,6 +379,10 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Update the layouts and objects on the display
+     *
+     */
     void Display::refresh()
     {
         while (m_power)
@@ -321,11 +400,26 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Set how often the display updates
+     *
+     * @param ms
+     */
     void Display::set_refresh_interval(int ms)
     {
         m_refresh_interval = ms;
     }
 
+    /**
+     * @brief Recursively update the size of the layouts
+     *
+     * @param layout Layout to be updated
+     * @param x X coord of layout upper left corner
+     * @param y Y coord of layout upper left corner
+     * @param max_height Max available height
+     * @param max_width Max available width
+     * @param is_resize Whether to update the layout size
+     */
     void Display::refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_resize)
     {
 
@@ -381,6 +475,10 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Spawn a thread that reads and processes mouse input
+     *
+     */
     void Display::mouse_handler()
     {
         // enable special keywords
@@ -402,6 +500,10 @@ namespace Xcurse
         system("stty echo");
     }
 
+    /**
+     * @brief Spawn a thread that reads and handles keyboard input
+     *
+     */
     void Display::key_handler()
     {
         // read and store key press in display
@@ -412,6 +514,14 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Map a keypress to a function
+     *
+     * @param c Char of keypress
+     * @param f Lambda function to be invoked
+     *
+     * @return If insertion was successful
+     */
     bool Display::map_key_action(const char &c, std::function<void()> f)
     {
         if (m_action_map.find(c) != m_action_map.end())
@@ -425,6 +535,13 @@ namespace Xcurse
         return true;
     }
 
+    /**
+     * @brief Find if a key is mapped to an action
+     *
+     * @param c Char of keypress
+     *
+     * @return If insertion was successful
+     */
     bool Display::has_key_action(const char &c) const
     {
         if (m_action_map.find(c) != m_action_map.end())
@@ -434,6 +551,13 @@ namespace Xcurse
         return false;
     }
 
+    /**
+     * @brief Remove an action from a keybind
+     *
+     * @param c Char of keypress
+     *
+     * @return If deletion was successful
+     */
     bool Display::rm_key_action(const char &c)
     {
         if (m_action_map.find(c) != m_action_map.end())
@@ -444,6 +568,11 @@ namespace Xcurse
         return false;
     }
 
+    /**
+     * @brief Invoke an action mapped to a keypress
+     *
+     * @param Char of keypress
+     */
     void Display::invoke_key_action(const char &c)
     {
         if (has_key_action(c))
@@ -452,11 +581,21 @@ namespace Xcurse
         }
     }
 
+    /**
+     * @brief Get the last registered keypress
+     *
+     * @return char
+     */
     char Display::get_key_press() const
     {
         return m_key_press;
     }
 
+    /**
+     * @brief Set if all threads should be powered off when power off is called
+     *
+     * @param b
+     */
     void Display::set_power_off_all(bool b)
     {
         m_power_off_all = b;
