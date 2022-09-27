@@ -242,8 +242,8 @@ namespace Xcurse
             m_power = false;
             // join display thread
             m_refresh_thread.join();
-            // join mouse thread
-            m_mouse_in_thread.join();
+            // detach mouse thread and force terminate
+            m_mouse_in_thread.detach();
             // enable cursor
             std::wcout << "\e[?25h" << std::endl;
             // leave alternate buffer
@@ -387,5 +387,10 @@ namespace Xcurse
         system("echo \"\e[?1000l\"");
         // enable echo
         system("stty echo");
+    }
+
+    void Display::key_handler()
+    {
+        // read and store key press in display
     }
 }

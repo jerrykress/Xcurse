@@ -106,6 +106,7 @@ namespace Xcurse
         char mouse_data[18];
         void mouse_handler();
         std::thread m_mouse_in_thread;
+        std::thread m_key_in_thread;
         // keyboard handler
         int key_data;
         // windows properties
