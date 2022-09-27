@@ -6,7 +6,7 @@ namespace Xcurse
 
     void GenericWindowObject::set_title(std::wstring title)
     {
-        m_title = L" " + title + L" ";
+        m_title = title.empty() ? L" " : title;
     }
 
     void GenericWindowObject::set_override_win_style(bool b)
@@ -52,11 +52,16 @@ namespace Xcurse
         if (margin < 2)
             return;
 
+        // calculate margins on the left of title
         int left_margin = margin / 2;
 
-        for (int i = 0; i < title_len; i++)
+        // if title is not empty then render the text with spaces
+        if (m_title != L" ")
         {
-            m_display_ptr->set_pixel(this, i + left_margin, 0, Pixel(m_title[i], *this));
+            for (int i = 0; i < title_len; i++)
+            {
+                m_display_ptr->set_pixel(this, i + left_margin, 0, Pixel(m_title[i], *this));
+            }
         }
     }
 }

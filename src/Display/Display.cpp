@@ -232,6 +232,8 @@ namespace Xcurse
             m_refresh_thread = std::thread(&Display::refresh, this);
             // create thread for mouse input handle
             m_mouse_in_thread = std::thread(&Display::mouse_handler, this);
+            // create thread for key press input
+            m_key_in_thread = std::thread(&Display::key_handler, this);
         }
     }
 
@@ -244,6 +246,8 @@ namespace Xcurse
             m_refresh_thread.join();
             // detach mouse thread and force terminate
             m_mouse_in_thread.detach();
+            // detach keyboard thread and force terminate
+            m_key_in_thread.detach();
             // enable cursor
             std::wcout << "\e[?25h" << std::endl;
             // leave alternate buffer
@@ -252,8 +256,7 @@ namespace Xcurse
 #elif __linux__
             std::wcout << "\e[?1047l" << std::endl;
 #endif
-            // TODO: fix getchar issue to remove this line
-            std::wcout << "Press any key to exit..." << std::endl;
+            std::wcout << "Finished with exit code 0" << std::endl;
         }
     }
 
@@ -392,5 +395,9 @@ namespace Xcurse
     void Display::key_handler()
     {
         // read and store key press in display
+        while (m_power)
+        {
+            key_data = std::getchar();
+        }
     }
 }
