@@ -1,6 +1,8 @@
 #pragma once
 
 #include <map>
+#include <unordered_map>
+#include <functional>
 #include <iostream>
 #include <sys/ioctl.h>
 #include <unistd.h>
@@ -86,6 +88,15 @@ namespace Xcurse
         void output_screen();
         void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_refresh);
 
+        // input action management
+        bool map_key_action(const char &c, std::function<void()> f);
+        bool has_key_action(const char &c) const;
+        bool rm_key_action(const char &c);
+        void invoke_key_action(const char &c);
+
+        // power properties
+        void set_power_off_all(bool b);
+
         BaseDisplayObject *&operator[](std::string name);
 
     private:
@@ -110,9 +121,13 @@ namespace Xcurse
         char key_data;
         void key_handler();
         std::thread m_key_in_thread;
+        // input action map
+        std::unordered_map<char, std::function<void()>> m_action_map;
         // windows properties
         Layout *m_layout;
         ObjTable m_obj_ptrs;
+        // power properties
+        bool m_power_off_all;
     };
 
 }

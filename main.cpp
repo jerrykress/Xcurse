@@ -16,17 +16,21 @@ int main(int, char **)
     bool add_win1 = d.add_obj("v1", "w2", new GridWindow("w2", 1));
     bool add_win2 = d.add_obj("v1", "w3", new GridWindow("w3", 1));
 
+    // adding a keymap to power off
+    d.map_key_action('x', [&]() -> void
+                     { d.power_off(); });
+
     d.power_on();
 
     GridWindow *win = static_cast<GridWindow *>(d["w2"]);
     win->background = BACKGROUND_COLOR_BRIGHT_YELLOW;
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 20; i++)
     {
         win->add_char(i + 2, i + 2, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         std::this_thread::sleep_for(1s);
     }
-    // std::cin.get();
+
     d.power_off();
 
     return 0;

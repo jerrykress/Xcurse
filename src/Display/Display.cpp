@@ -24,6 +24,7 @@ namespace Xcurse
         update_size();
         m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel()));
         m_power = false;
+        m_power_off_all = true;
         m_refresh_interval = 100;
         m_layout = new Layout("root", Vertical, 1);
         m_layout->parent_ptr = nullptr;
@@ -258,6 +259,12 @@ namespace Xcurse
 #endif
             std::wcout << "Finished with exit code 0" << std::endl;
         }
+
+        // if power off all is set to true. terminate all threads
+        if (!m_power_off_all)
+        {
+            std::abort();
+        }
     }
 
     inline void Display::clear_terminal()
@@ -398,6 +405,49 @@ namespace Xcurse
         while (m_power)
         {
             key_data = std::getchar();
+            invoke_key_action(key_data);
         }
+    }
+
+    bool Display::map_key_action(const char &c, std::function<void()> f)
+    {
+        if (m_action_map.find(c) != m_action_map.end())
+        {
+            return false;
+        }
+        else
+        {
+            m_action_map[c] = f;
+        }
+        return true;
+    }
+
+    bool Display::has_key_action(const char &c) const
+    {
+        if (m_action_map.find(c) != m_action_map.end())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool Display::rm_key_action(const char &c)
+    {
+        if (m_action_map.find(c) != m_action_map.end())
+        {
+            m_action_map.erase(c);
+            return true;
+        }
+        return false;
+    }
+
+    void Display::invoke_key_action(const char &c)
+    {
+        m_action_map.at(c)();
+    }
+
+    void Display::set_power_off_all(bool b)
+    {
+        m_power_off_all = b;
     }
 }
