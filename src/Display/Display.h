@@ -8,6 +8,7 @@
 #include <numeric>
 #include <math.h>
 #include <atomic>
+#include <algorithm>
 
 #include "../Common/Common.h"
 

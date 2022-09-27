@@ -174,7 +174,11 @@ namespace Xcurse
                 // assign parent to incoming object
                 o->parent_ptr = layout_pair_it->second;
                 // add object pointer to parent's record
-                static_cast<Layout *>(layout_pair_it->second)->get_objects()->emplace_back(o);
+                LayoutObjects &parent_objs = *(static_cast<Layout *>(layout_pair_it->second)->get_objects());
+                parent_objs.emplace_back(o);
+                // sort the objects, separate fixed size and flexible size
+                std::sort(parent_objs.begin(), parent_objs.end(), [](BaseDisplayObject *a, BaseDisplayObject *b)
+                          { return a->get_size().fixed > b->get_size().fixed; });
                 return true;
             }
         }

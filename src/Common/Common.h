@@ -104,7 +104,8 @@ namespace Xcurse
     {
         bool operator==(Size &that);
 
-        int width = 0;  //* width value */
-        int height = 0; //* height value */
+        int width = 0;      //* width value */
+        int height = 0;     //* height value */
+        bool fixed = false; //* whether the size is fixed and ignore weight setting */
     };
 }
