@@ -2,29 +2,76 @@
 
 namespace Xcurse
 {
-    DataWindow::DataWindow()
+    /*
+        Bar Chart Window implementations
+    */
+
+    BarChartWindow::BarChartWindow()
     {
-        m_type = Window_Type::BAR_CHART;
+        _name = "Untitled";
+        m_weight = 1;
+        m_border = DEFAULT_WIN_BORDER;
+        m_display_ptr = Display::get_display();
     }
 
-    DataWindow::DataWindow(std::string name, int weight, std::wstring border, Window_Type t)
+    BarChartWindow::BarChartWindow(std::string name, int weight, std::wstring border)
     {
         _name = name;
-        m_border = border;
         m_weight = weight;
+        m_border = border;
         m_display_ptr = Display::get_display();
-        m_type = t;
     }
 
-    void DataWindow::set_data(BarChartData &d)
+    void BarChartWindow::set_data(std::vector<float> &v_vals)
     {
     }
 
-    void DataWindow::set_data(TrendChartData &d)
+    void BarChartWindow::set_inc_style(const Style &s)
+    {
+        m_inc_style = s;
+    }
+
+    void BarChartWindow::set_dec_style(const Style &s)
+    {
+        m_dec_style = s;
+    }
+
+    void BarChartWindow::draw()
     {
     }
 
-    void DataWindow::draw()
+    /*
+        Trend Chart Window implementations
+    */
+
+    TrendChartWindow::TrendChartWindow()
+    {
+
+        _name = "Untitled";
+        m_weight = 1;
+        m_border = DEFAULT_WIN_BORDER;
+        m_display_ptr = Display::get_display();
+    }
+
+    TrendChartWindow::TrendChartWindow(std::string name, int weight, std::wstring border)
+    {
+        _name = name;
+        m_weight = weight;
+        m_border = border;
+        m_display_ptr = Display::get_display();
+    }
+
+    void BarChartWindow::set_inc_style(const Style &s)
+    {
+        m_inc_style = s;
+    }
+
+    void TrendChartWindow::set_dec_style(const Style &s)
+    {
+        m_dec_style = s;
+    }
+
+    void TrendChartWindow::draw()
     {
     }
 }

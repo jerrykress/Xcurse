@@ -2,38 +2,37 @@
 
 namespace Xcurse
 {
-
-    class TrendChartData
-    {
-        std::vector<float> v_high, v_low;
-    };
-
-    class BarChartData
-    {
-        std::vector<float> v_vals;
-    };
-
-    class DataWindow : public GridWindow
+    class BarChartWindow : public GridWindow
     {
     public:
-        enum Window_Type
-        {
-            BAR_CHART,
-            TREND_CHART
-        };
+        BarChartWindow();
 
-        DataWindow();
+        BarChartWindow(std::string name, int weight = 1, std::wstring border = DEFAULT_WIN_BORDER);
 
-        DataWindow(std::string name, int weight, std::wstring border = DEFAULT_WIN_BORDER, Window_Type t = BAR_CHART);
-
-        void set_up_char(wchar_t c);
-        void set_down_char(wchar_t c);
-
-        void set_data(BarChartData &d);
-        void set_data(TrendChartData &d);
+        void set_data(std::vector<float> &v_val);
+        void set_inc_style(const Style &s);
+        void set_dec_style(const Style &s);
 
     protected:
-        Window_Type m_type;
+        std::vector<float> m_data_vals;
+        Style m_inc_style, m_dec_style;
+        void draw() override;
+    };
+
+    class TrendChartWindow : public GridWindow
+    {
+    public:
+        TrendChartWindow();
+
+        TrendChartWindow(std::string name, int weight = 1, std::wstring border = DEFAULT_WIN_BORDER);
+
+        void set_data(std::vector<float> &v_high, std::vector<float> &v_low);
+        void set_inc_style(const Style &s);
+        void set_dec_style(const Style &s);
+
+    protected:
+        std::vector<float> m_data_high, m_data_low;
+        Style m_inc_style, m_dec_style;
         void draw() override;
     };
 
