@@ -4,26 +4,90 @@ namespace Xcurse
 {
     GenericWindowObject::GenericWindowObject() {}
 
+    /**
+     * @brief Get the height of the usable area
+     *
+     * @return Height of inner area, or height of window if safe area is disabled
+     */
+    int GenericWindowObject::get_height() const
+    {
+        return m_disable_safe_area ? m_size.height : (m_size.height - 2);
+    }
+
+    /**
+     * @brief Get the width of the usable area
+     *
+     * @return Width of inner area, or width of window if safe area is disabled
+     */
+    int GenericWindowObject::get_width() const
+    {
+        return m_disable_safe_area ? m_size.width : (m_size.width - 2);
+    }
+
+    /**
+     * @brief Get the size of usable area
+     *
+     * @return Usable size of inner area, or size of window if safe area is disabled
+     */
+    Size GenericWindowObject::get_size() const
+    {
+        return m_disable_safe_area ? m_size : Size{m_size.width - 2, m_size.height - 2};
+    }
+
+    /**
+     * @brief Set the text displayed on the titlebar
+     *
+     * @param title
+     */
     void GenericWindowObject::set_title(std::wstring title)
     {
         m_title = title.empty() ? L" " : title;
     }
 
+    /**
+     * @brief Override the window style
+     *
+     * @param b
+     */
     void GenericWindowObject::set_override_win_style(bool b)
     {
-        override_win_style = b;
+        m_override_win_style = b;
     }
 
+    /**
+     * @brief Whether to use or disable the safe area (border)
+     *
+     * @param b
+     */
+    void GenericWindowObject::use_safe_area(bool b)
+    {
+        m_disable_safe_area = b;
+    }
+
+    /**
+     * @brief Whether to display the border of a window
+     *
+     * @param b
+     */
     void GenericWindowObject::set_show_border(bool b)
     {
-        show_border = b;
+        m_show_border = b;
     }
 
+    /**
+     * @brief Whether to display the titlebar of a window
+     *
+     * @param b
+     */
     void GenericWindowObject::set_show_titlebar(bool b)
     {
-        show_titlebar = b;
+        m_show_titlebar = b;
     }
 
+    /**
+     * @brief Render the border of a window to display
+     *
+     */
     void GenericWindowObject::draw_border()
     {
         // draw upper and lower borders
@@ -45,6 +109,10 @@ namespace Xcurse
         m_display_ptr->set_pixel(this, m_size.width - 1, m_size.height - 1, Pixel(m_border[7], *this));
     }
 
+    /**
+     * @brief Render the titlebar of a window to display
+     *
+     */
     void GenericWindowObject::draw_titlebar()
     {
         int title_len = m_title.size();

@@ -36,9 +36,9 @@ namespace Xcurse
 
     void GridWindow::draw()
     {
-        if (show_border)
+        if (m_show_border)
             draw_border();
-        if (show_titlebar)
+        if (m_show_titlebar)
             draw_titlebar();
 
         // draw the content of the window

@@ -22,10 +22,10 @@ namespace Xcurse
     public:
         BaseDisplayObject();
 
-        int get_height() const;
-        int get_width() const;
-        int get_weight() const;
-        Size get_size() const;
+        virtual int get_height() const;
+        virtual int get_width() const;
+        virtual int get_weight() const;
+        virtual Size get_size() const;
         Position get_loc() const;
 
         BaseDisplayObject *parent_ptr;
