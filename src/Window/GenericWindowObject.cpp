@@ -45,7 +45,7 @@ namespace Xcurse
     }
 
     /**
-     * @brief Override the window style
+     * @brief Let the style of border override the style of the entire window
      *
      * @param b
      */

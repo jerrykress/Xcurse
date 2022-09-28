@@ -2,6 +2,13 @@
 
 namespace Xcurse
 {
+    GridWindow::GridWindow()
+    {
+        _name = "Untitled";
+        m_border = DEFAULT_WIN_BORDER;
+        m_weight = 1;
+        m_display_ptr = Display::get_display();
+    }
 
     GridWindow::GridWindow(std::string name, int weight, std::wstring border)
     {
