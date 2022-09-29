@@ -46,6 +46,7 @@ namespace Xcurse
 
     void BarChartWindow::draw()
     {
+        // clear the data in buffer
         m_windata.clear();
 
         // sample data to be displayed
@@ -53,6 +54,8 @@ namespace Xcurse
 
         if (sample_size > 0)
         {
+            float max_val = *std::max_element(m_data_vals.begin(), m_data_vals.end());
+
             std::vector<ChartWindowData> samples;
 
             int unit_width = get_width() / sample_size;
@@ -61,11 +64,12 @@ namespace Xcurse
             {
                 samples.emplace_back(ChartWindowData(
                     unit_width,
-                    2,
+                    m_data_vals[i] * get_height() / max_val,
                     0,
                     Stylable(TEXT_COLOR_RESET, (i == 0 || m_data_vals[i] >= m_data_vals[i - 1]) ? BACKGROUND_COLOR_GREEN : BACKGROUND_COLOR_RED, false, false, false)));
             }
 
+            // add pixels to buffer
             for (int i = 0; i < samples.size(); i++)
             {
 
