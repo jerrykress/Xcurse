@@ -20,7 +20,7 @@ namespace Xcurse
 
     void GridWindow::add_char(int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
     {
-        if (x > 0 && x < m_size.width - 1 && y > 0 && y < m_size.height - 1)
+        if (x > 0 && x < get_width() - 1 && y > 0 && y < get_height() - 1)
         {
             m_windata[Position{x, y}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
         }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "src/Window/GridWindow.h"
+#include "src/Window/DataWindow.h"
 #include <thread>
 
 using namespace Xcurse;
@@ -14,7 +15,7 @@ int main(int, char **)
     bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
     bool add_win3 = d.add_obj("root", "w1", new GridWindow("w1", 1));
     bool add_win1 = d.add_obj("v1", "w2", new GridWindow("w2", 1));
-    bool add_win2 = d.add_obj("v1", "w3", new GridWindow("w3", 1));
+    bool add_win2 = d.add_obj("v1", "w3", new BarChartWindow("w3", 1));
 
     // adding a keymap to power off
     d.map_key_action('x', [&]() -> void
@@ -25,9 +26,13 @@ int main(int, char **)
     GridWindow *win = static_cast<GridWindow *>(d["w2"]);
     win->background = BACKGROUND_COLOR_BRIGHT_YELLOW;
 
+    BarChartWindow *bar_win = static_cast<BarChartWindow *>(d["w3"]);
+    std::vector<float> ds = {1, 2, 3, 2, 1, 2, 3};
+    bar_win->set_data(ds);
+
     while (d.has_power())
     {
-        win->add_char(2, 2, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
+        win->add_char(1, 1, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         win->add_char(3, 3, d.get_key_press(), TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         std::this_thread::sleep_for(1s);
     }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GenericWindowObject.h"
 
 namespace Xcurse

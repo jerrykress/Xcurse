@@ -2,6 +2,17 @@
 
 namespace Xcurse
 {
+    class ChartWindowData
+    {
+    public:
+        ChartWindowData();
+
+        ChartWindowData(int w, int h, int h_offset, const Stylable &s);
+
+        int width, height, height_offset;
+        Stylable style;
+    };
+
     class BarChartWindow : public GridWindow
     {
     public:

@@ -3,6 +3,13 @@
 namespace Xcurse
 {
     /*
+        Chart Window Data implementations
+    */
+    ChartWindowData::ChartWindowData() {}
+
+    ChartWindowData::ChartWindowData(int w, int h, int h_offset, const Stylable &s) : width(w), height(h), height_offset(h_offset), style(s) {}
+
+    /*
         Bar Chart Window implementations
     */
 
@@ -24,6 +31,7 @@ namespace Xcurse
 
     void BarChartWindow::set_data(std::vector<float> &v_vals)
     {
+        m_data_vals = v_vals;
     }
 
     void BarChartWindow::set_inc_style(const Style &s)
@@ -38,6 +46,41 @@ namespace Xcurse
 
     void BarChartWindow::draw()
     {
+        if (m_show_border)
+            draw_border();
+        if (m_show_titlebar)
+            draw_titlebar();
+        if (m_data_vals.empty())
+            return;
+
+        int sample_size = std::min(static_cast<int>(m_data_vals.size()), get_width());
+
+        std::vector<ChartWindowData> samples;
+
+        int unit_width = get_width() / sample_size;
+
+        for (int i = m_data_vals.size() - sample_size; i < m_data_vals.size(); i++)
+        {
+            samples.emplace_back(ChartWindowData(
+                unit_width,
+                1,
+                0,
+                Stylable(TEXT_COLOR_RESET, (i == 0 || m_data_vals[i] >= m_data_vals[i - 1]) ? BACKGROUND_COLOR_GREEN : BACKGROUND_COLOR_RED, false, false, false)));
+        }
+
+        for (int i = 0; i < samples.size(); i++)
+        {
+
+            int _w = unit_width * i;
+
+            for (int i_w = 0; i_w < samples[i].width; i_w++)
+            {
+                for (int i_h = 0; i_h < samples[i].height; i_h++)
+                {
+                    m_display_ptr->set_pixel(this, _w + i_w, i_h, Pixel(L' ', samples[i].style));
+                }
+            }
+        }
     }
 
     /*
@@ -61,7 +104,17 @@ namespace Xcurse
         m_display_ptr = Display::get_display();
     }
 
-    void BarChartWindow::set_inc_style(const Style &s)
+    void TrendChartWindow::set_data(std::vector<float> &v_high, std::vector<float> &v_low)
+    {
+        // check if array size matches
+        if (v_high.size() == v_low.size())
+        {
+            m_data_high = v_high;
+            m_data_low = v_low;
+        }
+    }
+
+    void TrendChartWindow::set_inc_style(const Style &s)
     {
         m_inc_style = s;
     }
