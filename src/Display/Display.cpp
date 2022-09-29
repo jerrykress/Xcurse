@@ -29,6 +29,7 @@ namespace Xcurse
         m_layout = new Layout("root", Vertical, 1);
         m_layout->parent_ptr = nullptr;
         m_obj_ptrs.emplace("root", m_layout);
+        m_key_press = ' ';
     }
 
     /**

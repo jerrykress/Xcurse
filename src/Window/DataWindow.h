@@ -37,12 +37,12 @@ namespace Xcurse
 
         TrendChartWindow(std::string name, int weight = 1, std::wstring border = DEFAULT_WIN_BORDER);
 
-        void set_data(std::vector<float> &v_high, std::vector<float> &v_low);
+        void set_data(std::vector<float> &v_open, std::vector<float> &v_close);
         void set_inc_style(const Style &s);
         void set_dec_style(const Style &s);
 
     protected:
-        std::vector<float> m_data_high, m_data_low;
+        std::vector<float> m_data_open, m_data_close;
         Style m_inc_style, m_dec_style;
         void draw() override;
     };
