@@ -22,7 +22,7 @@ namespace Xcurse
     {
         if (x >= 0 && x < get_width() && y >= 0 && y < get_height())
         {
-            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, y + (!m_disable_safe_area) * m_safe_area.up}] = Pixel(c, s);
+            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, get_height() + 1 - y - (!m_disable_safe_area) * m_safe_area.down}] = Pixel(c, s);
         }
     }
 
@@ -30,7 +30,7 @@ namespace Xcurse
     {
         if (x >= 0 && x < get_width() && y >= 0 && y < get_height())
         {
-            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, y + (!m_disable_safe_area) * m_safe_area.up}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
+            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, get_height() + 1 - y - (!m_disable_safe_area) * m_safe_area.up}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
         }
     }
 

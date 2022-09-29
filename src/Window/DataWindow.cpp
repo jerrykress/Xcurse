@@ -102,6 +102,8 @@ namespace Xcurse
         _name = "Untitled";
         m_weight = 1;
         m_border = DEFAULT_WIN_BORDER;
+        m_inc_style = BACKGROUND_COLOR_GREEN;
+        m_dec_style = BACKGROUND_COLOR_RED;
         m_display_ptr = Display::get_display();
     }
 
@@ -110,6 +112,8 @@ namespace Xcurse
         _name = name;
         m_weight = weight;
         m_border = border;
+        m_inc_style = BACKGROUND_COLOR_GREEN;
+        m_dec_style = BACKGROUND_COLOR_RED;
         m_display_ptr = Display::get_display();
     }
 
@@ -151,7 +155,7 @@ namespace Xcurse
                 *std::min_element(m_data_open.begin(), m_data_open.end()),
                 *std::min_element(m_data_close.begin(), m_data_close.end()));
 
-            const float max_diff = max_val - min_val;
+            const float max_diff = std::abs(max_val - min_val);
 
             std::vector<ChartWindowData> samples;
 
@@ -162,8 +166,8 @@ namespace Xcurse
             {
                 samples.emplace_back(ChartWindowData(
                     unit_width,
-                    (m_data_open[i] - m_data_close[i]) * get_height() / max_diff,
-                    0,
+                    std::abs(m_data_open[i] - m_data_close[i]) * get_height() / max_diff,
+                    (std::min(m_data_open[i], m_data_close[i]) - min_val) * get_height() / max_diff,
                     Stylable(TEXT_COLOR_RESET, (m_data_close[i] > m_data_open[i]) ? m_inc_style : m_dec_style, false, false, false)));
             }
 
@@ -176,7 +180,7 @@ namespace Xcurse
                 {
                     for (int i_h = 0; i_h < samples[i].height; i_h++)
                     {
-                        add_char(_w + i_w, i_h, L' ', samples[i].style);
+                        add_char(_w + i_w, i_h + samples[i].height_offset, L' ', samples[i].style);
                     }
                 }
             }
