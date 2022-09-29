@@ -98,7 +98,7 @@ namespace Xcurse
             {
                 samples.emplace_back(ChartWindowData(
                     unit_width,
-                    m_data_vals[i] * get_height() / max_val,
+                    std::max((int)std::round(m_data_vals[i] * get_height() / max_val), 1),
                     0,
                     Stylable(TEXT_COLOR_RESET, (i == 0 || m_data_vals[i] >= m_data_vals[i - 1]) ? m_inc_style : m_dec_style, false, false, false)));
             }
@@ -227,7 +227,7 @@ namespace Xcurse
             {
                 samples.emplace_back(ChartWindowData(
                     unit_width,
-                    std::abs(m_data_open[i] - m_data_close[i]) * get_height() / max_diff,
+                    std::max((int)std::round(std::abs(m_data_open[i] - m_data_close[i]) * get_height() / max_diff), 1),
                     (std::min(m_data_open[i], m_data_close[i]) - min_val) * get_height() / max_diff,
                     Stylable(TEXT_COLOR_RESET, (m_data_close[i] > m_data_open[i]) ? m_inc_style : m_dec_style, false, false, false)));
             }
