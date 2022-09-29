@@ -46,41 +46,42 @@ namespace Xcurse
 
     void BarChartWindow::draw()
     {
-        if (m_show_border)
-            draw_border();
-        if (m_show_titlebar)
-            draw_titlebar();
-        if (m_data_vals.empty())
-            return;
+        m_windata.clear();
 
+        // sample data to be displayed
         int sample_size = std::min(static_cast<int>(m_data_vals.size()), get_width());
 
-        std::vector<ChartWindowData> samples;
-
-        int unit_width = get_width() / sample_size;
-
-        for (int i = m_data_vals.size() - sample_size; i < m_data_vals.size(); i++)
+        if (sample_size > 0)
         {
-            samples.emplace_back(ChartWindowData(
-                unit_width,
-                1,
-                0,
-                Stylable(TEXT_COLOR_RESET, (i == 0 || m_data_vals[i] >= m_data_vals[i - 1]) ? BACKGROUND_COLOR_GREEN : BACKGROUND_COLOR_RED, false, false, false)));
-        }
+            std::vector<ChartWindowData> samples;
 
-        for (int i = 0; i < samples.size(); i++)
-        {
+            int unit_width = get_width() / sample_size;
 
-            int _w = unit_width * i;
-
-            for (int i_w = 0; i_w < samples[i].width; i_w++)
+            for (int i = m_data_vals.size() - sample_size; i < m_data_vals.size(); i++)
             {
-                for (int i_h = 0; i_h < samples[i].height; i_h++)
+                samples.emplace_back(ChartWindowData(
+                    unit_width,
+                    2,
+                    0,
+                    Stylable(TEXT_COLOR_RESET, (i == 0 || m_data_vals[i] >= m_data_vals[i - 1]) ? BACKGROUND_COLOR_GREEN : BACKGROUND_COLOR_RED, false, false, false)));
+            }
+
+            for (int i = 0; i < samples.size(); i++)
+            {
+
+                int _w = unit_width * i;
+
+                for (int i_w = 0; i_w < samples[i].width; i_w++)
                 {
-                    m_display_ptr->set_pixel(this, _w + i_w, i_h, Pixel(L' ', samples[i].style));
+                    for (int i_h = 0; i_h < samples[i].height; i_h++)
+                    {
+                        add_char(_w + i_w, i_h, L' ', samples[i].style);
+                    }
                 }
             }
         }
+
+        GridWindow::draw();
     }
 
     /*

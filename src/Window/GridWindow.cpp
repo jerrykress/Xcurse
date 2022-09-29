@@ -18,11 +18,19 @@ namespace Xcurse
         m_display_ptr = Display::get_display();
     }
 
+    void GridWindow::add_char(int x, int y, wchar_t c, Stylable s)
+    {
+        if (x >= 0 && x < get_width() && y >= 0 && y < get_height())
+        {
+            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, y + (!m_disable_safe_area) * m_safe_area.up}] = Pixel(c, s);
+        }
+    }
+
     void GridWindow::add_char(int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
     {
-        if (x > 0 && x < get_width() - 1 && y > 0 && y < get_height() - 1)
+        if (x >= 0 && x < get_width() && y >= 0 && y < get_height())
         {
-            m_windata[Position{x, y}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
+            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, y + (!m_disable_safe_area) * m_safe_area.up}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
         }
     }
 
@@ -33,6 +41,7 @@ namespace Xcurse
             m_windata.erase(it);
             return true;
         }
+
         return false;
     }
 

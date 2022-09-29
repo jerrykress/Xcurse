@@ -11,7 +11,7 @@ namespace Xcurse
      */
     int GenericWindowObject::get_height() const
     {
-        return m_disable_safe_area ? m_size.height : (m_size.height - 2);
+        return m_size.height - (!m_disable_safe_area) * (m_safe_area.up + m_safe_area.down);
     }
 
     /**
@@ -21,7 +21,7 @@ namespace Xcurse
      */
     int GenericWindowObject::get_width() const
     {
-        return m_disable_safe_area ? m_size.width : (m_size.width - 2);
+        return m_size.width - (!m_disable_safe_area) * (m_safe_area.left + m_safe_area.right);
     }
 
     /**
@@ -31,7 +31,9 @@ namespace Xcurse
      */
     Size GenericWindowObject::get_size() const
     {
-        return m_disable_safe_area ? m_size : Size{m_size.width - 2, m_size.height - 2};
+        return Size{
+            m_size.width - (!m_disable_safe_area) * (m_safe_area.left + m_safe_area.right),
+            m_size.height - (!m_disable_safe_area) * (m_safe_area.up + m_safe_area.down)};
     }
 
     /**
@@ -52,6 +54,37 @@ namespace Xcurse
     void GenericWindowObject::set_override_win_style(bool b)
     {
         m_override_win_style = b;
+    }
+
+    /**
+     * @brief Set the value of safe area
+     *
+     * @param d The direction of safe area
+     * @param v Value of safe area
+     */
+    void GenericWindowObject::set_safe_area(SafeAreaDirection d, int v)
+    {
+        switch (d)
+        {
+        case SafeAreaDirection::UP:
+            m_safe_area.up = v;
+            break;
+
+        case SafeAreaDirection::DOWN:
+            m_safe_area.down = v;
+            break;
+
+        case SafeAreaDirection::LEFT:
+            m_safe_area.left = v;
+            break;
+
+        case SafeAreaDirection::RIGHT:
+            m_safe_area.right = v;
+            break;
+
+        default:
+            break;
+        }
     }
 
     /**
