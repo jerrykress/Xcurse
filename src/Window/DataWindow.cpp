@@ -205,13 +205,15 @@ namespace Xcurse
         {
             // find max value in all data points
             float max_val = std::max(
-                *std::max_element(m_data_open.begin(), m_data_open.end()),
-                *std::max_element(m_data_close.begin(), m_data_close.end()));
+                                *std::max_element(m_data_open.begin(), m_data_open.end()),
+                                *std::max_element(m_data_close.begin(), m_data_close.end())) *
+                            DATA_MAGNIF_FACTOR;
 
             // find min value in all data points
             float min_val = std::min(
-                *std::min_element(m_data_open.begin(), m_data_open.end()),
-                *std::min_element(m_data_close.begin(), m_data_close.end()));
+                                *std::min_element(m_data_open.begin(), m_data_open.end()),
+                                *std::min_element(m_data_close.begin(), m_data_close.end())) *
+                            DATA_MAGNIF_FACTOR;
 
             // diff between max and min val
             const float max_diff = std::abs(max_val - min_val);
@@ -227,8 +229,8 @@ namespace Xcurse
             {
                 samples.emplace_back(ChartWindowData(
                     unit_width,
-                    std::max((int)std::round(std::abs(m_data_open[i] - m_data_close[i]) * get_height() / max_diff), 1),
-                    (std::min(m_data_open[i], m_data_close[i]) - min_val) * get_height() / max_diff,
+                    std::max((int)(std::abs(m_data_open[i] * DATA_MAGNIF_FACTOR - m_data_close[i] * DATA_MAGNIF_FACTOR) * get_height() / max_diff), 1),
+                    (std::min(m_data_open[i], m_data_close[i]) * DATA_MAGNIF_FACTOR - min_val) * get_height() / max_diff,
                     Stylable(TEXT_COLOR_RESET, (m_data_close[i] > m_data_open[i]) ? m_inc_style : m_dec_style, false, false, false)));
             }
 

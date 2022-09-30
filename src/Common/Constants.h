@@ -43,3 +43,5 @@
 #define MAX_BUF_H 500
 
 #define DEFAULT_WIN_BORDER L"=-||++++"
+
+#define DATA_MAGNIF_FACTOR 10000

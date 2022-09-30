@@ -40,7 +40,7 @@ int main(int, char **)
 
     while (d.has_power())
     {
-        win->add_char(1, 1, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
+        win->add_char(0, 0, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         win->add_char(3, 3, d.get_key_press(), TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         std::this_thread::sleep_for(1s);
     }

@@ -41,7 +41,7 @@ namespace Xcurse
     {
         if (x >= 0 && x < get_width() && y >= 0 && y < get_height())
         {
-            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, get_height() + 1 - y - (!m_disable_safe_area) * m_safe_area.down}] = Pixel(c, s);
+            m_windata[Position{x, y}] = Pixel(c, s);
         }
     }
 
@@ -61,7 +61,7 @@ namespace Xcurse
     {
         if (x >= 0 && x < get_width() && y >= 0 && y < get_height())
         {
-            m_windata[Position{x + (!m_disable_safe_area) * m_safe_area.left, get_height() + 1 - y - (!m_disable_safe_area) * m_safe_area.up}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
+            m_windata[Position{x, y}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
         }
     }
 
@@ -107,7 +107,7 @@ namespace Xcurse
         // draw the content of the window
         for (auto &data : m_windata)
         {
-            m_display_ptr->set_pixel(this, data.first, data.second);
+            m_display_ptr->set_pixel(this, Position{data.first.x + (!m_disable_safe_area) * m_safe_area.left, m_size.height - 1 - data.first.y - (!m_disable_safe_area) * m_safe_area.down}, data.second);
         }
     }
 }
