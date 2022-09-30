@@ -156,16 +156,18 @@ namespace Xcurse
     /**
      * @brief Set the data of trend chart window
      *
-     * @param v_open Open values of trend
-     * @param v_close Close values of trend
+     * @param v_low Open values of trend
+     * @param v_high Close values of trend
+     * @param v_ref Value to determine if trend is increase or decrease
      */
-    void TrendChartWindow::set_data(std::vector<float> &v_open, std::vector<float> &v_close)
+    void TrendChartWindow::set_data(std::vector<float> &v_low, std::vector<float> &v_high, std::vector<float> &v_ref)
     {
-        // check if array size matches
-        if (v_open.size() == v_close.size())
+        // check if array sizes match
+        if (v_low.size() == v_high.size() && v_high.size() == v_ref.size())
         {
-            m_data_open = v_open;
-            m_data_close = v_close;
+            m_data_low = v_low;
+            m_data_high = v_high;
+            m_data_ref = v_ref;
         }
     }
 
@@ -199,24 +201,18 @@ namespace Xcurse
         m_windata.clear();
 
         // sample data to be displayed
-        int sample_size = std::min(static_cast<int>(m_data_open.size()), get_width());
+        int sample_size = std::min(static_cast<int>(m_data_low.size()), get_width());
 
         if (sample_size > 0)
         {
             // find max value in all data points
-            float max_val = std::max(
-                                *std::max_element(m_data_open.begin(), m_data_open.end()),
-                                *std::max_element(m_data_close.begin(), m_data_close.end())) *
-                            DATA_MAGNIF_FACTOR;
+            float max_val_scaled = *std::max_element(m_data_high.begin(), m_data_high.end()) * DATA_MAGNIF_FACTOR;
 
             // find min value in all data points
-            float min_val = std::min(
-                                *std::min_element(m_data_open.begin(), m_data_open.end()),
-                                *std::min_element(m_data_close.begin(), m_data_close.end())) *
-                            DATA_MAGNIF_FACTOR;
+            float min_val_scaled = *std::min_element(m_data_low.begin(), m_data_low.end()) * DATA_MAGNIF_FACTOR;
 
             // diff between max and min val
-            const float max_diff = std::abs(max_val - min_val);
+            const float max_diff_scaled = std::abs(max_val_scaled - min_val_scaled);
 
             // sample adequate number of data to build the bars
             std::vector<ChartWindowData> samples;
@@ -225,13 +221,13 @@ namespace Xcurse
             int unit_width = get_width() / sample_size;
 
             // build each bar
-            for (int i = m_data_open.size() - sample_size; i < m_data_open.size(); i++)
+            for (int i = m_data_low.size() - sample_size; i < m_data_low.size(); i++)
             {
                 samples.emplace_back(ChartWindowData(
                     unit_width,
-                    std::max((int)(std::abs(m_data_open[i] * DATA_MAGNIF_FACTOR - m_data_close[i] * DATA_MAGNIF_FACTOR) * get_height() / max_diff), 1),
-                    (std::min(m_data_open[i], m_data_close[i]) * DATA_MAGNIF_FACTOR - min_val) * get_height() / max_diff,
-                    Stylable(TEXT_COLOR_RESET, (m_data_close[i] > m_data_open[i]) ? m_inc_style : m_dec_style, false, false, false)));
+                    std::max((int)(std::abs(m_data_high[i] * DATA_MAGNIF_FACTOR - m_data_low[i] * DATA_MAGNIF_FACTOR) * get_height() / max_diff_scaled), 1),
+                    (m_data_low[i] * DATA_MAGNIF_FACTOR - min_val_scaled) * get_height() / max_diff_scaled,
+                    Stylable(TEXT_COLOR_RESET, (i == 0 || m_data_ref[i] > m_data_ref[i - 1]) ? m_inc_style : m_dec_style, false, false, false)));
             }
 
             // add pixels to buffer

@@ -24,9 +24,10 @@ int main(int, char **)
     d.power_on();
 
     TrendChartWindow *trend_win = static_cast<TrendChartWindow *>(d["w1"]);
-    std::vector<float> d_open = {2, 1, 3, 4, 0};
-    std::vector<float> d_close = {1, 3, 5, 0, 2};
-    trend_win->set_data(d_open, d_close);
+    std::vector<float> d_low = {1, 1, 3, 0, 0};
+    std::vector<float> d_high = {2, 3, 5, 4, 2};
+    std::vector<float> d_ref = {1.5, 2.0, 4.0, 2.0, 1.0};
+    trend_win->set_data(d_low, d_high, d_ref);
     trend_win->set_title(L" Trend ");
 
     GridWindow *win = static_cast<GridWindow *>(d["w2"]);
