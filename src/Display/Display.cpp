@@ -2,7 +2,6 @@
 
 namespace Xcurse
 {
-
     using namespace std::literals::chrono_literals;
 
     // Initialise instance pointer
