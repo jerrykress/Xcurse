@@ -27,6 +27,8 @@ namespace Xcurse
         virtual int get_weight() const;
         virtual Size get_size() const;
         Position get_loc() const;
+        void set_visible();
+        void set_visible(bool b);
 
         BaseDisplayObject *parent_ptr;
         std::string _name;
@@ -35,6 +37,7 @@ namespace Xcurse
         Position m_loc;
         Size m_size;
         int m_weight;
+        std::atomic_bool m_visible;
         Display *m_display_ptr;
 
         virtual void draw();
@@ -88,6 +91,7 @@ namespace Xcurse
         void set_refresh_interval(int ms);
         void output_screen();
         void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_refresh);
+        void update_layout();
 
         // input action management
         bool map_key_action(const char &c, std::function<void()> f);
@@ -115,6 +119,7 @@ namespace Xcurse
         void refresh();
         std::thread m_refresh_thread;
         int m_refresh_interval;
+        std::atomic_bool m_update_layout;
         // user input handler
         char mouse_data[18];
         void mouse_handler();

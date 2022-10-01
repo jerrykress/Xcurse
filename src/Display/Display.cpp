@@ -25,6 +25,7 @@ namespace Xcurse
         m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel()));
         m_power = false;
         m_power_off_all = true;
+        m_update_layout = false;
         m_refresh_interval = 100;
         m_layout = new Layout("root", Vertical, 1);
         m_layout->parent_ptr = nullptr;
@@ -389,7 +390,7 @@ namespace Xcurse
         while (m_power)
         {
             // get size update status
-            bool is_resize = update_size();
+            bool is_resize = update_size() || m_update_layout;
             // update layout
             clear_buffer();
             refreshLayout(m_layout, 0, 0, m_height, m_width, is_resize);
@@ -427,53 +428,69 @@ namespace Xcurse
         LayoutObjects &objects = *(layout->get_objects());
 
         int sum_weight = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, BaseDisplayObject *o)
-                                         { return a + o->m_weight; });
+                                         { return a + o->m_visible * o->m_weight; });
 
         if (layout->orientation == Horizontal)
         {
             for (auto object : objects)
             {
-                if (is_resize)
+                if (object->m_visible)
                 {
-                    object->m_size.height = max_height;
-                    object->m_size.width = std::floor(1.0f * max_width * object->m_weight / sum_weight);
+                    if (is_resize)
+                    {
+                        object->m_size.height = max_height;
+                        object->m_size.width = std::floor(1.0f * max_width * object->m_weight / sum_weight);
+                    }
+
+                    if (typeid(*object) == typeid(Layout))
+                    {
+                        refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_size.width, is_resize);
+                    }
+
+                    object->draw();
+
+                    object->m_loc.x = x;
+                    object->m_loc.y = y;
+                    x += object->m_size.width;
                 }
-
-                if (typeid(*object) == typeid(Layout))
-                {
-                    refreshLayout(static_cast<Layout *>(object), x, y, max_height, object->m_size.width, is_resize);
-                }
-
-                object->draw();
-
-                object->m_loc.x = x;
-                object->m_loc.y = y;
-                x += object->m_size.width;
             }
         }
 
-        if (layout->orientation == Vertical)
+        // if (layout->orientation == Vertical)
+        else
         {
             for (auto object : objects)
             {
-                if (is_resize)
+                if (object->m_visible)
                 {
-                    object->m_size.width = max_width;
-                    object->m_size.height = std::floor(1.0f * max_height * object->m_weight / sum_weight);
+                    if (is_resize)
+                    {
+                        object->m_size.width = max_width;
+                        object->m_size.height = std::floor(1.0f * max_height * object->m_weight / sum_weight);
+                    }
+
+                    if (typeid(*object) == typeid(Layout))
+                    {
+                        refreshLayout(static_cast<Layout *>(object), x, y, object->m_size.height, max_width, is_resize);
+                    }
+
+                    object->draw();
+
+                    object->m_loc.x = x;
+                    object->m_loc.y = y;
+                    y += object->m_size.height;
                 }
-
-                if (typeid(*object) == typeid(Layout))
-                {
-                    refreshLayout(static_cast<Layout *>(object), x, y, object->m_size.height, max_width, is_resize);
-                }
-
-                object->draw();
-
-                object->m_loc.x = x;
-                object->m_loc.y = y;
-                y += object->m_size.height;
             }
         }
+    }
+
+    /**
+     * @brief Explicitly tell display to update layouts of all visible objects
+     *
+     */
+    void Display::update_layout()
+    {
+        m_update_layout = true;
     }
 
     /**

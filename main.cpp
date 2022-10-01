@@ -17,12 +17,6 @@ int main(int, char **)
     bool add_win1 = d.add_obj("v1", "w2", new GridWindow("w2", 1));
     bool add_win2 = d.add_obj("v1", "w3", new BarChartWindow("w3", 1));
 
-    // adding a keymap to power off
-    d.map_key_action('x', [&]() -> void
-                     { d.power_off(); });
-
-    d.power_on();
-
     TrendChartWindow *trend_win = static_cast<TrendChartWindow *>(d["w1"]);
     std::vector<float> d_low = {1, 1, 3, 0, 0};
     std::vector<float> d_high = {2, 3, 5, 4, 2};
@@ -38,6 +32,16 @@ int main(int, char **)
     std::vector<float> ds = {1, 2, 3, 2, 1, 2, 3};
     bar_win->set_data(ds);
     bar_win->set_title(L" Bar ");
+
+    // adding a keymap to power off
+    d.map_key_action('x', [&]() -> void
+                     { d.power_off(); });
+    d.map_key_action('g', [&]() -> void
+                     { win->set_visible(); });
+    d.map_key_action('b', [&]() -> void
+                     { bar_win->set_visible(); });
+
+    d.power_on();
 
     while (d.has_power())
     {

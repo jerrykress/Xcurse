@@ -2,7 +2,10 @@
 
 namespace Xcurse
 {
-    BaseDisplayObject::BaseDisplayObject() {}
+    BaseDisplayObject::BaseDisplayObject()
+    {
+        m_visible = true;
+    }
 
     void BaseDisplayObject::draw()
     {
@@ -32,5 +35,17 @@ namespace Xcurse
     Size BaseDisplayObject::get_size() const
     {
         return m_size;
+    }
+
+    void BaseDisplayObject::set_visible(bool b)
+    {
+        m_visible = b;
+        m_display_ptr->update_layout();
+    }
+
+    void BaseDisplayObject::set_visible()
+    {
+        m_visible = !m_visible;
+        m_display_ptr->update_layout();
     }
 }
