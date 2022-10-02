@@ -22,8 +22,7 @@ namespace Xcurse
         GenericWindowObject();
 
         // getters
-        int
-        get_height() const override;
+        int get_height() const override;
         int get_width() const override;
         Size get_size() const override;
 

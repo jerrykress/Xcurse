@@ -6,9 +6,7 @@ namespace Xcurse
     {
     public:
         TextField();
-        TextField(const std::wstring &ws, Alignment a = ALIGN_CENTER);
-
-        void set_multiline(bool b);
+        TextField(std::string name, const std::wstring &ws, Alignment a = ALIGN_CENTER);
 
     protected:
         void draw() override;

@@ -19,8 +19,6 @@ namespace Xcurse
         Alignment alignment = ALIGN_CENTER;
 
     protected:
-        void draw() override;
-
         std::wstring m_data = L"";
     };
 }

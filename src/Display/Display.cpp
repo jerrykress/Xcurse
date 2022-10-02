@@ -136,7 +136,7 @@ namespace Xcurse
      */
     void Display::set_pixel(BaseDisplayObject *caller, int x, int y, const Pixel &px)
     {
-        if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height - 1)
+        if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height)
         {
             m_screen[y][x] = px;
         }
@@ -182,7 +182,7 @@ namespace Xcurse
      */
     void Display::set_pixel(BaseDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
     {
-        if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height - 1)
+        if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height)
         {
             m_screen[y][x].data = c;
             m_screen[y][x].foreground = foreground;
@@ -215,9 +215,6 @@ namespace Xcurse
                 // add object pointer to parent's record
                 LayoutObjects &parent_objs = *(static_cast<Layout *>(layout_pair_it->second)->get_objects());
                 parent_objs.emplace_back(o);
-                // sort the objects, separate fixed size and flexible size
-                std::sort(parent_objs.begin(), parent_objs.end(), [](BaseDisplayObject *a, BaseDisplayObject *b)
-                          { return a->get_size().fixed > b->get_size().fixed; });
                 return true;
             }
         }
@@ -427,10 +424,13 @@ namespace Xcurse
         LayoutObjects &objects = *(layout->get_objects());
 
         int sum_weight = std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, BaseDisplayObject *o)
-                                         { return a + o->m_visible * o->m_weight; });
+                                         { return a + (o->m_visible && !o->m_size.fixed) * o->m_weight; });
 
         if (layout->orientation == Horizontal)
         {
+            max_width -= std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, BaseDisplayObject *o)
+                                         { return a + (o->m_visible && o->m_size.fixed) * o->m_size.width; });
+
             for (auto object : objects)
             {
                 if (object->m_visible)
@@ -438,7 +438,10 @@ namespace Xcurse
                     if (is_resize)
                     {
                         object->m_size.height = max_height;
-                        object->m_size.width = std::floor(1.0f * max_width * object->m_weight / sum_weight);
+                        if (!object->m_size.fixed)
+                        {
+                            object->m_size.width = std::floor(1.0f * max_width * object->m_weight / sum_weight);
+                        }
                     }
 
                     if (typeid(*object) == typeid(Layout))
@@ -458,6 +461,9 @@ namespace Xcurse
         // if (layout->orientation == Vertical)
         else
         {
+            max_height -= std::accumulate(objects.begin(), objects.end(), 0, [&layout](int a, BaseDisplayObject *o)
+                                          { return a + (o->m_visible && o->m_size.fixed) * o->m_size.height; });
+
             for (auto object : objects)
             {
                 if (object->m_visible)
@@ -465,7 +471,10 @@ namespace Xcurse
                     if (is_resize)
                     {
                         object->m_size.width = max_width;
-                        object->m_size.height = std::floor(1.0f * max_height * object->m_weight / sum_weight);
+                        if (!object->m_size.fixed)
+                        {
+                            object->m_size.height = std::floor(1.0f * max_height * object->m_weight / sum_weight);
+                        }
                     }
 
                     if (typeid(*object) == typeid(Layout))

@@ -7,7 +7,14 @@ namespace Xcurse
      * @brief Construct a new Stylable:: Stylable object
      *
      */
-    Stylable::Stylable() {}
+    Stylable::Stylable()
+    {
+        foreground = TEXT_COLOR_RESET;
+        background = BACKGROUND_COLOR_RESET;
+        bold = false;
+        underline = false;
+        reversed = false;
+    }
 
     /**
      * @brief Construct a new Stylable:: Stylable object
