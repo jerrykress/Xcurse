@@ -1,4 +1,7 @@
+#pragma once
+
 #include "../Display/Display.h"
+#include "../Utils/Converter.h"
 
 namespace Xcurse
 {

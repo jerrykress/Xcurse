@@ -11,7 +11,6 @@ namespace Xcurse
         _name = "Untitled";
         m_border = DEFAULT_WIN_BORDER;
         m_weight = 1;
-        m_display_ptr = Display::get_display();
     }
 
     /**
@@ -26,7 +25,6 @@ namespace Xcurse
         _name = name;
         m_border = border;
         m_weight = weight;
-        m_display_ptr = Display::get_display();
     }
 
     /**

@@ -9,7 +9,6 @@ namespace Xcurse
         alignment = ALIGN_CENTER;
         m_size.fixed = true;
         m_size.height = 1;
-        m_display_ptr = Display::get_display();
     }
 
     TextField::TextField(std::string name, const std::wstring &ws, Alignment a)
@@ -19,7 +18,15 @@ namespace Xcurse
         alignment = a;
         m_size.fixed = true;
         m_size.height = 1;
-        m_display_ptr = Display::get_display();
+    }
+
+    TextField::TextField(std::string name, const std::string &s, Alignment a)
+    {
+        _name = name;
+        m_data = to_wstring(s);
+        alignment = a;
+        m_size.fixed = true;
+        m_size.height = 1;
     }
 
     void TextField::draw()

@@ -13,7 +13,7 @@ int main(int, char **)
     Display &d = *Display::get_display();
     d.set_refresh_interval(200);
 
-    bool add_wig0 = d.add_obj("root", "t1", new TextField("t1", L"Program", ALIGN_RIGHT));
+    bool add_wig0 = d.add_obj("root", "t1", new TextField("t1", L"Program", ALIGN_CENTER));
     bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
     bool add_win3 = d.add_obj("root", "w1", new TrendChartWindow("w1", 1));
     bool add_win1 = d.add_obj("v1", "w2", new GridWindow("w2", 1));

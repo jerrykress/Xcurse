@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GenericTextObject.h"
 
 namespace Xcurse
@@ -6,7 +8,8 @@ namespace Xcurse
     {
     public:
         TextField();
-        TextField(std::string name, const std::wstring &ws, Alignment a = ALIGN_CENTER);
+        explicit TextField(std::string name, const std::string &s, Alignment a = ALIGN_CENTER);
+        explicit TextField(std::string name, const std::wstring &ws, Alignment a = ALIGN_CENTER);
 
     protected:
         void draw() override;

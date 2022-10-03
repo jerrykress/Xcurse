@@ -21,7 +21,6 @@ namespace Xcurse
         m_border = DEFAULT_WIN_BORDER;
         m_inc_style = BACKGROUND_COLOR_GREEN;
         m_dec_style = BACKGROUND_COLOR_RED;
-        m_display_ptr = Display::get_display();
     }
 
     /**
@@ -38,7 +37,6 @@ namespace Xcurse
         m_border = border;
         m_inc_style = BACKGROUND_COLOR_GREEN;
         m_dec_style = BACKGROUND_COLOR_RED;
-        m_display_ptr = Display::get_display();
     }
 
     /**
@@ -133,7 +131,6 @@ namespace Xcurse
         m_border = DEFAULT_WIN_BORDER;
         m_inc_style = BACKGROUND_COLOR_GREEN;
         m_dec_style = BACKGROUND_COLOR_RED;
-        m_display_ptr = Display::get_display();
     }
 
     /**
@@ -150,7 +147,6 @@ namespace Xcurse
         m_border = border;
         m_inc_style = BACKGROUND_COLOR_GREEN;
         m_dec_style = BACKGROUND_COLOR_RED;
-        m_display_ptr = Display::get_display();
     }
 
     /**

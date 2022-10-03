@@ -212,6 +212,8 @@ namespace Xcurse
             {
                 // assign parent to incoming object
                 o->parent_ptr = layout_pair_it->second;
+                // link to current display
+                o->m_display_ptr = get_display();
                 // add object pointer to parent's record
                 LayoutObjects &parent_objs = *(static_cast<Layout *>(layout_pair_it->second)->get_objects());
                 parent_objs.emplace_back(o);
