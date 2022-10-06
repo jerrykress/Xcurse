@@ -87,6 +87,10 @@ namespace Xcurse
         void power_off();
         void clear_buffer();
         void clear_terminal();
+        void reset_cursor();
+        void set_cursor_x(int x);
+        void set_cursor_y(int y);
+        void set_cursor_pos(Position p);
         bool update_size();
         void set_refresh_interval(int ms);
         void output_screen();

@@ -100,7 +100,7 @@ namespace Xcurse
      *
      * @return Size of the terminal screen
      */
-    Size Display::get_size()
+    inline Size Display::get_size()
     {
         update_size();
         return Size{m_width, m_height};
@@ -111,7 +111,7 @@ namespace Xcurse
      *
      * @return The height of the screen
      */
-    int Display::get_height() const
+    inline int Display::get_height() const
     {
         return m_height;
     }
@@ -121,7 +121,7 @@ namespace Xcurse
      *
      * @return The width of the screen
      */
-    int Display::get_width() const
+    inline int Display::get_width() const
     {
         return m_width;
     }
@@ -344,7 +344,47 @@ namespace Xcurse
      */
     inline void Display::clear_terminal()
     {
-        std::wcout << "\x1B[2J\x1B[H";
+        std::wcout << "\e[2J";
+    }
+
+    /**
+     * @brief ANSI Code - Move cursor to upper left corner
+     *
+     */
+    inline void Display::reset_cursor()
+    {
+        std::wcout << "\e[H";
+    }
+
+    /**
+     * @brief ANSI Code - Move cursor to X position
+     *
+     * @param x
+     */
+    inline void Display::set_cursor_x(int x)
+    {
+        std::wcout << "\e[" << std::to_wstring(x) << "G";
+    }
+
+    /**
+     * @brief ANSI Code - Move cursor to Y position
+     *
+     * @param y
+     */
+    inline void Display::set_cursor_y(int y)
+    {
+        std::wcout << "\e[" << std::to_wstring(y) << "B";
+    }
+
+    /**
+     * @brief ANSI Code - Move cursor to x,y position
+     *
+     * @param p
+     */
+    inline void Display::set_cursor_pos(Position p)
+    {
+        std::wcout << "\e[{" << std::to_wstring(p.y) << "};{" << std::to_wstring(p.x) << "}H";
+        std::wcout << "\e[{" << std::to_wstring(p.y) << "};{" << std::to_wstring(p.x) << "}f";
     }
 
     /**
@@ -395,7 +435,8 @@ namespace Xcurse
             clear_buffer();
             refreshLayout(m_layout, 0, 0, m_height, m_width, is_resize);
             // output screen
-            clear_terminal();
+            // clear_terminal();
+            reset_cursor();
             output_screen();
             // wait for next refresh
             std::this_thread::sleep_for(std::chrono::milliseconds(m_refresh_interval));
@@ -601,7 +642,7 @@ namespace Xcurse
     /**
      * @brief Invoke an action mapped to a keypress
      *
-     * @param Char of keypress
+     * @param c Char of keypress
      */
     void Display::invoke_key_action(const char &c)
     {

@@ -123,6 +123,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adfc55e2eef983c6fabfa06f64d5e3999"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#adfc55e2eef983c6fabfa06f64d5e3999">clear_terminal</a> ()</td></tr>
 <tr class="memdesc:adfc55e2eef983c6fabfa06f64d5e3999"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the terminal screen.  <a href="classXcurse_1_1Display.html#adfc55e2eef983c6fabfa06f64d5e3999">More...</a><br /></td></tr>
 <tr class="separator:adfc55e2eef983c6fabfa06f64d5e3999"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7f24413eaac41fc424e37a0a31e3ccb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#ab7f24413eaac41fc424e37a0a31e3ccb">reset_cursor</a> ()</td></tr>
+<tr class="memdesc:ab7f24413eaac41fc424e37a0a31e3ccb"><td class="mdescLeft">&#160;</td><td class="mdescRight">ANSI Code - Move cursor to upper left corner.  <a href="classXcurse_1_1Display.html#ab7f24413eaac41fc424e37a0a31e3ccb">More...</a><br /></td></tr>
+<tr class="separator:ab7f24413eaac41fc424e37a0a31e3ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae384d2247a468c865644158ef4b9c153"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#ae384d2247a468c865644158ef4b9c153">set_cursor_x</a> (int x)</td></tr>
+<tr class="memdesc:ae384d2247a468c865644158ef4b9c153"><td class="mdescLeft">&#160;</td><td class="mdescRight">ANSI Code - Move cursor to X position.  <a href="classXcurse_1_1Display.html#ae384d2247a468c865644158ef4b9c153">More...</a><br /></td></tr>
+<tr class="separator:ae384d2247a468c865644158ef4b9c153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec9e32a184e68cb9dbed5fc3eaf9f04a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#aec9e32a184e68cb9dbed5fc3eaf9f04a">set_cursor_y</a> (int y)</td></tr>
+<tr class="memdesc:aec9e32a184e68cb9dbed5fc3eaf9f04a"><td class="mdescLeft">&#160;</td><td class="mdescRight">ANSI Code - Move cursor to Y position.  <a href="classXcurse_1_1Display.html#aec9e32a184e68cb9dbed5fc3eaf9f04a">More...</a><br /></td></tr>
+<tr class="separator:aec9e32a184e68cb9dbed5fc3eaf9f04a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c08d96bcf5fd04b1345fe761f8e4756"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#a1c08d96bcf5fd04b1345fe761f8e4756">set_cursor_pos</a> (<a class="el" href="structXcurse_1_1Position.html">Position</a> p)</td></tr>
+<tr class="memdesc:a1c08d96bcf5fd04b1345fe761f8e4756"><td class="mdescLeft">&#160;</td><td class="mdescRight">ANSI Code - Move cursor to x,y position.  <a href="classXcurse_1_1Display.html#a1c08d96bcf5fd04b1345fe761f8e4756">More...</a><br /></td></tr>
+<tr class="separator:a1c08d96bcf5fd04b1345fe761f8e4756"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4afb1f69368483c5749506f5e066e03"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#af4afb1f69368483c5749506f5e066e03">update_size</a> ()</td></tr>
 <tr class="memdesc:af4afb1f69368483c5749506f5e066e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the size information of the terminal screen.  <a href="classXcurse_1_1Display.html#af4afb1f69368483c5749506f5e066e03">More...</a><br /></td></tr>
 <tr class="separator:af4afb1f69368483c5749506f5e066e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -293,6 +305,9 @@ Static Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int Xcurse::Display::get_height </td>
@@ -301,6 +316,11 @@ Static Public Member Functions</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Get the height of the screen. </p>
@@ -360,6 +380,9 @@ Static Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="structXcurse_1_1Size.html">Size</a> Xcurse::Display::get_size </td>
@@ -368,6 +391,11 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Get the size of terminal screen. </p>
@@ -380,6 +408,9 @@ Static Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int Xcurse::Display::get_width </td>
@@ -388,6 +419,11 @@ Static Public Member Functions</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Get the width of the screen. </p>
@@ -490,7 +526,7 @@ false </dd></dl>
 <p>Invoke an action mapped to a keypress. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Char</td><td>of keypress </td></tr>
+    <tr><td class="paramname">c</td><td>Char of keypress </td></tr>
   </table>
   </dd>
 </dl>
@@ -710,6 +746,33 @@ false </dd></dl>
 
 </div>
 </div>
+<a id="ab7f24413eaac41fc424e37a0a31e3ccb" name="ab7f24413eaac41fc424e37a0a31e3ccb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7f24413eaac41fc424e37a0a31e3ccb">&#9670;&nbsp;</a></span>reset_cursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Xcurse::Display::reset_cursor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ANSI Code - Move cursor to upper left corner. </p>
+
+</div>
+</div>
 <a id="a41eff66b22afd90b55a672c12f5ad9a5" name="a41eff66b22afd90b55a672c12f5ad9a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a41eff66b22afd90b55a672c12f5ad9a5">&#9670;&nbsp;</a></span>rm_key_action()</h2>
 
@@ -734,6 +797,108 @@ false </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>If deletion was successful </dd></dl>
+
+</div>
+</div>
+<a id="a1c08d96bcf5fd04b1345fe761f8e4756" name="a1c08d96bcf5fd04b1345fe761f8e4756"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c08d96bcf5fd04b1345fe761f8e4756">&#9670;&nbsp;</a></span>set_cursor_pos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Xcurse::Display::set_cursor_pos </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structXcurse_1_1Position.html">Position</a>&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ANSI Code - Move cursor to x,y position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae384d2247a468c865644158ef4b9c153" name="ae384d2247a468c865644158ef4b9c153"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae384d2247a468c865644158ef4b9c153">&#9670;&nbsp;</a></span>set_cursor_x()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Xcurse::Display::set_cursor_x </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ANSI Code - Move cursor to X position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aec9e32a184e68cb9dbed5fc3eaf9f04a" name="aec9e32a184e68cb9dbed5fc3eaf9f04a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec9e32a184e68cb9dbed5fc3eaf9f04a">&#9670;&nbsp;</a></span>set_cursor_y()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Xcurse::Display::set_cursor_y </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ANSI Code - Move cursor to Y position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">y</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
