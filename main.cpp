@@ -11,7 +11,7 @@ int main(int, char **)
 {
     Display::init();
     Display &d = *Display::get_display();
-    d.set_refresh_interval(200);
+    d.set_refresh_interval(500);
 
     bool add_wig0 = d.add_obj("root", "t1", new TextField("t1", "Program", ALIGN_CENTER));
     bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));

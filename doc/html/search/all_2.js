@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['background_0',['background',['../classXcurse_1_1Stylable.html#ab62bcd1f96886367ef3bc7ed766cf974',1,'Xcurse::Stylable']]],
+  ['background_5fcolor_5fblack_1',['BACKGROUND_COLOR_BLACK',['../Constants_8h.html#a1f4662d7f58fb3a9428e53828a20018b',1,'Constants.h']]],
+  ['background_5fcolor_5fblue_2',['BACKGROUND_COLOR_BLUE',['../Constants_8h.html#a51b875f5accc3e456d69b5dd898007cf',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fblack_3',['BACKGROUND_COLOR_BRIGHT_BLACK',['../Constants_8h.html#a13082dfca76a97ea6d2c125efcfc688b',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fblue_4',['BACKGROUND_COLOR_BRIGHT_BLUE',['../Constants_8h.html#a0322c8ac38655ca96cd226e8ee0ab20e',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fcyan_5',['BACKGROUND_COLOR_BRIGHT_CYAN',['../Constants_8h.html#ac6c1bc98e7ea1189e565d9e9128c8121',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fgreeb_6',['BACKGROUND_COLOR_BRIGHT_GREEB',['../Constants_8h.html#a33e912cf028ff6aafcd861b69c9425de',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fmagenta_7',['BACKGROUND_COLOR_BRIGHT_MAGENTA',['../Constants_8h.html#ae386b76c2a0d6f0a916831d5e00bcfd8',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fred_8',['BACKGROUND_COLOR_BRIGHT_RED',['../Constants_8h.html#ac02b21fb19520d0b00e926e61b1e71f6',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fwhite_9',['BACKGROUND_COLOR_BRIGHT_WHITE',['../Constants_8h.html#a25217fec207493e308a22286cdee17f0',1,'Constants.h']]],
+  ['background_5fcolor_5fbright_5fyellow_10',['BACKGROUND_COLOR_BRIGHT_YELLOW',['../Constants_8h.html#a81a5357f4ac9c423a197d98a5d197633',1,'Constants.h']]],
+  ['background_5fcolor_5fcyan_11',['BACKGROUND_COLOR_CYAN',['../Constants_8h.html#a26cdb01a44c30b5d9826645b3e326b5a',1,'Constants.h']]],
+  ['background_5fcolor_5fgreen_12',['BACKGROUND_COLOR_GREEN',['../Constants_8h.html#aa12f7a19622e6aa25e5ff0521baa0f07',1,'Constants.h']]],
+  ['background_5fcolor_5fmagenta_13',['BACKGROUND_COLOR_MAGENTA',['../Constants_8h.html#a85747f9ff89b8e4b06e83f165eedefc6',1,'Constants.h']]],
+  ['background_5fcolor_5fred_14',['BACKGROUND_COLOR_RED',['../Constants_8h.html#a76ae5120e95972432e1fe58c775b6c37',1,'Constants.h']]],
+  ['background_5fcolor_5freset_15',['BACKGROUND_COLOR_RESET',['../Constants_8h.html#a79842326912e65b4dd403a5c3e836101',1,'Constants.h']]],
+  ['background_5fcolor_5fwhite_16',['BACKGROUND_COLOR_WHITE',['../Constants_8h.html#a00ac1d31860151def6543022ca9ef652',1,'Constants.h']]],
+  ['background_5fcolor_5fyellow_17',['BACKGROUND_COLOR_YELLOW',['../Constants_8h.html#a967f5bacb6964984fa903519371f46e6',1,'Constants.h']]],
+  ['barchartwindow_18',['BarChartWindow',['../classXcurse_1_1BarChartWindow.html#ae134299c3ca67f070d09e49a6938bb14',1,'Xcurse::BarChartWindow::BarChartWindow(std::string name, int weight=1, std::wstring border=DEFAULT_WIN_BORDER)'],['../classXcurse_1_1BarChartWindow.html#ae15576bbd4756dc08a419541e52609f8',1,'Xcurse::BarChartWindow::BarChartWindow()'],['../classXcurse_1_1BarChartWindow.html',1,'Xcurse::BarChartWindow']]],
+  ['basedisplayobject_19',['BaseDisplayObject',['../classXcurse_1_1BaseDisplayObject.html#a2506eeb6278fa5bf48f5ed81f0356467',1,'Xcurse::BaseDisplayObject::BaseDisplayObject()'],['../classXcurse_1_1BaseDisplayObject.html',1,'Xcurse::BaseDisplayObject']]],
+  ['basedisplayobject_2ecpp_20',['BaseDisplayObject.cpp',['../BaseDisplayObject_8cpp.html',1,'']]],
+  ['bold_21',['bold',['../classXcurse_1_1Stylable.html#a7aa088aceaf7d7e22e4b9ce7b08629a3',1,'Xcurse::Stylable']]]
+];

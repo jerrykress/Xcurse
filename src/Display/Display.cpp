@@ -277,7 +277,8 @@ namespace Xcurse
 #if __APPLE__
             std::wcout << "\e[?1049h" << std::endl;
 #elif __linux__
-            std::wcout << "\e[?47h" << std::endl;
+            // std::wcout << "\e[?47h" << std::endl;
+            std::wcout << "\e[?1049h" << std::endl;
 #endif
             // hide cursor
             std::wcout << "\e[?25l" << std::endl;
@@ -324,7 +325,8 @@ namespace Xcurse
 #if __APPLE__
             std::wcout << "\e[?1049l" << std::endl;
 #elif __linux__
-            std::wcout << "\e[?1047l" << std::endl;
+            // std::wcout << "\e[?1047l" << std::endl;
+            std::wcout << "\e[?1049l" << std::endl;
 #endif
             std::wcout << "Finished with exit code 0" << std::endl;
         }
