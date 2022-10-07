@@ -71,7 +71,7 @@ namespace Xcurse
         int get_width() const;
         int get_height() const;
 
-        // painters
+        // pixel setter
         void set_pixel(BaseDisplayObject *caller, int x, int y, const Pixel &px);
         void set_pixel(BaseDisplayObject *caller, const Position &loc, const Pixel &px);
         void set_pixel(BaseDisplayObject *caller, const Position &loc, const Position &offset, const Pixel &px);
@@ -81,21 +81,33 @@ namespace Xcurse
         bool add_obj(std::string layout_name, std::string obj_name, BaseDisplayObject *o);
         bool remove_obj(std::string obj_name);
         BaseDisplayObject *get_obj(std::string obj_name);
-        // display management
+
+        // power settings
         void power_on();
         bool has_power() const;
         void power_off();
-        void clear_buffer();
-        void clear_terminal();
+        void set_power_off_all(bool b);
+
+        // cursor tools
         void reset_cursor();
         void set_cursor_x(int x);
         void set_cursor_y(int y);
         void set_cursor_pos(Position p);
+
+        // refresh tools
+        void clear_buffer();
+        void clear_terminal();
         bool update_size();
         void set_refresh_interval(int ms);
         void output_screen();
         void refreshLayout(Layout *layout, int x, int y, int max_height, int max_width, bool is_refresh);
         void update_layout();
+
+        // alt screen setting
+        void set_min_screen_size(Size s);
+        void set_alt_screen(BaseDisplayObject *o);
+        void enable_alt_screen(bool b);
+        void output_alt_screen();
 
         // input action management
         bool map_key_action(const char &c, std::function<void()> f);
@@ -104,39 +116,47 @@ namespace Xcurse
         void invoke_key_action(const char &c);
         char get_key_press() const;
 
-        // power properties
-        void set_power_off_all(bool b);
-
         BaseDisplayObject *&operator[](std::string name);
 
     private:
         static Display *m_instance;
+
         // private constructor to prevent new instances
         Display();
         Display(const Display &);
         Display &operator=(const Display &);
+
         // main display properties
         Screen m_screen;
         std::atomic_bool m_power;
         int m_width, m_height;
+        Size m_min_screen_size;
+        BaseDisplayObject *m_alt_screen;
+        bool m_enable_alt;
+
         // display refresh utilities
         void refresh();
         std::thread m_refresh_thread;
         int m_refresh_interval;
         std::atomic_bool m_update_layout;
+
         // user input handler
         char mouse_data[18];
         void mouse_handler();
         std::thread m_mouse_in_thread;
+
         // keyboard handler
         char m_key_press;
         void key_handler();
         std::thread m_key_in_thread;
+
         // input action map
         std::unordered_map<char, std::function<void()>> m_action_map;
+
         // windows properties
         Layout *m_layout;
         ObjTable m_obj_ptrs;
+
         // power properties
         bool m_power_off_all;
     };

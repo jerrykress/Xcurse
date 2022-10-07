@@ -7,7 +7,12 @@ namespace Xcurse
     // Initialise instance pointer
     Display *Display::m_instance = NULL;
 
-    // overload array subscript operator
+    /**
+     * @brief Get the pointer to a BaseDisplayObject from the current display
+     * @note Manual casting to the desired object type is required
+     * @param name
+     * @return BaseDisplayObject*&
+     */
     BaseDisplayObject *&Display::operator[](std::string name)
     {
         return m_obj_ptrs[name];
@@ -19,17 +24,28 @@ namespace Xcurse
      */
     Display::Display()
     {
-        // setup basic attr
+        // get init screen size
         update_size();
+        // alloc buffer
         m_screen = Screen(MAX_BUF_H, std::vector<Pixel>(MAX_BUF_W, Pixel()));
+        // default power off
         m_power = false;
+        // default enable power off all threads
         m_power_off_all = true;
+        // don't update layout immediately upon power on
         m_update_layout = false;
+        // default min screen size is 0,0
+        m_min_screen_size = Size{0, 0};
+        // default refresh interval is 100ms
         m_refresh_interval = 100;
+        // insert root layout with no parent
         m_layout = new Layout("root", Vertical, 1);
         m_layout->parent_ptr = nullptr;
         m_obj_ptrs.emplace("root", m_layout);
+        // default key press to space
         m_key_press = ' ';
+        // default no alternate screen
+        m_alt_screen = nullptr;
     }
 
     /**
@@ -93,6 +109,16 @@ namespace Xcurse
             return true;
         }
         return false;
+    }
+
+    /**
+     * @brief Set the minimum screen size required for the program to function. An alternative screen is shown if current screen size is smaller than the set minimum size.
+     *
+     * @param s
+     */
+    void Display::set_min_screen_size(Size s)
+    {
+        m_min_screen_size = s;
     }
 
     /**
@@ -277,7 +303,6 @@ namespace Xcurse
 #if __APPLE__
             std::wcout << "\e[?1049h" << std::endl;
 #elif __linux__
-            // std::wcout << "\e[?47h" << std::endl;
             std::wcout << "\e[?1049h" << std::endl;
 #endif
             // hide cursor
@@ -325,7 +350,6 @@ namespace Xcurse
 #if __APPLE__
             std::wcout << "\e[?1049l" << std::endl;
 #elif __linux__
-            // std::wcout << "\e[?1047l" << std::endl;
             std::wcout << "\e[?1049l" << std::endl;
 #endif
             std::wcout << "Finished with exit code 0" << std::endl;
@@ -344,7 +368,7 @@ namespace Xcurse
      */
     inline void Display::clear_terminal()
     {
-        std::wcout << "\e[2J";
+        std::wcout << "\x1B[2J\x1B[H";
     }
 
     /**
@@ -422,6 +446,47 @@ namespace Xcurse
     }
 
     /**
+     * @brief Set alt screen to be displayed when screen size is too small
+     *
+     * @param o
+     */
+    void Display::set_alt_screen(BaseDisplayObject *o)
+    {
+        m_alt_screen = o;
+        m_alt_screen->m_display_ptr = this;
+    }
+
+    /**
+     * @brief Enable alt screen
+     *
+     * @param b
+     */
+    void Display::enable_alt_screen(bool b)
+    {
+        m_enable_alt = b;
+    }
+
+    /**
+     * @brief Output the alt screen instead of the main screen
+     *
+     */
+    inline void Display::output_alt_screen()
+    {
+        if (m_alt_screen != nullptr)
+        {
+            m_alt_screen->draw();
+        }
+        else
+        {
+            clear_terminal();
+            std::wcout << L"Screen is too small\n"
+                       << L"\nCurrent size: " << get_size()
+                       << L"Requires size: " << m_min_screen_size
+                       << std::endl;
+        }
+    }
+
+    /**
      * @brief Update the layouts and objects on the display
      *
      */
@@ -429,15 +494,22 @@ namespace Xcurse
     {
         while (m_power)
         {
-            // get size update status
+            // resize if size is updated or explictly told to
             bool is_resize = update_size() || m_update_layout;
-            // update layout
-            clear_buffer();
-            refreshLayout(m_layout, 0, 0, m_height, m_width, is_resize);
-            // output screen
-            // clear_terminal();
-            reset_cursor();
-            output_screen();
+            // if screen is too small and alt is enabled, print alt screen
+            if (m_enable_alt && get_size() < m_min_screen_size)
+            {
+                output_alt_screen();
+            }
+            else
+            {
+                // clear screen buffer and update layout from root
+                clear_buffer();
+                refreshLayout(m_layout, 0, 0, m_height, m_width, is_resize);
+                // set cursor to 0,0 and output screen
+                reset_cursor();
+                output_screen();
+            }
             // wait for next refresh
             std::this_thread::sleep_for(std::chrono::milliseconds(m_refresh_interval));
         }

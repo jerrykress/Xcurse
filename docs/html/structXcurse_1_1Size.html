@@ -69,6 +69,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="structXcurse_1_1Size-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Xcurse::Size Struct Reference</div></div>
 </div><!--header-->
@@ -82,7 +83,14 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab90b999830368fe51299dab1667b5e2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXcurse_1_1Size.html#ab90b999830368fe51299dab1667b5e2f">operator==</a> (<a class="el" href="structXcurse_1_1Size.html">Size</a> &amp;that)</td></tr>
+<tr class="memdesc:ab90b999830368fe51299dab1667b5e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operator ==.  <a href="structXcurse_1_1Size.html#ab90b999830368fe51299dab1667b5e2f">More...</a><br /></td></tr>
 <tr class="separator:ab90b999830368fe51299dab1667b5e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59cd0d48260ea1a6ad56cb9906c06239"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXcurse_1_1Size.html#a59cd0d48260ea1a6ad56cb9906c06239">operator&lt;</a> (<a class="el" href="structXcurse_1_1Size.html">Size</a> &amp;that)</td></tr>
+<tr class="memdesc:a59cd0d48260ea1a6ad56cb9906c06239"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less operator, return true if height or width is smaller.  <a href="structXcurse_1_1Size.html#a59cd0d48260ea1a6ad56cb9906c06239">More...</a><br /></td></tr>
+<tr class="separator:a59cd0d48260ea1a6ad56cb9906c06239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e47f8042a63a0b364aa828f2940b276"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXcurse_1_1Size.html#a3e47f8042a63a0b364aa828f2940b276">operator&gt;</a> (<a class="el" href="structXcurse_1_1Size.html">Size</a> &amp;that)</td></tr>
+<tr class="memdesc:a3e47f8042a63a0b364aa828f2940b276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater operator, return true if both width and height are greater.  <a href="structXcurse_1_1Size.html#a3e47f8042a63a0b364aa828f2940b276">More...</a><br /></td></tr>
+<tr class="separator:a3e47f8042a63a0b364aa828f2940b276"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -92,10 +100,45 @@ Public Attributes</h2></td></tr>
 <tr class="separator:afb589abedb891397817a65dac2e2b92a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71455fe5cbee1e8ab8e6c7887f1d41de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXcurse_1_1Size.html#a71455fe5cbee1e8ab8e6c7887f1d41de">fixed</a> = false</td></tr>
 <tr class="separator:a71455fe5cbee1e8ab8e6c7887f1d41de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:ada50e5da23d9045c1eac4b82f301d8a9"><td class="memItemLeft" align="right" valign="top">std::wostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXcurse_1_1Size.html#ada50e5da23d9045c1eac4b82f301d8a9">operator&lt;&lt;</a> (std::wostream &amp;wos, const <a class="el" href="structXcurse_1_1Size.html">Size</a> &amp;that)</td></tr>
+<tr class="memdesc:ada50e5da23d9045c1eac4b82f301d8a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload wide ostream.  <a href="structXcurse_1_1Size.html#ada50e5da23d9045c1eac4b82f301d8a9">More...</a><br /></td></tr>
+<tr class="separator:ada50e5da23d9045c1eac4b82f301d8a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >A struct that consists of a pair of integers that represents width and height. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a59cd0d48260ea1a6ad56cb9906c06239" name="a59cd0d48260ea1a6ad56cb9906c06239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59cd0d48260ea1a6ad56cb9906c06239">&#9670;&nbsp;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Xcurse::Size::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structXcurse_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Less operator, return true if height or width is smaller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
 <a id="ab90b999830368fe51299dab1667b5e2f" name="ab90b999830368fe51299dab1667b5e2f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab90b999830368fe51299dab1667b5e2f">&#9670;&nbsp;</a></span>operator==()</h2>
 
@@ -111,6 +154,93 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Operator ==. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
+<a id="a3e47f8042a63a0b364aa828f2940b276" name="a3e47f8042a63a0b364aa828f2940b276"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e47f8042a63a0b364aa828f2940b276">&#9670;&nbsp;</a></span>operator&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Xcurse::Size::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structXcurse_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Greater operator, return true if both width and height are greater. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">that</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="ada50e5da23d9045c1eac4b82f301d8a9" name="ada50e5da23d9045c1eac4b82f301d8a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada50e5da23d9045c1eac4b82f301d8a9">&#9670;&nbsp;</a></span>operator&lt;&lt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::wostream &amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::wostream &amp;&#160;</td>
+          <td class="paramname"><em>wos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structXcurse_1_1Size.html">Size</a> &amp;&#160;</td>
+          <td class="paramname"><em>that</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Overload wide ostream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wos</td><td></td></tr>
+    <tr><td class="paramname">that</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::wostream&amp; </dd></dl>
 
 </div>
 </div>

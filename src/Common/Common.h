@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <iostream>
 #include "Constants.h"
 
 namespace Xcurse
@@ -103,6 +104,10 @@ namespace Xcurse
     struct Size
     {
         bool operator==(Size &that);
+        bool operator<(Size &that);
+        bool operator>(Size &that);
+
+        friend std::wostream &operator<<(std::wostream &wos, const Size &that);
 
         int width = 0;      //* width value */
         int height = 0;     //* height value */
