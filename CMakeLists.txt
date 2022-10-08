@@ -13,6 +13,7 @@ file(GLOB src_files CONFIGURE_DEPENDS
      "src/Utils/*.cpp"
      "src/Widgets/*.cpp"
      "src/Window/*.cpp"
+     "src/Shapes/*.cpp"
 )
 
 add_executable(Xcurse main.cpp ${src_files})
