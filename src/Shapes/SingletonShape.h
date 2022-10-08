@@ -6,5 +6,7 @@ namespace Xcurse
 {
     class SingletonShape : public GenericShapeObject, public Stylable
     {
+    public:
+        SingletonShape();
     };
 }

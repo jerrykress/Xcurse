@@ -9,22 +9,26 @@ namespace Xcurse
     void GenericShapeObject::rasterise() {}
 
     /**
+     * @brief Rasterise the shape into pixels with style
+     *
+     */
+    void GenericShapeObject::rasterise_styled() {}
+
+    /**
      * @brief Get the raserised representation of the shape without style
      *
-     * @return std::vector<Position>&
      */
-    std::vector<Position> &GenericShapeObject::get_points()
+    void GenericShapeObject::get_rasterised(std::vector<Position> &target)
     {
-        return m_points;
+        target = std::vector<Position>{};
     }
 
     /**
      * @brief Get the rasterised representation of the shape with style
      *
-     * @return std::vector<Position>&
      */
-    std::vector<Pixel> &GenericShapeObject::get_points_styled()
+    void GenericShapeObject::get_rasterised_styled(std::vector<Pixel> &target)
     {
-        return m_pixels;
+        target = std::vector<Pixel>{};
     }
 }

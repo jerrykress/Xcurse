@@ -7,6 +7,8 @@ namespace Xcurse
     class CompositeShape : public GenericShapeObject
     {
     public:
+        CompositeShape();
+
         std::vector<SingletonShape> &get_member_shapes() const;
 
     private:
