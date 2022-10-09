@@ -20,17 +20,33 @@ namespace Xcurse
 
     void Circle::rasterise()
     {
-        return;
+        get_rasterised(m_points);
     }
 
     void Circle::rasterise_styled()
     {
-        return;
+        get_rasterised_styled(m_pixels);
     }
 
     void Circle::get_rasterised(std::vector<Position> &target) const
     {
-        return;
+        const int r_sq = radius * radius;
+
+        int range = std::sqrt(r_sq / 2) + 1;
+
+        for (int x = 0; x <= range; x++)
+        {
+            int y = std::round(std::sqrt(r_sq - x * x));
+
+            target.emplace_back(Position{x, y} + midpoint);
+            target.emplace_back(Position{x, -y} + midpoint);
+            target.emplace_back(Position{-x, y} + midpoint);
+            target.emplace_back(Position{-x, -y} + midpoint);
+            target.emplace_back(Position{y, x} + midpoint);
+            target.emplace_back(Position{y, -x} + midpoint);
+            target.emplace_back(Position{-y, x} + midpoint);
+            target.emplace_back(Position{-y, -x} + midpoint);
+        };
     }
 
     void Circle::get_rasterised_styled(std::vector<Pixel> &target) const

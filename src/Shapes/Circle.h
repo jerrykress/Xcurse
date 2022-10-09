@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SingletonShape.h"
+#include <cmath>
 
 namespace Xcurse
 {

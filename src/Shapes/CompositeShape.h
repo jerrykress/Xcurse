@@ -11,7 +11,7 @@ namespace Xcurse
 
         std::vector<SingletonShape> &get_member_shapes() const;
 
-    private:
+    protected:
         std::vector<SingletonShape> m_member_shapes;
     };
 }
