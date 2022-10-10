@@ -7,10 +7,11 @@ var searchData=
   ['get_5fkey_5fpress_4',['get_key_press',['../classXcurse_1_1Display.html#a6d8065a2693d31c89a7a67210c376538',1,'Xcurse::Display']]],
   ['get_5floc_5',['get_loc',['../classXcurse_1_1BaseDisplayObject.html#afae5332f5ba72c700aab925cee61f63b',1,'Xcurse::BaseDisplayObject']]],
   ['get_5flogger_6',['get_logger',['../classConsole_1_1Logger.html#adfc1b547a0b02068b3966e617abbca11',1,'Console::Logger']]],
-  ['get_5fobj_7',['get_obj',['../classXcurse_1_1Display.html#aba63e7655e8f1d5b9de67da9b1d70cd4',1,'Xcurse::Display']]],
-  ['get_5fobjects_8',['get_objects',['../classXcurse_1_1Layout.html#a07256cd4c8196e252521e677b5dd19a0',1,'Xcurse::Layout']]],
-  ['get_5fsize_9',['get_size',['../classXcurse_1_1BaseDisplayObject.html#a4187227ae6326ae660833332f5aa2162',1,'Xcurse::BaseDisplayObject::get_size()'],['../classXcurse_1_1Display.html#a363b6bc2e129d4a3830a5d304671ab95',1,'Xcurse::Display::get_size()'],['../classXcurse_1_1GenericWindowObject.html#a8fac341e3eca8babbe221452edebec07',1,'Xcurse::GenericWindowObject::get_size()']]],
-  ['get_5fweight_10',['get_weight',['../classXcurse_1_1BaseDisplayObject.html#ad58f00f6124abe942d54dd2b8016a2c9',1,'Xcurse::BaseDisplayObject']]],
-  ['get_5fwidth_11',['get_width',['../classXcurse_1_1BaseDisplayObject.html#abe83e36cd9ad36c5450442caff9325e0',1,'Xcurse::BaseDisplayObject::get_width()'],['../classXcurse_1_1Display.html#aec55c2a238c46fb587f1850cca09a1f0',1,'Xcurse::Display::get_width()'],['../classXcurse_1_1GenericWindowObject.html#a6813ec5b5e4c8a664180b812aa522093',1,'Xcurse::GenericWindowObject::get_width()']]],
-  ['gridwindow_12',['GridWindow',['../classXcurse_1_1GridWindow.html#a7700d8cc52618e1c5a7fe65e639eb74f',1,'Xcurse::GridWindow::GridWindow()'],['../classXcurse_1_1GridWindow.html#a53a0e5bbb088f3c3eb5607a255f1a4ec',1,'Xcurse::GridWindow::GridWindow(std::string name, int weight, std::wstring border=DEFAULT_WIN_BORDER)']]]
+  ['get_5fmember_5fshapes_7',['get_member_shapes',['../classXcurse_1_1CompositeShape.html#a137cbd99fd6547f199ebfb9341c74a94',1,'Xcurse::CompositeShape']]],
+  ['get_5fobj_8',['get_obj',['../classXcurse_1_1Display.html#aba63e7655e8f1d5b9de67da9b1d70cd4',1,'Xcurse::Display']]],
+  ['get_5fobjects_9',['get_objects',['../classXcurse_1_1Layout.html#a07256cd4c8196e252521e677b5dd19a0',1,'Xcurse::Layout']]],
+  ['get_5fsize_10',['get_size',['../classXcurse_1_1BaseDisplayObject.html#a4187227ae6326ae660833332f5aa2162',1,'Xcurse::BaseDisplayObject::get_size()'],['../classXcurse_1_1Display.html#a363b6bc2e129d4a3830a5d304671ab95',1,'Xcurse::Display::get_size()'],['../classXcurse_1_1GenericWindowObject.html#a8fac341e3eca8babbe221452edebec07',1,'Xcurse::GenericWindowObject::get_size()']]],
+  ['get_5fweight_11',['get_weight',['../classXcurse_1_1BaseDisplayObject.html#ad58f00f6124abe942d54dd2b8016a2c9',1,'Xcurse::BaseDisplayObject']]],
+  ['get_5fwidth_12',['get_width',['../classXcurse_1_1BaseDisplayObject.html#abe83e36cd9ad36c5450442caff9325e0',1,'Xcurse::BaseDisplayObject::get_width()'],['../classXcurse_1_1Display.html#aec55c2a238c46fb587f1850cca09a1f0',1,'Xcurse::Display::get_width()'],['../classXcurse_1_1GenericWindowObject.html#a6813ec5b5e4c8a664180b812aa522093',1,'Xcurse::GenericWindowObject::get_width()']]],
+  ['gridwindow_13',['GridWindow',['../classXcurse_1_1GridWindow.html#a7700d8cc52618e1c5a7fe65e639eb74f',1,'Xcurse::GridWindow::GridWindow()'],['../classXcurse_1_1GridWindow.html#a53a0e5bbb088f3c3eb5607a255f1a4ec',1,'Xcurse::GridWindow::GridWindow(std::string name, int weight, std::wstring border=DEFAULT_WIN_BORDER)']]]
 ];
