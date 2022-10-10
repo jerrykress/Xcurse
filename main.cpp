@@ -61,19 +61,15 @@ int main(int, char **)
 
     while (d.has_power())
     {
+        win->clean();
         win->add_char(0, 0, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
         win->add_char(3, 3, d.get_key_press(), TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
 
         // test circle
         circle.set_midpoint(Position{win->get_width() / 2, win->get_height() / 2});
         circle.set_radius(std::min(win->get_width(), win->get_height()) / 2 - 2);
-        std::vector<Position> cir;
-        circle.get_rasterised(cir);
-
-        for (auto p : cir)
-        {
-            win->add_char(p.x, p.y, L'*', TEXT_COLOR_RED, BACKGROUND_COLOR_RESET, false, false, false);
-        }
+        std::vector<Position> cir = circle.rasterise();
+        win->add_chars(cir, L'*');
         std::this_thread::sleep_for(1s);
     }
 
@@ -83,5 +79,3 @@ int main(int, char **)
 
     return 0;
 }
-
-// TODO: find if possible to terminate main thread from display

@@ -5,31 +5,27 @@ namespace Xcurse
     /**
      * @brief Construct a new Circle:: Circle object
      *
+     */
+    Circle::Circle() : midpoint(Position{0, 0}), radius(1) {}
+
+    /**
+     * @brief Construct a new Circle:: Circle object
+     *
      * @param midponit centre of the circle
      * @param radius radius of circle
      * @param restraint size of the container object if the circle needs to be cropped
      */
-    Circle::Circle(Position midponit, int radius, Size restraint) : midpoint(midpoint), radius(radius), restraint(restraint) {}
+    Circle::Circle(Position midponit, int radius, Size restraint) : midpoint(midpoint), radius(radius) {}
 
     /**
-     * @brief Construct a new Circle:: Circle object with maximum radius available, determined by the restraint imposed by the container
+     * @brief Rasterise the circle, and returns the reference of the result stored internally
      *
-     * @param restraint size of container object
+     * @return std::vector<Position>&
      */
-    Circle::Circle(Size restraint) : restraint(restraint) {}
-
-    void Circle::rasterise()
+    std::vector<Position> &Circle::rasterise()
     {
-        get_rasterised(m_points);
-    }
+        m_rasterised_data.clear();
 
-    void Circle::rasterise_styled()
-    {
-        get_rasterised_styled(m_pixels);
-    }
-
-    void Circle::get_rasterised(std::vector<Position> &target) const
-    {
         const int r_sq = radius * radius;
 
         int range = std::sqrt(r_sq / 2) + 1;
@@ -38,21 +34,19 @@ namespace Xcurse
         {
             int y = std::round(std::sqrt(r_sq - x * x));
 
-            target.emplace_back(Position{x, y} + midpoint);
-            target.emplace_back(Position{x, -y} + midpoint);
-            target.emplace_back(Position{-x, y} + midpoint);
-            target.emplace_back(Position{-x, -y} + midpoint);
-            target.emplace_back(Position{y, x} + midpoint);
-            target.emplace_back(Position{y, -x} + midpoint);
-            target.emplace_back(Position{-y, x} + midpoint);
-            target.emplace_back(Position{-y, -x} + midpoint);
+            m_rasterised_data.emplace_back(Position{x, y} + midpoint);
+            m_rasterised_data.emplace_back(Position{x, -y} + midpoint);
+            m_rasterised_data.emplace_back(Position{-x, y} + midpoint);
+            m_rasterised_data.emplace_back(Position{-x, -y} + midpoint);
+            m_rasterised_data.emplace_back(Position{y, x} + midpoint);
+            m_rasterised_data.emplace_back(Position{y, -x} + midpoint);
+            m_rasterised_data.emplace_back(Position{-y, x} + midpoint);
+            m_rasterised_data.emplace_back(Position{-y, -x} + midpoint);
         };
+
+        return m_rasterised_data;
     }
 
-    void Circle::get_rasterised_styled(std::vector<Pixel> &target) const
-    {
-        return;
-    }
     /**
      * @brief Set a new radius of the circle
      *
@@ -73,14 +67,4 @@ namespace Xcurse
         midpoint = p;
     }
 
-    /**
-     * @brief Set a new restraint for the circle
-     * @note Setting to {0,0} means no restraint
-     *
-     * @param res
-     */
-    void Circle::set_restraint(Size res)
-    {
-        restraint = res;
-    }
 }

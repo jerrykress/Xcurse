@@ -32,7 +32,7 @@ namespace Xcurse
      *
      * @param x The x coord of the pixel to be set
      * @param y The y coord of the pixel to be set
-     * @param c Pixel char
+     * @param c Char to be displayed
      * @param s Char style
      */
     void GridWindow::add_char(int x, int y, wchar_t c, Stylable s)
@@ -41,6 +41,18 @@ namespace Xcurse
         {
             m_windata[Position{x, y}] = Pixel(c, s);
         }
+    }
+
+    /**
+     * @brief Add a char to the window buffer
+     *
+     * @param p Position of the pixel to be set
+     * @param c Char to be displayed
+     * @param s Char style
+     */
+    void GridWindow::add_char(Position p, wchar_t c, Stylable s)
+    {
+        add_char(p.x, p.y, c, s);
     }
 
     /**
@@ -60,6 +72,21 @@ namespace Xcurse
         if (x >= 0 && x < get_width() && y >= 0 && y < get_height())
         {
             m_windata[Position{x, y}] = Pixel(c, Stylable(foreground, background, bold, underline, reversed));
+        }
+    }
+
+    /**
+     * @brief Add a set of chars to the window
+     *
+     * @param ps Vector of locations
+     * @param c Char to be used at all locations
+     * @param s Style for all chars
+     */
+    void GridWindow::add_chars(std::vector<Position> &ps, wchar_t c, Stylable s)
+    {
+        for (auto &p : ps)
+        {
+            add_char(p, c, s);
         }
     }
 

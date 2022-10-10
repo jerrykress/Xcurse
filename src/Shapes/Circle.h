@@ -8,13 +8,10 @@ namespace Xcurse
     class Circle : public SingletonShape
     {
     public:
+        Circle();
         Circle(Position midpoint, int radius, Size restraint = {0, 0});
-        Circle(Size restraint);
 
-        void rasterise() override;
-        void rasterise_styled() override;
-        void get_rasterised(std::vector<Position> &target) const override;
-        void get_rasterised_styled(std::vector<Pixel> &target) const override;
+        std::vector<Position> &rasterise() override;
 
         void set_radius(int r);
         void set_midpoint(Position p);
@@ -23,6 +20,5 @@ namespace Xcurse
     private:
         Position midpoint;
         int radius;
-        Size restraint;
     };
 }
