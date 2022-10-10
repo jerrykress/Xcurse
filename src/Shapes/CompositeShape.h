@@ -9,9 +9,15 @@ namespace Xcurse
     public:
         CompositeShape();
 
-        std::vector<GenericShapeObject> &get_member_shapes() const;
+        void add_shape(std::string name, GenericShapeObject o);
+        void rm_shape(std::string name);
+        GenericShapeObject get_shape(std::string name);
+
+        std::vector<Position> &rasterise() override;
+
+        GenericShapeObject &operator[](std::string name);
 
     protected:
-        std::vector<GenericShapeObject> m_member_shapes;
+        std::unordered_map<std::string, GenericShapeObject> m_shapes;
     };
 }

@@ -56,13 +56,4 @@ namespace Console
     private:
         static Logger *m_instance;
     };
-
-    /*
-
-    */
-    class Shape
-    {
-    public:
-        virtual void Draw() = 0;
-    };
 }
