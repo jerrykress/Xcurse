@@ -3,6 +3,7 @@
 #include "src/Window/DataWindow.h"
 #include "src/Widgets/TextField.h"
 #include "src/Shapes/Circle.h"
+#include "src/Shapes/Line.h"
 #include <thread>
 
 using namespace Xcurse;
@@ -56,20 +57,24 @@ int main(int, char **)
 
     d.power_on();
 
-    // make circle
-    Circle circle(Position{0, 0}, 1, Size{0, 0});
-
     while (d.has_power())
     {
         win->clean();
         win->add_char(0, 0, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
-        win->add_char(3, 3, d.get_key_press(), TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
 
         // test circle
+        Circle circle;
         circle.set_midpoint(Position{win->get_width() / 2, win->get_height() / 2});
         circle.set_radius(std::min(win->get_width(), win->get_height()) / 2 - 2);
         std::vector<Position> cir = circle.rasterise();
         win->add_chars(cir, L'*');
+
+        // test line
+        Line line;
+        line.set_begin_end(Position{0, 0}, Position{win->get_width(), win->get_height()});
+        std::vector<Position> li = line.rasterise();
+        win->add_chars(li, L'x');
+
         std::this_thread::sleep_for(1s);
     }
 

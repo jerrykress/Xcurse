@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SingletonShape.h"
+#include "GenericShapeObject.h"
 
 namespace Xcurse
 {
@@ -9,9 +9,9 @@ namespace Xcurse
     public:
         CompositeShape();
 
-        std::vector<SingletonShape> &get_member_shapes() const;
+        std::vector<GenericShapeObject> &get_member_shapes() const;
 
     protected:
-        std::vector<SingletonShape> m_member_shapes;
+        std::vector<GenericShapeObject> m_member_shapes;
     };
 }

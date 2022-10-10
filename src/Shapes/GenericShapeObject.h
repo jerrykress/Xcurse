@@ -4,7 +4,7 @@
 
 namespace Xcurse
 {
-    class GenericShapeObject
+    class GenericShapeObject : public Stylable
     {
     public:
         virtual std::vector<Position> &rasterise();

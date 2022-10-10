@@ -1,11 +1,11 @@
 #pragma once
 
-#include "SingletonShape.h"
+#include "GenericShapeObject.h"
 #include <cmath>
 
 namespace Xcurse
 {
-    class Circle : public SingletonShape
+    class Circle : public GenericShapeObject
     {
     public:
         Circle();
