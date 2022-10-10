@@ -15,7 +15,7 @@ namespace Xcurse
      * @param radius radius of circle
      * @param restraint size of the container object if the circle needs to be cropped
      */
-    Circle::Circle(Position midponit, int radius, Size restraint) : midpoint(midpoint), radius(radius) {}
+    Circle::Circle(Position midponit, int radius) : midpoint(midpoint), radius(radius) {}
 
     /**
      * @brief Rasterise the circle, and returns the reference of the result stored internally

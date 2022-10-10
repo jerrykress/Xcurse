@@ -8,15 +8,17 @@
 
 namespace Xcurse
 {
-    class Circle : public GenericShapeObject
+    class Ellipse : public GenericShapeObject
     {
     public:
-        Circle();
-        Circle(Position midpoint, int radius);
+        Ellipse();
+        Ellipse(Position midpoint, int ra, int rb);
 
         std::vector<Position> &rasterise() override;
 
-        void set_radius(int r);
+        void set_ra(int a);
+        void set_rb(int b);
+        void set_ra_rb(int a, int b);
         void set_midpoint(Position p);
 
         Position get_at_angle(float a);
@@ -24,6 +26,6 @@ namespace Xcurse
 
     private:
         Position midpoint;
-        int radius;
+        int ra, rb;
     };
 }

@@ -55,7 +55,7 @@ namespace Xcurse
      */
     std::vector<Position> &CompositeShape::rasterise()
     {
-
+        // TODO:
         return m_rasterised_data;
     }
 

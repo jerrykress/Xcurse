@@ -104,6 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a02b3ee2ca2960136c9df4db37a10ac2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ca05d24335b95b9700b6d52ce5f527b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Circle.html#a7ca05d24335b95b9700b6d52ce5f527b">set_restraint</a> (<a class="el" href="structXcurse_1_1Size.html">Size</a> res)</td></tr>
 <tr class="separator:a7ca05d24335b95b9700b6d52ce5f527b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc3f529aa1faa1af0ef67e3535c42719"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXcurse_1_1Position.html">Position</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Circle.html#adc3f529aa1faa1af0ef67e3535c42719">get_at_angle</a> (float a)</td></tr>
+<tr class="memdesc:adc3f529aa1faa1af0ef67e3535c42719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a point on the circle at an angle (radian)  <a href="classXcurse_1_1Circle.html#adc3f529aa1faa1af0ef67e3535c42719">More...</a><br /></td></tr>
+<tr class="separator:adc3f529aa1faa1af0ef67e3535c42719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa99676986557568ff8de3bfd32e7bd37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXcurse_1_1Position.html">Position</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Circle.html#aa99676986557568ff8de3bfd32e7bd37">get_at_degree</a> (float d)</td></tr>
+<tr class="memdesc:aa99676986557568ff8de3bfd32e7bd37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a point on the circle at an angle (degree)  <a href="classXcurse_1_1Circle.html#aa99676986557568ff8de3bfd32e7bd37">More...</a><br /></td></tr>
+<tr class="separator:aa99676986557568ff8de3bfd32e7bd37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a806edec93e758b4b6a3434420654edd8"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="structXcurse_1_1Position.html">Position</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1GenericShapeObject.html#a806edec93e758b4b6a3434420654edd8">rasterise</a> ()</td></tr>
 <tr class="memdesc:a806edec93e758b4b6a3434420654edd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rasterise the shape, and returns the reference of the result stored internally.  <a href="classXcurse_1_1GenericShapeObject.html#a806edec93e758b4b6a3434420654edd8">More...</a><br /></td></tr>
 <tr class="separator:a806edec93e758b4b6a3434420654edd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,6 +221,60 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="adc3f529aa1faa1af0ef67e3535c42719" name="adc3f529aa1faa1af0ef67e3535c42719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc3f529aa1faa1af0ef67e3535c42719">&#9670;&nbsp;</a></span>get_at_angle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structXcurse_1_1Position.html">Position</a> Xcurse::Circle::get_at_angle </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a point on the circle at an angle (radian) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structXcurse_1_1Position.html" title="A struct that consists a pair of integers that represents a location coordinate.">Position</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa99676986557568ff8de3bfd32e7bd37" name="aa99676986557568ff8de3bfd32e7bd37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa99676986557568ff8de3bfd32e7bd37">&#9670;&nbsp;</a></span>get_at_degree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structXcurse_1_1Position.html">Position</a> Xcurse::Circle::get_at_degree </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a point on the circle at an angle (degree) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structXcurse_1_1Position.html" title="A struct that consists a pair of integers that represents a location coordinate.">Position</a> </dd></dl>
+
+</div>
+</div>
 <a id="a381f335ef07c3432248471873ce042cc" name="a381f335ef07c3432248471873ce042cc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a381f335ef07c3432248471873ce042cc">&#9670;&nbsp;</a></span>rasterise()</h2>
 
