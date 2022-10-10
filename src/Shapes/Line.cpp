@@ -23,6 +23,8 @@ namespace Xcurse
      */
     std::vector<Position> &Line::rasterise()
     {
+        m_rasterised_data.clear();
+
         const int x_diff = end.x - begin.x;
         const int y_diff = end.y - begin.y;
         const float steps = std::max(std::abs(x_diff), std::abs(y_diff));

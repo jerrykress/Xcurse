@@ -46,6 +46,10 @@ namespace Xcurse
         m_key_press = ' ';
         // default no alternate screen
         m_alt_screen = nullptr;
+        // default mouse status
+        m_mouse_status = false;
+        // default keyboard status
+        m_kb_status = true;
     }
 
     /**
@@ -307,14 +311,18 @@ namespace Xcurse
 #endif
             // hide cursor
             std::wcout << "\e[?25l" << std::endl;
+            // enable special keywords
+            system("stty -icanon");
+            // disable echo
+            system("stty -echo");
             // init refresh
             refreshLayout(m_layout, 0, 0, m_height, m_width, true);
             // create thread for display refresh
             m_refresh_thread = std::thread(&Display::refresh, this);
-            // create thread for mouse input handle
-            m_mouse_in_thread = std::thread(&Display::mouse_handler, this);
             // create thread for key press input
             m_key_in_thread = std::thread(&Display::key_handler, this);
+            // create thread for mouse input handle
+            m_mouse_in_thread = std::thread(&Display::mouse_handler, this);
         }
     }
 
@@ -338,6 +346,10 @@ namespace Xcurse
         if (m_power)
         {
             m_power = false;
+            // xterm disable mouse tracking
+            system("echo \"\e[?1000l\"");
+            // enable echo
+            system("stty echo");
             // join display thread
             m_refresh_thread.join();
             // detach mouse thread and force terminate
@@ -624,23 +636,16 @@ namespace Xcurse
      */
     void Display::mouse_handler()
     {
-        // enable special keywords
-        system("stty -icanon");
-        // disable echo
-        system("stty -echo");
-
-        while (m_power)
+        if (m_mouse_status)
         {
-            snprintf(mouse_data, 17, "\e[?1003h");
-            // TODO: Process mouse data
-            // for (int i = 0; i < 17; i++)
-            //     std::wcout << std::hex << mouse_data[i];
+            while (m_power)
+            {
+                snprintf(mouse_data, 17, "\e[?1003h");
+                // TODO: Process mouse data
+                // for (int i = 0; i < 17; i++)
+                //     std::wcout << std::hex << mouse_data[i];
+            }
         }
-
-        // xterm disable mouse tracking
-        system("echo \"\e[?1000l\"");
-        // enable echo
-        system("stty echo");
     }
 
     /**
@@ -649,11 +654,14 @@ namespace Xcurse
      */
     void Display::key_handler()
     {
-        // read and store key press in display
-        while (m_power)
+        if (m_kb_status)
         {
-            m_key_press = std::getchar();
-            invoke_key_action(m_key_press);
+            // read and store key press in display
+            while (m_power)
+            {
+                m_key_press = std::getchar();
+                invoke_key_action(m_key_press);
+            }
         }
     }
 
@@ -742,5 +750,25 @@ namespace Xcurse
     void Display::set_power_off_all(bool b)
     {
         m_power_off_all = b;
+    }
+
+    /**
+     * @brief Set whether to process mouse input
+     *
+     * @param b
+     */
+    void Display::set_io_mouse(bool b)
+    {
+        m_mouse_status = b;
+    }
+
+    /**
+     * @brief Set whether to process keyboard input
+     *
+     * @param b
+     */
+    void Display::set_io_kb(bool b)
+    {
+        m_kb_status = b;
     }
 }

@@ -67,4 +67,32 @@ namespace Xcurse
         midpoint = p;
     }
 
+    /**
+     * @brief Get a point on the circle at an angle (radian)
+     *
+     * @param a
+     * @return Position
+     */
+    Position Circle::get_at_angle(float a)
+    {
+        return Position{
+                   static_cast<int>(radius * std::round(std::sin(a))),
+                   static_cast<int>(radius * std::round(std::cos(a)))} +
+               midpoint;
+    }
+
+    /**
+     * @brief Get a point on the circle at an angle (degree)
+     *
+     * @param d
+     * @return Position
+     */
+    Position Circle::get_at_degree(float d)
+    {
+        return Position{
+                   static_cast<int>(std::round(radius * std::sin(d * PI / 180))),
+                   static_cast<int>(std::round(radius * std::cos(d * PI / 180)))} +
+               midpoint;
+    }
+
 }

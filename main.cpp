@@ -16,6 +16,7 @@ int main(int, char **)
     d.set_refresh_interval(500);
     d.set_min_screen_size(Size{20, 20});
     d.enable_alt_screen(true);
+    d.set_io_kb(true);
 
     bool add_wig0 = d.add_obj("root", "t1", new TextField("t1", "Program", ALIGN_CENTER));
     bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
@@ -39,7 +40,7 @@ int main(int, char **)
     // setup win
     GridWindow *win = static_cast<GridWindow *>(d["w2"]);
     win->background = BACKGROUND_COLOR_BRIGHT_YELLOW;
-    win->set_title(L" Grid ");
+    win->set_title(L" Analog ");
 
     // setup win
     BarChartWindow *bar_win = static_cast<BarChartWindow *>(d["w3"]);
@@ -57,21 +58,24 @@ int main(int, char **)
 
     d.power_on();
 
+    int rotation = 0;
+    Line line;
+    Circle circle;
+
     while (d.has_power())
     {
         win->clean();
         win->add_char(0, 0, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
 
         // test circle
-        Circle circle;
         circle.set_midpoint(Position{win->get_width() / 2, win->get_height() / 2});
         circle.set_radius(std::min(win->get_width(), win->get_height()) / 2 - 2);
         std::vector<Position> cir = circle.rasterise();
         win->add_chars(cir, L'*');
 
         // test line
-        Line line;
-        line.set_begin_end(Position{0, 0}, Position{win->get_width(), win->get_height()});
+        line.set_begin_end(Position{win->get_width() / 2, win->get_height() / 2}, circle.get_at_degree(rotation));
+        rotation = (rotation + 6) % 360;
         std::vector<Position> li = line.rasterise();
         win->add_chars(li, L'x');
 

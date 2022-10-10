@@ -110,6 +110,8 @@ namespace Xcurse
         void output_alt_screen();
 
         // input action management
+        void set_io_mouse(bool b);
+        void set_io_kb(bool b);
         bool map_key_action(const char &c, std::function<void()> f);
         bool has_key_action(const char &c) const;
         bool rm_key_action(const char &c);
@@ -140,12 +142,14 @@ namespace Xcurse
         int m_refresh_interval;
         std::atomic_bool m_update_layout;
 
-        // user input handler
+        // mouse input handler
+        bool m_mouse_status;
         char mouse_data[18];
         void mouse_handler();
         std::thread m_mouse_in_thread;
 
         // keyboard handler
+        bool m_kb_status;
         char m_key_press;
         void key_handler();
         std::thread m_key_in_thread;
