@@ -1,7 +1,7 @@
 var searchData=
 [
   ['chartwindowdata_0',['ChartWindowData',['../classXcurse_1_1ChartWindowData.html#a03eb47f1471c5e4192d9c61e224ed082',1,'Xcurse::ChartWindowData::ChartWindowData(int w, int h, int h_offset, const Stylable &amp;s)'],['../classXcurse_1_1ChartWindowData.html#a041163e7d05e94ec66997b78944f8e7a',1,'Xcurse::ChartWindowData::ChartWindowData()'],['../classXcurse_1_1ChartWindowData.html',1,'Xcurse::ChartWindowData']]],
-  ['circle_1',['Circle',['../classXcurse_1_1Circle.html#a850c4c4aefc601b96d2e1a5c15a171fb',1,'Xcurse::Circle::Circle(Position midpoint, int radius, Size restraint={0, 0})'],['../classXcurse_1_1Circle.html#ae5b801a1ed051b98e8348142ea2deb14',1,'Xcurse::Circle::Circle()'],['../classXcurse_1_1Circle.html',1,'Xcurse::Circle']]],
+  ['circle_1',['Circle',['../classXcurse_1_1Circle.html#a1f69802c82ada6a44d4e100df6974ef1',1,'Xcurse::Circle::Circle(Position midpoint, int radius)'],['../classXcurse_1_1Circle.html#ae5b801a1ed051b98e8348142ea2deb14',1,'Xcurse::Circle::Circle()'],['../classXcurse_1_1Circle.html',1,'Xcurse::Circle']]],
   ['circle_2ecpp_2',['Circle.cpp',['../Circle_8cpp.html',1,'']]],
   ['circle_2eh_3',['Circle.h',['../Circle_8h.html',1,'']]],
   ['clean_4',['clean',['../classXcurse_1_1GridWindow.html#afdaa41bcee755a09de3028b6d2387cf3',1,'Xcurse::GridWindow']]],

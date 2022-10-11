@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xcurse_2eh_0',['Xcurse.h',['../Xcurse_8h.html',1,'']]]
+  ['stylable_2ecpp_0',['Stylable.cpp',['../Stylable_8cpp.html',1,'']]]
 ];

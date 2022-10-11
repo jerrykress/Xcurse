@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stylable_2ecpp_0',['Stylable.cpp',['../Stylable_8cpp.html',1,'']]]
+  ['pixel_2ecpp_0',['Pixel.cpp',['../Pixel_8cpp.html',1,'']]]
 ];

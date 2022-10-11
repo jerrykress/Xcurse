@@ -2,8 +2,8 @@ var searchData=
 [
   ['generictextobject_0',['GenericTextObject',['../classXcurse_1_1GenericTextObject.html#ad19d9c40a001ef9b9f9eccfa2bf98e1e',1,'Xcurse::GenericTextObject']]],
   ['genericwindowobject_1',['GenericWindowObject',['../classXcurse_1_1GenericWindowObject.html#a9105562c41cbbe7f803b3409f26458ed',1,'Xcurse::GenericWindowObject']]],
-  ['get_5fat_5fangle_2',['get_at_angle',['../classXcurse_1_1Circle.html#adc3f529aa1faa1af0ef67e3535c42719',1,'Xcurse::Circle']]],
-  ['get_5fat_5fdegree_3',['get_at_degree',['../classXcurse_1_1Circle.html#aa99676986557568ff8de3bfd32e7bd37',1,'Xcurse::Circle']]],
+  ['get_5fat_5fangle_2',['get_at_angle',['../classXcurse_1_1Circle.html#adc3f529aa1faa1af0ef67e3535c42719',1,'Xcurse::Circle::get_at_angle()'],['../classXcurse_1_1Ellipse.html#a814125643a6bbbbac09100b0b9f952c2',1,'Xcurse::Ellipse::get_at_angle()']]],
+  ['get_5fat_5fdegree_3',['get_at_degree',['../classXcurse_1_1Circle.html#aa99676986557568ff8de3bfd32e7bd37',1,'Xcurse::Circle::get_at_degree()'],['../classXcurse_1_1Ellipse.html#ae156c4accb954cb024781a25f416ad3c',1,'Xcurse::Ellipse::get_at_degree()']]],
   ['get_5fdisplay_4',['get_display',['../classXcurse_1_1Display.html#a4b14b44821f88a31046ec13051d40e12',1,'Xcurse::Display']]],
   ['get_5fheight_5',['get_height',['../classXcurse_1_1BaseDisplayObject.html#a96431d412f5adf33ab02d7935cecd2e6',1,'Xcurse::BaseDisplayObject::get_height()'],['../classXcurse_1_1Display.html#a633a5ea80f9a4273aa62dd44fdddf68e',1,'Xcurse::Display::get_height()'],['../classXcurse_1_1GenericWindowObject.html#a97149b3d6e288b0044318ba5312e2abd',1,'Xcurse::GenericWindowObject::get_height()']]],
   ['get_5fkey_5fpress_6',['get_key_press',['../classXcurse_1_1Display.html#a6d8065a2693d31c89a7a67210c376538',1,'Xcurse::Display']]],

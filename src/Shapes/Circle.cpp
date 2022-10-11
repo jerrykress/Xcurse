@@ -13,7 +13,6 @@ namespace Xcurse
      *
      * @param midponit centre of the circle
      * @param radius radius of circle
-     * @param restraint size of the container object if the circle needs to be cropped
      */
     Circle::Circle(Position midponit, int radius) : midpoint(midpoint), radius(radius) {}
 
