@@ -76,8 +76,8 @@ namespace Xcurse
     Position Circle::get_at_angle(float a)
     {
         return Position{
-                   static_cast<int>(radius * std::round(std::sin(a))),
-                   static_cast<int>(radius * std::round(std::cos(a)))} +
+                   static_cast<int>(std::round(radius * std::sin(a))),
+                   static_cast<int>(std::round(radius * std::cos(a)))} +
                midpoint;
     }
 
@@ -89,10 +89,7 @@ namespace Xcurse
      */
     Position Circle::get_at_degree(float d)
     {
-        return Position{
-                   static_cast<int>(std::round(radius * std::sin(d * PI / 180))),
-                   static_cast<int>(std::round(radius * std::cos(d * PI / 180)))} +
-               midpoint;
+        return get_at_angle(d * pi / 180.0);
     }
 
 }

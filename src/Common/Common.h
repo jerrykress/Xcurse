@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <string>
 #include <iostream>
+#include <cmath>
+#include <ctgmath>
 #include "Constants.h"
 
 namespace Xcurse
@@ -13,6 +15,8 @@ namespace Xcurse
     class BaseDisplayObject;
     class Stylable;
     class Pixel;
+
+    static const double pi = std::acos(-1);
 
     /**
      * @brief Type Definitions

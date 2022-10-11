@@ -1,10 +1,6 @@
 #pragma once
 
 #include "GenericShapeObject.h"
-#include <cmath>
-#include <ctgmath>
-
-#define PI 3.14159265
 
 namespace Xcurse
 {

@@ -4,6 +4,7 @@
 #include "src/Widgets/TextField.h"
 #include "src/Shapes/Circle.h"
 #include "src/Shapes/Line.h"
+#include "src/Shapes/Ellipse.h"
 #include <thread>
 
 using namespace Xcurse;
@@ -61,30 +62,39 @@ int main(int, char **)
     int rotation = 0;
     Line line;
     Circle circle;
+    Ellipse ellipse;
 
     while (d.has_power())
     {
         win->clean();
         win->add_char(0, 0, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);
 
+        Position win_center = Position{win->get_width() / 2, win->get_height() / 2};
+
         // test circle
-        circle.set_midpoint(Position{win->get_width() / 2, win->get_height() / 2});
-        circle.set_radius(std::min(win->get_width(), win->get_height()) / 2 - 2);
-        std::vector<Position> cir = circle.rasterise();
-        win->add_chars(cir, L'*');
+        const int max_r = std::min(win->get_width(), win->get_height()) / 2 - 2;
+        circle.set_midpoint(win_center);
+        circle.set_radius(max_r);
+        win->add_chars(circle.rasterise(), L'*');
 
         // test line
-        line.set_begin_end(Position{win->get_width() / 2, win->get_height() / 2}, circle.get_at_degree(rotation));
-        rotation = (rotation + 6) % 360;
-        std::vector<Position> li = line.rasterise();
-        win->add_chars(li, L'x');
+        line.set_begin_end(win_center, circle.get_at_degree(rotation));
+        win->add_chars(line.rasterise(), L'x');
 
+        // test ellipse
+        ellipse.set_ra_rb(max_r * 2, max_r);
+        ellipse.set_midpoint(win_center);
+        win->add_chars(ellipse.rasterise(), L'@');
+
+        // test line
+        line.set_begin_end(win_center, ellipse.get_at_degree(rotation + 90));
+        win->add_chars(line.rasterise(), L'&');
+
+        rotation = (rotation + 6) % 360;
         std::this_thread::sleep_for(1s);
     }
 
     d.power_off();
-
-    std::cout << "Finished with exit code 0\n";
 
     return 0;
 }
