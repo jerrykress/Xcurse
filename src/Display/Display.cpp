@@ -224,6 +224,23 @@ namespace Xcurse
     }
 
     /**
+     * @brief Set an array of pixels horizontally (a string) with the same style
+     *
+     * @param caller Caller Object
+     * @param x X coord
+     * @param y Y coord
+     * @param ws String to be set
+     * @param s Style for the string
+     */
+    void Display::set_pixels(BaseDisplayObject *caller, int x, int y, std::wstring ws, Stylable s)
+    {
+        for (auto c : ws)
+        {
+            set_pixel(caller, x++, y, c, s.foreground, s.background, s.bold, s.underline, s.reversed);
+        }
+    }
+
+    /**
      * @brief Add a Display Object to a layout
      *
      * @param layout_name Target layout

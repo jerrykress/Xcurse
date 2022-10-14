@@ -68,7 +68,46 @@ $(function() {
 <div class="textblock"><p ><a class="anchor" id="md_README"></a></p>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Custom terminal graphics library mimicking ncurses. still under construction...</h2>
-<p >Documentation <a href="https://jerrykress.github.io/Xcurse/html/index.html">https://jerrykress.github.io/Xcurse/html/index.html</a> </p>
+<p >This is a simple terminal user interface library that I'm developing for my other TUI applications. It uses xterm alternate screen buffer and uses wide characters to support UTF-8. Some nice features include: responsive sizing, styling, configurable refresh rate, input support.</p>
+<p ><a href="https://jerrykress.github.io/Xcurse/html/index.html">Updated Documentation</a></p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Project Structure</h1>
+<p >This project is structured mainly using a mixture of strategy pattern and template pattern. The intention is to avoid the need for any modification to the display class when implementing a new display component while also taking advantage of runtime polymorphism.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+Main Components</h1>
+<h2><a class="anchor" id="autotoc_md4"></a>
+&lt;a href="https://jerrykress.github.io/Xcurse/html/classXcurse_1_1Display.html" &gt;Display Class&lt;/a&gt;</h2>
+<p >A singleton class that is responsible for all the I/O and setup process. It contains only one instance of the display, sets terminal locale, spawns helper threads and refreshs the screen at an interval that can be configured by the user. It also manages all the objects that show on the screen.</p>
+<h2><a class="anchor" id="autotoc_md5"></a>
+&lt;a href="https://jerrykress.github.io/Xcurse/html/classXcurse_1_1BaseDisplayObject.html" &gt;BaseDisplayObject Class&lt;/a&gt;</h2>
+<p >This is an interface that the display recognises and any object class has to be implement it in order to appear on the display. It contains a very important <code>draw()</code> function which allows the object to modify a designated portion of the screen space however it sees fit. Some example classes derived from this class include windows and widgets.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
+&lt;a href="https://jerrykress.github.io/Xcurse/html/classXcurse_1_1Layout.html" &gt;Layout Class&lt;/a&gt;</h2>
+<p >This works in a similar way that div does in html. It divides the available screen space into rows and columns and is the basis of the rendering process. A layout can hold any BaseDisplayObject as well as other layouts, which will be rendered recursively. The size of a layout can either be fixed or adaptive.</p>
+<p >Any program will contain a single base layout called "root". It is the entry point of rendering process and cannot be deleted.</p>
+<h2><a class="anchor" id="autotoc_md7"></a>
+&lt;a href="https://jerrykress.github.io/Xcurse/html/classXcurse_1_1Pixel.html" &gt;Pixel&lt;/a&gt;</h2>
+<p >How each character is stored internally. It contains the raw characters and styling information.</p>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Position, Size</h2>
+<p >Important helper structs that are used to organise all objects.</p>
+<h2><a class="anchor" id="autotoc_md9"></a>
+&lt;a href="https://jerrykress.github.io/Xcurse/html/classXcurse_1_1Stylable.html" &gt;Stylable&lt;/a&gt;</h2>
+<p >A class that provides styling attributes for any member that inherits from it.</p>
+<h1><a class="anchor" id="autotoc_md10"></a>
+Example Snippets</h1>
+<ul>
+<li>Configure display</li>
+<li>Configure layouts</li>
+<li>Adding and getting objects</li>
+<li>Mapping keypress to actions</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md11"></a>
+Example Projects</h1>
+<ul>
+<li>Stock tracker: <a href="https://github.com/jerrykress/Stonks">https://github.com/jerrykress/Stonks</a></li>
+<li>Countdown timer: <a href="https://github.com/jerrykress/ASCII-Clock">https://github.com/jerrykress/ASCII-Clock</a> </li>
+</ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

@@ -99,6 +99,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af84d75a469f42dc392a2be2a12efc23c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#af84d75a469f42dc392a2be2a12efc23c">set_pixel</a> (<a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> *caller, int x, int y, wchar_t c, <a class="el" href="namespaceXcurse.html#af6950910070028b5d3c99fcf1b071e89">Style</a> foreground, <a class="el" href="namespaceXcurse.html#af6950910070028b5d3c99fcf1b071e89">Style</a> background, bool bold=false, bool underline=false, bool reversed=false)</td></tr>
 <tr class="memdesc:af84d75a469f42dc392a2be2a12efc23c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a pixel on the screen.  <a href="classXcurse_1_1Display.html#af84d75a469f42dc392a2be2a12efc23c">More...</a><br /></td></tr>
 <tr class="separator:af84d75a469f42dc392a2be2a12efc23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a015ef3e352b3cb4c023f7bc74a930d66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#a015ef3e352b3cb4c023f7bc74a930d66">set_pixels</a> (<a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> *caller, int x, int y, std::wstring ws, <a class="el" href="classXcurse_1_1Stylable.html">Stylable</a> s=<a class="el" href="classXcurse_1_1Stylable.html">Stylable</a>())</td></tr>
+<tr class="memdesc:a015ef3e352b3cb4c023f7bc74a930d66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an array of pixels horizontally (a string) with the same style.  <a href="classXcurse_1_1Display.html#a015ef3e352b3cb4c023f7bc74a930d66">More...</a><br /></td></tr>
+<tr class="separator:a015ef3e352b3cb4c023f7bc74a930d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8824c92591d634fd8320632cb4a28069"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#a8824c92591d634fd8320632cb4a28069">add_obj</a> (std::string layout_name, std::string obj_name, <a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> *o)</td></tr>
 <tr class="memdesc:a8824c92591d634fd8320632cb4a28069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a <a class="el" href="classXcurse_1_1Display.html">Display</a> Object to a layout.  <a href="classXcurse_1_1Display.html#a8824c92591d634fd8320632cb4a28069">More...</a><br /></td></tr>
 <tr class="separator:a8824c92591d634fd8320632cb4a28069"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1314,6 +1317,64 @@ false </dd></dl>
     <tr><td class="paramname">bold</td><td>enable bold </td></tr>
     <tr><td class="paramname">underline</td><td>enable underline </td></tr>
     <tr><td class="paramname">reversed</td><td>enable reversed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a015ef3e352b3cb4c023f7bc74a930d66" name="a015ef3e352b3cb4c023f7bc74a930d66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a015ef3e352b3cb4c023f7bc74a930d66">&#9670;&nbsp;</a></span>set_pixels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Xcurse::Display::set_pixels </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> *&#160;</td>
+          <td class="paramname"><em>caller</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::wstring&#160;</td>
+          <td class="paramname"><em>ws</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classXcurse_1_1Stylable.html">Stylable</a>&#160;</td>
+          <td class="paramname"><em>s</em> = <code><a class="el" href="classXcurse_1_1Stylable.html">Stylable</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set an array of pixels horizontally (a string) with the same style. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">caller</td><td>Caller Object </td></tr>
+    <tr><td class="paramname">x</td><td>X coord </td></tr>
+    <tr><td class="paramname">y</td><td>Y coord </td></tr>
+    <tr><td class="paramname">ws</td><td>String to be set </td></tr>
+    <tr><td class="paramname">s</td><td>Style for the string </td></tr>
   </table>
   </dd>
 </dl>
