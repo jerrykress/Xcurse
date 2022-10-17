@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GridWindow.h"
 
 namespace Xcurse

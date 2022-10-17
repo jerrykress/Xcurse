@@ -1,0 +1,6 @@
+#include "../Shapes/GenericShapeObject.h"
+#include "../Shapes/CompositeShape.h"
+#include "../Shapes/Circle.h"
+#include "../Shapes/Line.h"
+#include "../Shapes/Rectangle.h"
+#include "../Shapes/Ellipse.h"

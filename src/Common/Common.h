@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cmath>
 #include <ctgmath>
+#include <thread>
 #include "Constants.h"
 
 namespace Xcurse

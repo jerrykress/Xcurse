@@ -381,7 +381,6 @@ namespace Xcurse
 #elif __linux__
             std::wcout << "\e[?1049l" << std::endl;
 #endif
-            std::wcout << "Finished with exit code 0" << std::endl;
         }
 
         // if power off all is set to true. terminate all threads

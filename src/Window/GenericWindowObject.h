@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Display/Display.h"
 
 namespace Xcurse

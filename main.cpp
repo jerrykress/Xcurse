@@ -1,11 +1,4 @@
-#include <iostream>
-#include "src/Window/GridWindow.h"
-#include "src/Window/DataWindow.h"
-#include "src/Widgets/TextField.h"
-#include "src/Shapes/Circle.h"
-#include "src/Shapes/Line.h"
-#include "src/Shapes/Ellipse.h"
-#include <thread>
+#include "src/Xcurse.h"
 
 using namespace Xcurse;
 using namespace std::literals::chrono_literals;
