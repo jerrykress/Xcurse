@@ -17,12 +17,6 @@ namespace Xcurse
     public:
         GenericTextObject();
 
-        void set_data(const std::string &s);
-        void set_data(const std::wstring &ws);
-
         Alignment alignment = ALIGN_CENTER;
-
-    protected:
-        std::wstring m_data = L"";
     };
 }

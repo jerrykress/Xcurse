@@ -5,6 +5,8 @@ using namespace std::literals::chrono_literals;
 
 int main(int, char **)
 {
+    static bool prog_exit = false;
+
     Display::init();
     Display &d = *Display::get_display();
     d.set_refresh_interval(500);
@@ -12,11 +14,11 @@ int main(int, char **)
     d.enable_alt_screen(true);
     d.set_io_kb(true);
 
-    bool add_wig0 = d.add_obj("root", "t1", new TextField("t1", "Program", ALIGN_CENTER));
-    bool add_win0 = d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
-    bool add_win3 = d.add_obj("root", "w1", new TrendChartWindow("w1", 1));
-    bool add_win1 = d.add_obj("v1", "w2", new GridWindow("w2", 1));
-    bool add_win2 = d.add_obj("v1", "w3", new BarChartWindow("w3", 1));
+    d.add_obj("root", "t1", new TextField("t1", "Program", ALIGN_CENTER));
+    d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
+    d.add_obj("root", "w1", new TrendChartWindow("w1", 1));
+    d.add_obj("v1", "w2", new GridWindow("w2", 1));
+    d.add_obj("v1", "mline", new MultiTextField("mline", std::vector<std::wstring>{L"some text line 1", L"some text line 2", L"some text line 3"}, 1, ALIGN_CENTER));
 
     // setup win
     auto text_widget = static_cast<TextField *>(d["t1"]);
@@ -36,19 +38,11 @@ int main(int, char **)
     win->background = BACKGROUND_COLOR_BRIGHT_YELLOW;
     win->set_title(L" Analog ");
 
-    // setup win
-    BarChartWindow *bar_win = static_cast<BarChartWindow *>(d["w3"]);
-    std::vector<float> ds = {1, 2, 3, 2, 1, 2, 3};
-    bar_win->set_data(ds);
-    bar_win->set_title(L" Bar ");
-
     // adding a keymap to power off
     d.map_key_action('x', [&]() -> void
-                     { d.power_off(); });
+                     { prog_exit = true; });
     d.map_key_action('g', [&]() -> void
                      { win->set_visible(); });
-    d.map_key_action('b', [&]() -> void
-                     { bar_win->set_visible(); });
 
     d.power_on();
 
@@ -57,7 +51,7 @@ int main(int, char **)
     Circle circle;
     Ellipse ellipse;
 
-    while (d.has_power())
+    while (!prog_exit)
     {
         win->clean();
         win->add_char(0, 0, L'\u0444', TEXT_COLOR_BLUE, BACKGROUND_COLOR_RED);

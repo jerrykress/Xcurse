@@ -29,12 +29,23 @@ namespace Xcurse
         m_size.height = 1;
     }
 
+    void TextField::set_data(const std::wstring &ws)
+    {
+        m_data = ws;
+    }
+
+    void TextField::set_data(const std::string &s)
+    {
+        m_data = to_wstring(s);
+    }
+
     void TextField::draw()
     {
         const int margin_all = m_size.width - m_data.size();
         const int margin_left = margin_all / 2;
         const int margin_right = margin_all - margin_left;
 
+        // TODO: overhaul this section with set pixels and const ref
         switch (alignment)
         {
         case ALIGN_LEFT:
@@ -57,10 +68,7 @@ namespace Xcurse
                 m_display_ptr->set_pixel(this, i, 0, Pixel(L' ', *this));
             }
             // print content
-            for (int i = 0; i < m_data.size(); i++)
-            {
-                m_display_ptr->set_pixel(this, i + margin_left, 0, Pixel(m_data[i], *this));
-            }
+            m_display_ptr->set_pixels(this, margin_left, 0, m_data, Stylable(*this));
             // print right margin
             for (int i = m_size.width - margin_right; i < m_size.width; i++)
             {
