@@ -4,6 +4,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Single line text field
+     *
+     */
     class TextField : public GenericTextObject
     {
     public:

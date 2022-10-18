@@ -74,6 +74,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>The main active component that contains a single instance of running display. Handles all rendering and I/O process.  
+ <a href="classXcurse_1_1Display.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Display_8h_source.html">Display.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -103,7 +106,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae35448c2c94035ce46df842bfddfb42b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an array of pixels horizontally (a string) with the same style.  <a href="classXcurse_1_1Display.html#ae35448c2c94035ce46df842bfddfb42b">More...</a><br /></td></tr>
 <tr class="separator:ae35448c2c94035ce46df842bfddfb42b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8824c92591d634fd8320632cb4a28069"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#a8824c92591d634fd8320632cb4a28069">add_obj</a> (std::string layout_name, std::string obj_name, <a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> *o)</td></tr>
-<tr class="memdesc:a8824c92591d634fd8320632cb4a28069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a <a class="el" href="classXcurse_1_1Display.html">Display</a> Object to a layout.  <a href="classXcurse_1_1Display.html#a8824c92591d634fd8320632cb4a28069">More...</a><br /></td></tr>
+<tr class="memdesc:a8824c92591d634fd8320632cb4a28069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a <a class="el" href="classXcurse_1_1Display.html" title="The main active component that contains a single instance of running display. Handles all rendering a...">Display</a> Object to a layout.  <a href="classXcurse_1_1Display.html#a8824c92591d634fd8320632cb4a28069">More...</a><br /></td></tr>
 <tr class="separator:a8824c92591d634fd8320632cb4a28069"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa766108800fa397f1274fe34ec59c9e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#aa766108800fa397f1274fe34ec59c9e9">remove_obj</a> (std::string obj_name)</td></tr>
 <tr class="memdesc:aa766108800fa397f1274fe34ec59c9e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an object from a layout.  <a href="classXcurse_1_1Display.html#aa766108800fa397f1274fe34ec59c9e9">More...</a><br /></td></tr>
@@ -190,7 +193,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a6d8065a2693d31c89a7a67210c376538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the last registered keypress.  <a href="classXcurse_1_1Display.html#a6d8065a2693d31c89a7a67210c376538">More...</a><br /></td></tr>
 <tr class="separator:a6d8065a2693d31c89a7a67210c376538"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13ec793e679afbaeae62e1b5c47a94a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> *&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1Display.html#a13ec793e679afbaeae62e1b5c47a94a3">operator[]</a> (std::string name)</td></tr>
-<tr class="memdesc:a13ec793e679afbaeae62e1b5c47a94a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the pointer to a <a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> from the current display.  <a href="classXcurse_1_1Display.html#a13ec793e679afbaeae62e1b5c47a94a3">More...</a><br /></td></tr>
+<tr class="memdesc:a13ec793e679afbaeae62e1b5c47a94a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the pointer to a <a class="el" href="classXcurse_1_1BaseDisplayObject.html" title="The base template of all display objects.">BaseDisplayObject</a> from the current display.  <a href="classXcurse_1_1Display.html#a13ec793e679afbaeae62e1b5c47a94a3">More...</a><br /></td></tr>
 <tr class="separator:a13ec793e679afbaeae62e1b5c47a94a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -202,7 +205,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a72829bc252735811faa792e25d91a897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup the environment needed to run the display on different platforms.  <a href="classXcurse_1_1Display.html#a72829bc252735811faa792e25d91a897">More...</a><br /></td></tr>
 <tr class="separator:a72829bc252735811faa792e25d91a897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >The main active component that contains a single instance of running display. Handles all rendering and I/O process. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8824c92591d634fd8320632cb4a28069" name="a8824c92591d634fd8320632cb4a28069"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8824c92591d634fd8320632cb4a28069">&#9670;&nbsp;</a></span>add_obj()</h2>
 
@@ -235,7 +240,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Add a <a class="el" href="classXcurse_1_1Display.html">Display</a> Object to a layout. </p>
+<p>Add a <a class="el" href="classXcurse_1_1Display.html" title="The main active component that contains a single instance of running display. Handles all rendering a...">Display</a> Object to a layout. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">layout_name</td><td>Target layout </td></tr>
@@ -635,7 +640,7 @@ false </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Get the pointer to a <a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> from the current display. </p>
+<p>Get the pointer to a <a class="el" href="classXcurse_1_1BaseDisplayObject.html" title="The base template of all display objects.">BaseDisplayObject</a> from the current display. </p>
 <dl class="section note"><dt>Note</dt><dd>Manual casting to the desired object type is required </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -792,7 +797,7 @@ false </dd></dl>
 <p>Recursively update the size of the layouts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">layout</td><td><a class="el" href="classXcurse_1_1Layout.html">Layout</a> to be updated </td></tr>
+    <tr><td class="paramname">layout</td><td><a class="el" href="classXcurse_1_1Layout.html" title="A structure used organise objects, contains layout and other objects.">Layout</a> to be updated </td></tr>
     <tr><td class="paramname">x</td><td>X coord of layout upper left corner </td></tr>
     <tr><td class="paramname">y</td><td>Y coord of layout upper left corner </td></tr>
     <tr><td class="paramname">max_height</td><td>Max available height </td></tr>

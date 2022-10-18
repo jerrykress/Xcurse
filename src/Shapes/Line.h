@@ -5,6 +5,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Straight line shape
+     *
+     */
     class Line : public GenericShapeObject
     {
     public:

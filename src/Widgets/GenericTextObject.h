@@ -5,6 +5,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Alignment of text in a text object
+     *
+     */
     enum Alignment
     {
         ALIGN_LEFT,
@@ -12,6 +16,10 @@ namespace Xcurse
         ALIGN_RIGHT
     };
 
+    /**
+     * @brief Base template of all display objects that are used for displaying text
+     *
+     */
     class GenericTextObject : public BaseDisplayObject, public Stylable
     {
     public:

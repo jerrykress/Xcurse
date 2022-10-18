@@ -4,6 +4,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Circle shape
+     *
+     */
     class Circle : public GenericShapeObject
     {
     public:

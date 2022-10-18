@@ -4,6 +4,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Text field but containing multiple lines and flexible size
+     *
+     */
     class MultiTextField : public GenericTextObject
     {
     public:

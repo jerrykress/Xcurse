@@ -77,6 +77,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>The base template of all display objects.  
+ <a href="classXcurse_1_1BaseDisplayObject.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Display_8h_source.html">Display.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Xcurse::BaseDisplayObject:</div>
@@ -84,11 +87,11 @@ Inheritance diagram for Xcurse::BaseDisplayObject:</div>
  <div class="center">
   <img src="classXcurse_1_1BaseDisplayObject.png" usemap="#Xcurse::BaseDisplayObject_map" alt=""/>
   <map id="Xcurse::BaseDisplayObject_map" name="Xcurse::BaseDisplayObject_map">
-<area href="classXcurse_1_1GenericTextObject.html" alt="Xcurse::GenericTextObject" shape="rect" coords="97,56,282,80"/>
+<area href="classXcurse_1_1GenericTextObject.html" title="Base template of all display objects that are used for displaying text." alt="Xcurse::GenericTextObject" shape="rect" coords="97,56,282,80"/>
 <area href="classXcurse_1_1GenericWindowObject.html" alt="Xcurse::GenericWindowObject" shape="rect" coords="390,56,575,80"/>
-<area href="classXcurse_1_1Layout.html" alt="Xcurse::Layout" shape="rect" coords="585,56,770,80"/>
-<area href="classXcurse_1_1MultiTextField.html" alt="Xcurse::MultiTextField" shape="rect" coords="0,112,185,136"/>
-<area href="classXcurse_1_1TextField.html" alt="Xcurse::TextField" shape="rect" coords="195,112,380,136"/>
+<area href="classXcurse_1_1Layout.html" title="A structure used organise objects, contains layout and other objects." alt="Xcurse::Layout" shape="rect" coords="585,56,770,80"/>
+<area href="classXcurse_1_1MultiTextField.html" title="Text field but containing multiple lines and flexible size." alt="Xcurse::MultiTextField" shape="rect" coords="0,112,185,136"/>
+<area href="classXcurse_1_1TextField.html" title="Single line text field." alt="Xcurse::TextField" shape="rect" coords="195,112,380,136"/>
 <area href="classXcurse_1_1GridWindow.html" alt="Xcurse::GridWindow" shape="rect" coords="390,112,575,136"/>
 <area href="classXcurse_1_1BarChartWindow.html" alt="Xcurse::BarChartWindow" shape="rect" coords="292,168,477,192"/>
 <area href="classXcurse_1_1TrendChartWindow.html" alt="Xcurse::TrendChartWindow" shape="rect" coords="487,168,672,192"/>
@@ -98,7 +101,7 @@ Inheritance diagram for Xcurse::BaseDisplayObject:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2506eeb6278fa5bf48f5ed81f0356467"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1BaseDisplayObject.html#a2506eeb6278fa5bf48f5ed81f0356467">BaseDisplayObject</a> ()</td></tr>
-<tr class="memdesc:a2506eeb6278fa5bf48f5ed81f0356467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Base <a class="el" href="classXcurse_1_1Display.html">Display</a> Object:: Base <a class="el" href="classXcurse_1_1Display.html">Display</a> Object object.  <a href="classXcurse_1_1BaseDisplayObject.html#a2506eeb6278fa5bf48f5ed81f0356467">More...</a><br /></td></tr>
+<tr class="memdesc:a2506eeb6278fa5bf48f5ed81f0356467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Base <a class="el" href="classXcurse_1_1Display.html" title="The main active component that contains a single instance of running display. Handles all rendering a...">Display</a> Object:: Base <a class="el" href="classXcurse_1_1Display.html" title="The main active component that contains a single instance of running display. Handles all rendering a...">Display</a> Object object.  <a href="classXcurse_1_1BaseDisplayObject.html#a2506eeb6278fa5bf48f5ed81f0356467">More...</a><br /></td></tr>
 <tr class="separator:a2506eeb6278fa5bf48f5ed81f0356467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96431d412f5adf33ab02d7935cecd2e6"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1BaseDisplayObject.html#a96431d412f5adf33ab02d7935cecd2e6">get_height</a> () const</td></tr>
 <tr class="memdesc:a96431d412f5adf33ab02d7935cecd2e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the height of object.  <a href="classXcurse_1_1BaseDisplayObject.html#a96431d412f5adf33ab02d7935cecd2e6">More...</a><br /></td></tr>
@@ -151,7 +154,10 @@ Friends</h2></td></tr>
 <tr class="memitem:a97af53b9a9ff09603a3dbcbe7074ad11"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1BaseDisplayObject.html#a97af53b9a9ff09603a3dbcbe7074ad11">Display</a></td></tr>
 <tr class="separator:a97af53b9a9ff09603a3dbcbe7074ad11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >The base template of all display objects. </p>
+<dl class="section note"><dt>Note</dt><dd>Implement <a class="el" href="classXcurse_1_1BaseDisplayObject.html#af8088c4877ebb242ba2e3ad019d45d25" title="Draw the content of the object onto the display buffer.">draw()</a> to interface with the display </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2506eeb6278fa5bf48f5ed81f0356467" name="a2506eeb6278fa5bf48f5ed81f0356467"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2506eeb6278fa5bf48f5ed81f0356467">&#9670;&nbsp;</a></span>BaseDisplayObject()</h2>
 
@@ -167,7 +173,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Construct a new Base <a class="el" href="classXcurse_1_1Display.html">Display</a> Object:: Base <a class="el" href="classXcurse_1_1Display.html">Display</a> Object object. </p>
+<p>Construct a new Base <a class="el" href="classXcurse_1_1Display.html" title="The main active component that contains a single instance of running display. Handles all rendering a...">Display</a> Object:: Base <a class="el" href="classXcurse_1_1Display.html" title="The main active component that contains a single instance of running display. Handles all rendering a...">Display</a> Object object. </p>
 
 </div>
 </div>

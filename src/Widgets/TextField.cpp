@@ -2,6 +2,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Construct a new Text Field:: Text Field object
+     *
+     */
     TextField::TextField()
     {
         m_data = L" ";
@@ -10,6 +14,12 @@ namespace Xcurse
         m_size.height = 1;
     }
 
+    /**
+     * @brief Construct a new Text Field:: Text Field object
+     *
+     * @param ws text
+     * @param a alignment
+     */
     TextField::TextField(const std::wstring &ws, Alignment a)
     {
         m_data = ws;
@@ -18,6 +28,12 @@ namespace Xcurse
         m_size.height = 1;
     }
 
+    /**
+     * @brief Construct a new Text Field:: Text Field object
+     *
+     * @param s text
+     * @param a alignment
+     */
     TextField::TextField(const std::string &s, Alignment a)
     {
         m_data = to_wstring(s);
@@ -26,16 +42,30 @@ namespace Xcurse
         m_size.height = 1;
     }
 
+    /**
+     * @brief Set text content
+     *
+     * @param ws text
+     */
     void TextField::set_data(const std::wstring &ws)
     {
         m_data = ws;
     }
 
+    /**
+     * @brief Set text content
+     *
+     * @param s text
+     */
     void TextField::set_data(const std::string &s)
     {
         m_data = to_wstring(s);
     }
 
+    /**
+     * @brief render to display
+     *
+     */
     void TextField::draw()
     {
         const int margin_lr = m_size.width - m_data.size();

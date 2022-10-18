@@ -4,6 +4,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Ellipse shape
+     *
+     */
     class Ellipse : public GenericShapeObject
     {
     public:

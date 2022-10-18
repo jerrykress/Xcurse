@@ -16,7 +16,11 @@
 
 namespace Xcurse
 {
-
+    /**
+     * @brief The base template of all display objects
+     * @note Implement draw() to interface with the display
+     *
+     */
     class BaseDisplayObject
     {
     public:
@@ -43,6 +47,10 @@ namespace Xcurse
         friend class Display;
     };
 
+    /**
+     * @brief A structure used organise objects, contains layout and other objects
+     *
+     */
     class Layout : public BaseDisplayObject
     {
     public:
@@ -57,6 +65,10 @@ namespace Xcurse
         friend class Display;
     };
 
+    /**
+     * @brief The main active component that contains a single instance of running display. Handles all rendering and I/O process
+     *
+     */
     class Display
     {
 

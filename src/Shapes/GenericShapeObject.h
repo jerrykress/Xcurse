@@ -4,6 +4,10 @@
 
 namespace Xcurse
 {
+    /**
+     * @brief Base template of all shape objects
+     *
+     */
     class GenericShapeObject : public Stylable
     {
     public:
