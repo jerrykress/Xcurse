@@ -4,17 +4,15 @@ namespace Xcurse
 {
     MultiTextField::MultiTextField() {}
 
-    MultiTextField::MultiTextField(std::string name, const std::vector<std::string> &lines, int weight, Alignment a)
+    MultiTextField::MultiTextField(const std::vector<std::string> &lines, int weight, Alignment a)
     {
-        _name = name;
         m_weight = weight;
         alignment = a;
         set_data(lines);
     }
 
-    MultiTextField::MultiTextField(std::string name, const std::vector<std::wstring> &lines, int weight, Alignment a)
+    MultiTextField::MultiTextField(const std::vector<std::wstring> &lines, int weight, Alignment a)
     {
-        _name = name;
         m_weight = weight;
         alignment = a;
         set_data(lines);

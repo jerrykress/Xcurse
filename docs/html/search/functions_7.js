@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['info_0',['info',['../classConsole_1_1Logger.html#a20d029a560cfe2c2053eda6305a0e561',1,'Console::Logger']]],
-  ['init_1',['init',['../classXcurse_1_1Display.html#a72829bc252735811faa792e25d91a897',1,'Xcurse::Display']]],
-  ['invoke_5fkey_5faction_2',['invoke_key_action',['../classXcurse_1_1Display.html#a3d968e5b03a18afc01f63b336391b13e',1,'Xcurse::Display']]]
+  ['has_5fkey_5faction_0',['has_key_action',['../classXcurse_1_1Display.html#ad37ca64786a40c0649cfc7894cd882dc',1,'Xcurse::Display']]],
+  ['has_5fpower_1',['has_power',['../classXcurse_1_1Display.html#afc63be4fbfc11b68681578a4e203c26a',1,'Xcurse::Display']]]
 ];

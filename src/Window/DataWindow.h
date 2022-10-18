@@ -20,7 +20,7 @@ namespace Xcurse
     public:
         BarChartWindow();
 
-        BarChartWindow(std::string name, int weight = 1, std::wstring border = DEFAULT_WIN_BORDER);
+        BarChartWindow(int weight = 1, std::wstring border = DEFAULT_WIN_BORDER);
 
         void set_data(std::vector<float> &v_val);
         void set_inc_style(const Style &s);
@@ -37,7 +37,7 @@ namespace Xcurse
     public:
         TrendChartWindow();
 
-        TrendChartWindow(std::string name, int weight = 1, std::wstring border = DEFAULT_WIN_BORDER);
+        TrendChartWindow(int weight = 1, std::wstring border = DEFAULT_WIN_BORDER);
 
         void set_data(std::vector<float> &v_low, std::vector<float> &v_high, std::vector<float> &v_ref);
         void set_inc_style(const Style &s);

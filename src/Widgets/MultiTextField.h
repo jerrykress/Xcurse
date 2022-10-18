@@ -8,8 +8,8 @@ namespace Xcurse
     {
     public:
         MultiTextField();
-        explicit MultiTextField(std::string name, const std::vector<std::string> &lines, int weight, Alignment a = ALIGN_CENTER);
-        explicit MultiTextField(std::string name, const std::vector<std::wstring> &lines, int weight, Alignment a = ALIGN_CENTER);
+        explicit MultiTextField(const std::vector<std::string> &lines, int weight, Alignment a = ALIGN_CENTER);
+        explicit MultiTextField(const std::vector<std::wstring> &lines, int weight, Alignment a = ALIGN_CENTER);
 
         void set_data(const std::vector<std::string> &lines);
         void set_data(const std::vector<std::wstring> &w_lines);

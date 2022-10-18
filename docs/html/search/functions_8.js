@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['layout_0',['Layout',['../classXcurse_1_1Layout.html#a26c3b8bdb7c07f523f863cea9af869f6',1,'Xcurse::Layout']]],
-  ['line_1',['Line',['../classXcurse_1_1Line.html#aa68d4bfdb86165184722f3a1af8ca34e',1,'Xcurse::Line::Line()'],['../classXcurse_1_1Line.html#ab17562885a888dd661f751d9e54dc083',1,'Xcurse::Line::Line(Position begin, Position end)']]],
-  ['logger_2',['Logger',['../classConsole_1_1Logger.html#a6fdfc1095b14f98ac22a8a10a1666aad',1,'Console::Logger::Logger()'],['../classConsole_1_1Logger.html#a5c6558ba092e713a39e62ea49e1b4a61',1,'Console::Logger::Logger(Logger &amp;l)=delete'],['../classConsole_1_1Logger.html#a79e9f7fd29947ec8cfeef2e73a90ac98',1,'Console::Logger::Logger(Logger &amp;&amp;l)=delete']]]
+  ['info_0',['info',['../classConsole_1_1Logger.html#a20d029a560cfe2c2053eda6305a0e561',1,'Console::Logger']]],
+  ['init_1',['init',['../classXcurse_1_1Display.html#a72829bc252735811faa792e25d91a897',1,'Xcurse::Display']]],
+  ['invoke_5fkey_5faction_2',['invoke_key_action',['../classXcurse_1_1Display.html#a3d968e5b03a18afc01f63b336391b13e',1,'Xcurse::Display']]]
 ];

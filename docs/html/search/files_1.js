@@ -8,5 +8,6 @@ var searchData=
   ['compositeshape_2eh_5',['CompositeShape.h',['../CompositeShape_8h.html',1,'']]],
   ['constants_2eh_6',['Constants.h',['../Constants_8h.html',1,'']]],
   ['converter_2ecpp_7',['Converter.cpp',['../Converter_8cpp.html',1,'']]],
-  ['converter_2eh_8',['Converter.h',['../Converter_8h.html',1,'']]]
+  ['converter_2eh_8',['Converter.h',['../Converter_8h.html',1,'']]],
+  ['core_2eh_9',['core.h',['../core_8h.html',1,'']]]
 ];

@@ -84,13 +84,14 @@ Inheritance diagram for Xcurse::BaseDisplayObject:</div>
  <div class="center">
   <img src="classXcurse_1_1BaseDisplayObject.png" usemap="#Xcurse::BaseDisplayObject_map" alt=""/>
   <map id="Xcurse::BaseDisplayObject_map" name="Xcurse::BaseDisplayObject_map">
-<area href="classXcurse_1_1GenericTextObject.html" alt="Xcurse::GenericTextObject" shape="rect" coords="0,56,185,80"/>
-<area href="classXcurse_1_1GenericWindowObject.html" alt="Xcurse::GenericWindowObject" shape="rect" coords="195,56,380,80"/>
-<area href="classXcurse_1_1Layout.html" alt="Xcurse::Layout" shape="rect" coords="390,56,575,80"/>
-<area href="classXcurse_1_1TextField.html" alt="Xcurse::TextField" shape="rect" coords="0,112,185,136"/>
-<area href="classXcurse_1_1GridWindow.html" alt="Xcurse::GridWindow" shape="rect" coords="195,112,380,136"/>
-<area href="classXcurse_1_1BarChartWindow.html" alt="Xcurse::BarChartWindow" shape="rect" coords="97,168,282,192"/>
-<area href="classXcurse_1_1TrendChartWindow.html" alt="Xcurse::TrendChartWindow" shape="rect" coords="292,168,477,192"/>
+<area href="classXcurse_1_1GenericTextObject.html" alt="Xcurse::GenericTextObject" shape="rect" coords="97,56,282,80"/>
+<area href="classXcurse_1_1GenericWindowObject.html" alt="Xcurse::GenericWindowObject" shape="rect" coords="390,56,575,80"/>
+<area href="classXcurse_1_1Layout.html" alt="Xcurse::Layout" shape="rect" coords="585,56,770,80"/>
+<area href="classXcurse_1_1MultiTextField.html" alt="Xcurse::MultiTextField" shape="rect" coords="0,112,185,136"/>
+<area href="classXcurse_1_1TextField.html" alt="Xcurse::TextField" shape="rect" coords="195,112,380,136"/>
+<area href="classXcurse_1_1GridWindow.html" alt="Xcurse::GridWindow" shape="rect" coords="390,112,575,136"/>
+<area href="classXcurse_1_1BarChartWindow.html" alt="Xcurse::BarChartWindow" shape="rect" coords="292,168,477,192"/>
+<area href="classXcurse_1_1TrendChartWindow.html" alt="Xcurse::TrendChartWindow" shape="rect" coords="487,168,672,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -125,8 +126,6 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a6364a024cff9536b0cc2747c4ad05ff8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXcurse_1_1BaseDisplayObject.html">BaseDisplayObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1BaseDisplayObject.html#a6364a024cff9536b0cc2747c4ad05ff8">parent_ptr</a></td></tr>
 <tr class="separator:a6364a024cff9536b0cc2747c4ad05ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc9d94eb18e73d64e35141947b834789"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXcurse_1_1BaseDisplayObject.html#acc9d94eb18e73d64e35141947b834789">_name</a></td></tr>
-<tr class="separator:acc9d94eb18e73d64e35141947b834789"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -198,7 +197,7 @@ Friends</h2></td></tr>
 
 <p>Draw the content of the object onto the display buffer. </p>
 
-<p>Reimplemented in <a class="el" href="classXcurse_1_1Layout.html#a5964c9d1b6bf9e896f8d2657cd41f12b">Xcurse::Layout</a>, <a class="el" href="classXcurse_1_1TextField.html#ac428253f09239f30b19f683acc84107c">Xcurse::TextField</a>, <a class="el" href="classXcurse_1_1BarChartWindow.html#a4586ed5666c790df5350990481d72dd1">Xcurse::BarChartWindow</a>, <a class="el" href="classXcurse_1_1TrendChartWindow.html#af0c9e8c20aae65f74542e033a8057556">Xcurse::TrendChartWindow</a>, and <a class="el" href="classXcurse_1_1GridWindow.html#aaa59115b9d3d33c92f9c2999e2b43355">Xcurse::GridWindow</a>.</p>
+<p>Reimplemented in <a class="el" href="classXcurse_1_1Layout.html#a5964c9d1b6bf9e896f8d2657cd41f12b">Xcurse::Layout</a>, <a class="el" href="classXcurse_1_1MultiTextField.html#ad25b626b43c474f36c89dffc0210d3d6">Xcurse::MultiTextField</a>, <a class="el" href="classXcurse_1_1TextField.html#ac428253f09239f30b19f683acc84107c">Xcurse::TextField</a>, <a class="el" href="classXcurse_1_1BarChartWindow.html#a4586ed5666c790df5350990481d72dd1">Xcurse::BarChartWindow</a>, <a class="el" href="classXcurse_1_1TrendChartWindow.html#af0c9e8c20aae65f74542e033a8057556">Xcurse::TrendChartWindow</a>, and <a class="el" href="classXcurse_1_1GridWindow.html#aaa59115b9d3d33c92f9c2999e2b43355">Xcurse::GridWindow</a>.</p>
 
 </div>
 </div>
@@ -409,20 +408,6 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="acc9d94eb18e73d64e35141947b834789" name="acc9d94eb18e73d64e35141947b834789"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc9d94eb18e73d64e35141947b834789">&#9670;&nbsp;</a></span>_name</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string Xcurse::BaseDisplayObject::_name</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a5020d34976b549d10f6ef902f5e9131c" name="a5020d34976b549d10f6ef902f5e9131c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5020d34976b549d10f6ef902f5e9131c">&#9670;&nbsp;</a></span>m_display_ptr</h2>
 

@@ -31,7 +31,6 @@ namespace Xcurse
         void set_visible(bool b);
 
         BaseDisplayObject *parent_ptr;
-        std::string _name;
 
     protected:
         Position m_loc;
@@ -47,8 +46,7 @@ namespace Xcurse
     class Layout : public BaseDisplayObject
     {
     public:
-        Layout(std::string name, Direction direction, int size);
-        const std::string _name;
+        Layout(Direction direction, int size);
         Direction orientation;
 
         LayoutObjects *get_objects();

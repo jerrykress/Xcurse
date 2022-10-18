@@ -8,8 +8,8 @@ namespace Xcurse
     {
     public:
         TextField();
-        explicit TextField(std::string name, const std::string &s, Alignment a = ALIGN_CENTER);
-        explicit TextField(std::string name, const std::wstring &ws, Alignment a = ALIGN_CENTER);
+        explicit TextField(const std::string &s, Alignment a = ALIGN_CENTER);
+        explicit TextField(const std::wstring &ws, Alignment a = ALIGN_CENTER);
 
         void set_data(const std::string &s);
         void set_data(const std::wstring &ws);

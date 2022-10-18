@@ -2,7 +2,7 @@
 
 namespace Xcurse
 {
-    Layout::Layout(std::string name, Direction direction, int weight) : _name(name), orientation(direction)
+    Layout::Layout(Direction direction, int weight) : orientation(direction)
     {
         m_weight = weight;
     }

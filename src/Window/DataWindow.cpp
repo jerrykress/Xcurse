@@ -16,7 +16,6 @@ namespace Xcurse
      */
     BarChartWindow::BarChartWindow()
     {
-        _name = "Untitled";
         m_weight = 1;
         m_border = DEFAULT_WIN_BORDER;
         m_inc_style = BACKGROUND_COLOR_GREEN;
@@ -26,13 +25,11 @@ namespace Xcurse
     /**
      * @brief Construct a new Bar Chart Window:: Bar Chart Window object
      *
-     * @param name
      * @param weight
      * @param border
      */
-    BarChartWindow::BarChartWindow(std::string name, int weight, std::wstring border)
+    BarChartWindow::BarChartWindow(int weight, std::wstring border)
     {
-        _name = name;
         m_weight = weight;
         m_border = border;
         m_inc_style = BACKGROUND_COLOR_GREEN;
@@ -126,7 +123,6 @@ namespace Xcurse
      */
     TrendChartWindow::TrendChartWindow()
     {
-        _name = "Untitled";
         m_weight = 1;
         m_border = DEFAULT_WIN_BORDER;
         m_inc_style = BACKGROUND_COLOR_GREEN;
@@ -136,13 +132,11 @@ namespace Xcurse
     /**
      * @brief Construct a new Trend Chart Window:: Trend Chart Window object
      *
-     * @param name
      * @param weight
      * @param border
      */
-    TrendChartWindow::TrendChartWindow(std::string name, int weight, std::wstring border)
+    TrendChartWindow::TrendChartWindow(int weight, std::wstring border)
     {
-        _name = name;
         m_weight = weight;
         m_border = border;
         m_inc_style = BACKGROUND_COLOR_GREEN;

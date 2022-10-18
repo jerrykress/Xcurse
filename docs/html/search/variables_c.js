@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['underline_0',['underline',['../classXcurse_1_1Stylable.html#a44845c79bc34382bb362288bb8f8f1ae',1,'Xcurse::Stylable']]],
-  ['up_1',['up',['../structXcurse_1_1SafeArea.html#ae14d959770862224cfeff6f62082e402',1,'Xcurse::SafeArea']]]
+  ['width_0',['width',['../structXcurse_1_1Size.html#a44b46ee541d171aadb90b1b797d65e5d',1,'Xcurse::Size::width()'],['../classXcurse_1_1ChartWindowData.html#a6745bfcdb5008817e032d28cf9871879',1,'Xcurse::ChartWindowData::width()']]]
 ];

@@ -14,11 +14,11 @@ int main(int, char **)
     d.enable_alt_screen(true);
     d.set_io_kb(true);
 
-    d.add_obj("root", "t1", new TextField("t1", "Program", ALIGN_CENTER));
-    d.add_obj("root", "v1", new Layout("v1", Horizontal, 1));
-    d.add_obj("root", "w1", new TrendChartWindow("w1", 1));
-    d.add_obj("v1", "w2", new GridWindow("w2", 1));
-    d.add_obj("v1", "mline", new MultiTextField("mline", std::vector<std::wstring>{L"some text line 1", L"some text line 2", L"some text line 3"}, 1, ALIGN_CENTER));
+    d.add_obj("root", "t1", new TextField("Program", ALIGN_CENTER));
+    d.add_obj("root", "v1", new Layout(Horizontal, 1));
+    d.add_obj("root", "w1", new TrendChartWindow(1));
+    d.add_obj("v1", "w2", new GridWindow(1));
+    d.add_obj("v1", "mline", new MultiTextField(std::vector<std::wstring>{L"some text line 1", L"some text line 2", L"some text line 3"}, 1, ALIGN_CENTER));
 
     // setup win
     auto text_widget = static_cast<TextField *>(d["t1"]);

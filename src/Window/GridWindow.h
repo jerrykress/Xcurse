@@ -11,7 +11,7 @@ namespace Xcurse
     public:
         GridWindow();
 
-        GridWindow(std::string name, int weight, std::wstring border = DEFAULT_WIN_BORDER);
+        GridWindow(int weight, std::wstring border = DEFAULT_WIN_BORDER);
 
         void add_char(int x, int y, wchar_t c, Stylable s = Stylable());
 

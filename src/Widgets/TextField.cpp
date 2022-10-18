@@ -4,25 +4,22 @@ namespace Xcurse
 {
     TextField::TextField()
     {
-        _name = "Untitled";
         m_data = L" ";
         alignment = ALIGN_CENTER;
         m_size.fixed = true;
         m_size.height = 1;
     }
 
-    TextField::TextField(std::string name, const std::wstring &ws, Alignment a)
+    TextField::TextField(const std::wstring &ws, Alignment a)
     {
-        _name = name;
         m_data = ws;
         alignment = a;
         m_size.fixed = true;
         m_size.height = 1;
     }
 
-    TextField::TextField(std::string name, const std::string &s, Alignment a)
+    TextField::TextField(const std::string &s, Alignment a)
     {
-        _name = name;
         m_data = to_wstring(s);
         alignment = a;
         m_size.fixed = true;

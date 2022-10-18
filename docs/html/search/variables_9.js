@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['parent_5fptr_0',['parent_ptr',['../classXcurse_1_1BaseDisplayObject.html#a6364a024cff9536b0cc2747c4ad05ff8',1,'Xcurse::BaseDisplayObject']]]
+  ['reversed_0',['reversed',['../classXcurse_1_1Stylable.html#a4c1d841357fffbe9776c74316220825f',1,'Xcurse::Stylable']]],
+  ['right_1',['right',['../structXcurse_1_1SafeArea.html#a87d3a767a04568f3c78fe281c9788980',1,'Xcurse::SafeArea']]]
 ];

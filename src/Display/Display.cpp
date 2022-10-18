@@ -39,7 +39,7 @@ namespace Xcurse
         // default refresh interval is 100ms
         m_refresh_interval = 100;
         // insert root layout with no parent
-        m_layout = new Layout("root", Vertical, 1);
+        m_layout = new Layout(Vertical, 1);
         m_layout->parent_ptr = nullptr;
         m_obj_ptrs.emplace("root", m_layout);
         // default key press to space

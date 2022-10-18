@@ -8,7 +8,6 @@ namespace Xcurse
      */
     GridWindow::GridWindow()
     {
-        _name = "Untitled";
         m_border = DEFAULT_WIN_BORDER;
         m_weight = 1;
     }
@@ -16,13 +15,11 @@ namespace Xcurse
     /**
      * @brief Construct a new Grid Window:: Grid Window object
      *
-     * @param name
      * @param weight
      * @param border
      */
-    GridWindow::GridWindow(std::string name, int weight, std::wstring border)
+    GridWindow::GridWindow(int weight, std::wstring border)
     {
-        _name = name;
         m_border = border;
         m_weight = weight;
     }
