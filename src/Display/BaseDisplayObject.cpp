@@ -78,7 +78,9 @@ namespace Xcurse
     void BaseDisplayObject::set_visible(bool b)
     {
         m_visible = b;
-        m_display_ptr->update_layout();
+        // only call force update when display is connected and running
+        if (m_display_ptr)
+            m_display_ptr->update_layout();
     }
 
     /**
@@ -88,6 +90,8 @@ namespace Xcurse
     void BaseDisplayObject::set_visible()
     {
         m_visible = !m_visible;
-        m_display_ptr->update_layout();
+        // only call force update when display is connected and running
+        if (m_display_ptr)
+            m_display_ptr->update_layout();
     }
 }
