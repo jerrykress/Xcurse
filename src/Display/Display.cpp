@@ -91,7 +91,7 @@ namespace Xcurse
 #endif
 
         // universal setup
-        std::setlocale(LC_ALL, "en_US.UTF-8");
+        setlocale(LC_ALL, "en_US.UTF-8");
         std::cin.tie(NULL);
     }
 
