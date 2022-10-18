@@ -75,8 +75,8 @@ namespace Xcurse
         void set_pixel(BaseDisplayObject *caller, int x, int y, const Pixel &px);
         void set_pixel(BaseDisplayObject *caller, const Position &loc, const Pixel &px);
         void set_pixel(BaseDisplayObject *caller, const Position &loc, const Position &offset, const Pixel &px);
-        void set_pixel(BaseDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold = false, bool underline = false, bool reversed = false);
-        void set_pixels(BaseDisplayObject *caller, int x, int y, std::wstring ws, Stylable s = Stylable());
+        void set_pixel(BaseDisplayObject *caller, int x, int y, const wchar_t &c, const Style &foreground, const Style &background, bool bold = false, bool underline = false, bool reversed = false);
+        void set_pixels(BaseDisplayObject *caller, int x, int y, const std::wstring &ws, Stylable s = Stylable());
 
         // object management
         bool add_obj(std::string layout_name, std::string obj_name, BaseDisplayObject *o);

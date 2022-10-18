@@ -210,7 +210,7 @@ namespace Xcurse
      * @param underline enable underline
      * @param reversed enable reversed
      */
-    void Display::set_pixel(BaseDisplayObject *caller, int x, int y, wchar_t c, Style foreground, Style background, bool bold, bool underline, bool reversed)
+    void Display::set_pixel(BaseDisplayObject *caller, int x, int y, const wchar_t &c, const Style &foreground, const Style &background, bool bold, bool underline, bool reversed)
     {
         if (x += caller->m_loc.x, y += caller->m_loc.y; x > -1 && x < m_width && y > -1 && y < m_height)
         {
@@ -232,9 +232,9 @@ namespace Xcurse
      * @param ws String to be set
      * @param s Style for the string
      */
-    void Display::set_pixels(BaseDisplayObject *caller, int x, int y, std::wstring ws, Stylable s)
+    void Display::set_pixels(BaseDisplayObject *caller, int x, int y, const std::wstring &ws, Stylable s)
     {
-        for (auto c : ws)
+        for (auto &c : ws)
         {
             set_pixel(caller, x++, y, c, s.foreground, s.background, s.bold, s.underline, s.reversed);
         }
