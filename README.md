@@ -45,6 +45,33 @@ A class that provides styling attributes for any member that inherits from it.
 - Adding and getting objects
 - Mapping keypress to actions
 
+## Compilation
+
+When used in other projects, compile the files used in your project and link to POSIX thread library.
+
+```
+# Add library files
+
+file(GLOB src_files CONFIGURE_DEPENDS
+     "Xcurse/src/*.cpp"
+     "Xcurse/src/Common/*.cpp"
+     "Xcurse/src/Display/*.cpp"
+     "Xcurse/src/Utils/*.cpp"
+     "Xcurse/src/Widgets/*.cpp"
+     "Xcurse/src/Window/*.cpp"
+     "Xcurse/src/Shapes/*.cpp"
+     "src/Background/*.cpp"
+     "src/Daemon/*.cpp"
+     "src/Font/*.cpp"
+     "src/Core/*.cpp"
+)
+add_executable(Clock src/Core/Clock.cpp ${src_files})
+
+# Link to pthread library
+
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} pthread)
+```
+
 ## Example Projects
 
 - Stock tracker: https://github.com/jerrykress/Stonks

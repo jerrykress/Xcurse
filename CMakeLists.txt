@@ -17,6 +17,7 @@ file(GLOB src_files CONFIGURE_DEPENDS
 )
 
 add_executable(Xcurse main.cpp ${src_files})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} pthread)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
